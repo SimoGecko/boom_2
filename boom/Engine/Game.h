@@ -15,7 +15,7 @@ namespace sxg::engine {
 	class Game {
 	public:
 		Game();
-		~Game() {};
+		virtual ~Game() {};
 	private:
 		void run();
 

@@ -10,17 +10,20 @@ namespace sxg::boom {
 	class Player : public Component {
 	private:
 		// ______________ members
-	float speed = 30.f;
+		float speed = 30.f;
 
 	public:
 		// ______________ base
 		void start() override {
-			transform().setPosition(0, 0);
+			//transform().setPosition(0, 0);
 		}
 
 		void update() override {
+			//Debug::Log("updating");
+			
 			movement();
 			shoot();
+			
 		}
 	private:
 		// ______________ commands
@@ -31,12 +34,14 @@ namespace sxg::boom {
 			if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
 			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
 
+			
 			Vector2 moveDelta = normalize(input) * speed * Time::deltaTime();
+
 			transform().move(moveDelta);
 		}
 
 		void shoot() {
-			if (Input::getKey(sf::Keyboard::Space)) {
+			if (Input::getKeyDown(sf::Keyboard::Space)) {
 				//instantiate new bullet at this position
 				Debug::Log("shoot");
 			}
@@ -44,7 +49,7 @@ namespace sxg::boom {
 
 		// ______________ queries
 
-
+		using Component::Component; // must inherit ctor
 	};
 
 }

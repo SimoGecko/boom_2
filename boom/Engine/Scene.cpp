@@ -71,6 +71,8 @@ namespace sxg::engine {
 
 	}
 
+	const Scene& Scene::current() { return *_currentScene; }
+
 	//static decl
 	string Scene::_defaultSceneName;
 	unordered_map<string, Scene*> Scene::_allScenes;

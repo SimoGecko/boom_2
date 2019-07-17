@@ -38,22 +38,17 @@ namespace sxg::engine {
 
 	//_________________________ components
 
+	/*
 	template <typename C>
 	void GameObject::addComponent() {
-		//clone the component and add it to _components
-		C* newComponent = new C(this);
-		_components.push_back(newComponent);
+
 	}
 
 	template <typename C>
 	C* GameObject::getComponent() {
-		for (C* component : _components) {
-			auto ans = dynamic_cast<C*>(component);
-			if (ans != nullptr) return ans;
-		}
-		return nullptr;
-	}
 
+	}
+	*/
 
 	void GameObject::SetRenderable(Renderable* renderable) {
 		//copy transformation so far
@@ -77,13 +72,16 @@ namespace sxg::engine {
 	void GameObject::setActive(bool active) { _active = active; }
 
 	sf::Transformable& GameObject::transform() {
-		if (_renderable != nullptr) return _renderable->transform();
+		if (_renderable != nullptr) {
+			return _renderable->transform();
+		}
 		return _transform;
 	}
 
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {
 		//return reference to those stored in the scene
+		return Scene::current().AllGameObjects();
 	}
 
 	GameObject* GameObject::FindGameObjectWithName(const string& name) {
@@ -107,7 +105,7 @@ namespace sxg::engine {
 		return ans;
 	}
 
-
+	/*
 	GameObject* GameObject::Instantiate(const string& name) {
 		//find gameobject in prefabs
 
@@ -115,6 +113,7 @@ namespace sxg::engine {
 
 		//add it to the scene
 	}
+	*/
 
 
 	//_________________________ private

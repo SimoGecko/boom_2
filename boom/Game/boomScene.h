@@ -19,20 +19,32 @@ namespace sxg::boom {
 		// Inherited via Scene
 		virtual vector<GameObject*> build() override {
 			vector<GameObject*> scene;
+			Debug::Log("building boom scene...");
 			//build______________________________________
 
 			//PlAYER
 			GameObject* player = new GameObject("player");
-			//player->addComponent<Player>(); // unresolved external for this particular one
+			player->addComponent<Player>(); // unresolved external for this particular one
 			scene.push_back(player);
 
+			//const sf::Texture& playertex = Resources::Get<sf::Texture>("player"); // ERROR:
+			//an internal OpenGL call failed in Texture.cpp(98)
+
+			
+			sf::Texture* playertex = new sf::Texture();
+			playertex->loadFromFile("Assets/Images/player.png");
+			
+			sf::Sprite playerSprite(*playertex, sf::IntRect(0, 0, 32, 32));
+			player->SetRenderable(new Renderable(playerSprite, 1, 32));
+
+
 			//BACKGROUND
-			GameObject* background = new GameObject("background");
-			scene.push_back(background);
-			//background->SetRenderable()
+			//GameObject* background = new GameObject("background");
+			//scene.push_back(background);
 
 
 			//___________________________________________
+			Debug::Log("...done building boom scene");
 			return move(scene);
 		}
 

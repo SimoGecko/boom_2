@@ -9,8 +9,8 @@ namespace sxg::engine {
 
 	class Input {
 	public:
-		Input() {}
-		virtual ~Input() {}
+		Input() = delete;
+		//~Input() {}
 
 		static void start();
 		static void update();

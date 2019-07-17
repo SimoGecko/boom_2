@@ -29,11 +29,19 @@ namespace sxg::engine {
 
 	//FREE MATH FUNCTIONS
 	namespace { 
+		const float eps = 1e-5;
 
 		sf::Vector2f& normalize(sf::Vector2f& v) {
-			float norm = v.x*v.x + v.y*v.y;
-			v.x /= norm;
-			v.y /= norm;
+			float norm = sqrt(v.x*v.x + v.y*v.y);
+			if (norm > eps) {
+				v.x /= norm;
+				v.y /= norm;
+			}
+			else {
+				v.x = v.y = 0;
+			}
+
+
 			return v;
 		}
 

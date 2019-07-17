@@ -42,14 +42,17 @@ namespace sxg::engine {
 		//start up all components and gameobjects
 		Time::start();
 		Scene::start(); // build scenes, load default one
+		Input::start();
+
+		for (GameObject* go : GameObject::All()) go->start();
 	}
 
 	void Game::update() {
 		//updates up all components and gameobjects
 		Time::update();
+		Input::update();
 
-		// 
-
+		for (GameObject* go : GameObject::All()) go->update();
 	}
 
 	void Game::draw() {

@@ -3,6 +3,7 @@
 #include "../Includes.h"
 //#include "Component.h"
 #include "Renderable.h"
+#include "Scene.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
@@ -23,11 +24,23 @@ namespace sxg::engine {
 
 		//Destroy(lifetime=0)
 
+		//_________________________ templatized components
+		//template implementation must be here already
 		template <typename C>
-		void addComponent();
+		void addComponent() {
+			//clone the component and add it to _components
+			C* newComponent = new C(*this);
+			_components.push_back(newComponent);
+		}
 
 		template <typename C>
-		C* getComponent();
+		C* getComponent() {
+			for (C* component : _components) {
+				auto ans = dynamic_cast<C*>(component);
+				if (ans != nullptr) return ans;
+			}
+			return nullptr;
+		}
 
 		void SetRenderable(Renderable* renderable);
 
@@ -74,7 +87,7 @@ namespace sxg::engine {
 
 	class Component {
 	public:
-		Component(GameObject& go) : _go(_go) {};
+		Component(GameObject& go) : _go(go) {};
 		virtual ~Component() {};
 
 		//main methods -> not abstract as they could be empty and fine
