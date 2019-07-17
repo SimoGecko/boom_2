@@ -3,22 +3,15 @@
 
 
 namespace sxg::engine {
-	//_________________________ construction
-	GameObject::GameObject(const string name, const string tag) {
-		_name = getUniqueName(name); // ensures unique (appends _001)
+
+	//_________________________ construction / destruction
+	GameObject::GameObject(const string name, const string tag) :
+		_name(getUniqueName(name)), _tag(tag), _active(true), _renderable(nullptr) {
 		// add to list
-		_tag = tag;
-		_active = true;
 	}
 
 	GameObject::GameObject(const GameObject& clone) :
-		_name(getUniqueName(clone.name())), _tag(clone.tag()), _active(clone.active())
-	{
-		/*
-		_name = getUniqueName(clone.name());
-		_tag = clone.tag();
-		_active = clone.active();
-		*/
+		_name(getUniqueName(clone.name())), _tag(clone.tag()), _active(clone.active()), _renderable(nullptr) {
 
 		//copy components
 		for (Component* component : clone._components) {
@@ -28,7 +21,22 @@ namespace sxg::engine {
 
 		//copy other members
 		//_transform(clone._transform);
+		if (clone._renderable != nullptr) {
+			_renderable = new Renderable(*clone._renderable);
+		}
 	}
+
+	GameObject::~GameObject() {
+		//clean up
+		for (Component* component : _components) {
+			delete component;
+		}
+		_components.clear();
+
+		if (_renderable != nullptr) delete _renderable;
+	}
+
+	//_________________________ components
 
 	template <typename C>
 	void GameObject::addComponent() {
@@ -46,6 +54,13 @@ namespace sxg::engine {
 		return nullptr;
 	}
 
+
+	void GameObject::SetRenderable(Renderable* renderable) {
+		//copy transformation so far
+		_renderable = renderable;
+	}
+
+
 	//_________________________ normal
 	void GameObject::start() {
 		for (Component* component : _components) component->start();
@@ -61,6 +76,10 @@ namespace sxg::engine {
 	bool GameObject::active() const { return _active; }
 	void GameObject::setActive(bool active) { _active = active; }
 
+	sf::Transformable& GameObject::transform() {
+		if (_renderable != nullptr) return _renderable->transform();
+		return _transform;
+	}
 
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {

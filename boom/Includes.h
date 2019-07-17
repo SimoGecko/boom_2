@@ -30,5 +30,6 @@
 using namespace std;
 //using namespace sf;
 
-//DANGER
+//DANGER ZONE
 #include "Engine\Utility.h"
+using Vector2 = sf::Vector2f;

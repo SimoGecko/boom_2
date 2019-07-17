@@ -30,4 +30,6 @@ namespace sxg::engine {
 		return _renderables;
 	}
 
+	sf::Transformable& Renderable::transform() { return _sprite; }
+
 }

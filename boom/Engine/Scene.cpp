@@ -33,7 +33,7 @@ namespace sxg::engine {
 	void Scene::unload() {
 		for (GameObject* go : _allGameObjects) {
 			delete go;
-			go = nullptr;
+			//go = nullptr; // its a copy
 		}
 		_allGameObjects.clear();
 	}

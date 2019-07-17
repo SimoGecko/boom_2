@@ -7,10 +7,10 @@
 
 namespace sxg::boom {
 
-	class __NAME__ : public Component {
+	class Bullet : public Component {
 	private:
 		// ______________ members
-
+		float speed = 40;
 
 	public:
 		// ______________ base
@@ -19,14 +19,18 @@ namespace sxg::boom {
 		}
 
 		void update() override {
-
+			move();
 		}
-		
 	private:
 		// ______________ commands
-
+		void move() {
+			Vector2 moveDelta = Vector2(0, 1) * speed * Time::deltaTime();
+			transform().move(moveDelta);
+		}
 
 		// ______________ queries
+
+
 
 
 	};

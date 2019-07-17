@@ -3,7 +3,11 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// __DESCRIPTION__
+//SCRIPTS
+#include "Player.h"
+#include "Background.h"
+
+// provides the general game scene for boom
 
 namespace sxg::boom {
 
@@ -12,16 +16,23 @@ namespace sxg::boom {
 		BoomScene(const string sceneName) : Scene(sceneName) {}
 		
 	private:
-
-
 		// Inherited via Scene
 		virtual vector<GameObject*> build() override {
 			vector<GameObject*> scene;
-			//build
+			//build______________________________________
 
-			Debug::Log("building the scene..");
+			//PlAYER
+			GameObject* player = new GameObject("player");
+			//player->addComponent<Player>(); // unresolved external for this particular one
+			scene.push_back(player);
+
+			//BACKGROUND
+			GameObject* background = new GameObject("background");
+			scene.push_back(background);
+			//background->SetRenderable()
 
 
+			//___________________________________________
 			return move(scene);
 		}
 

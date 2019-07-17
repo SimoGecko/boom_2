@@ -1,14 +1,47 @@
+
+
+
+ FEATURES TO TEST:
  ☐ Animation @low
  ☐ Audio @low
  ✔ Component
- ✔ Definitions
+   ☐ code in scripts works
+   ☐ duplication of component
  ✔ Game
+   ☐ gameloop works
  ☐ GameObject @high
+   ☐ can access member functions
+   ☐ can access queries
+   ☐ can instantiate new objects
  ✔ Input
+   ☐ mouse works
+   ☐ keyboard works
  ☐ Loader
+   ☐ can load textures and audio
  ☐ Prefabs
+   ☐ can access and instantiate prefabs
  ✔ Renderable
+   ☐ correctly drawn with layerorder/transform/animation
  ✔ Scene
+   ☐ load initial scene
+   ☐ change scene
  ✔ Screen
+   ☐ startup correctly
+   ☐ can move view
  ✔ Time
+   ☐ queries work
+   ☐ slowup/slowdown
+ ✘ Transform
  ✘ Vector
+ ✔ Utility
+
+ ✔ Includes
+
+
+PROTOTYPE FEATUERS:
+  ✔ character moving around (ARROWS)
+  ☐ background drawn behind it
+  ☐ animation
+  ☐ space to shoot bullet (instantiation)
+  ☐ load other scene
+  ☐ audio effect

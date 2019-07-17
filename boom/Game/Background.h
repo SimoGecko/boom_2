@@ -7,11 +7,7 @@
 
 namespace sxg::boom {
 
-	class __NAME__ : public Component {
-	private:
-		// ______________ members
-
-
+	class Background : public Component {
 	public:
 		// ______________ base
 		void start() override {
@@ -21,13 +17,15 @@ namespace sxg::boom {
 		void update() override {
 
 		}
-		
 	private:
 		// ______________ commands
 
 
 		// ______________ queries
 
+
+
+		// ______________ members
 
 	};
 

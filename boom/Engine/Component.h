@@ -6,6 +6,7 @@
 
 namespace sxg::engine {
 
+	/*
 	class GameObject; // forward declaration
 
 	class Component {
@@ -21,10 +22,11 @@ namespace sxg::engine {
 
 
 		GameObject& gameobject() { return _go; }
-		//Transformable& transform() { return gameobject_->transform(); }
+		//sf::Transformable& transform() { return _go.transform(); }
 
 	private:
 		GameObject& _go; // must always have a reference
 	};
+	*/
 
 }

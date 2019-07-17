@@ -1,12 +1,14 @@
 // (c) Simone Guggiari 2019
 #pragma once
 #include "../Includes.h"
-#include "Component.h"
+//#include "Component.h"
 #include "Renderable.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
 namespace sxg::engine {
+
+	class Component; // forward decl
 
 	class GameObject {
 	public:
@@ -14,6 +16,7 @@ namespace sxg::engine {
 		GameObject(const string name, const string tag = "default");
 
 		GameObject(const GameObject& clone);
+		virtual ~GameObject();
 
 		//ctor with renderable already
 		//ctor with transform
@@ -25,6 +28,8 @@ namespace sxg::engine {
 
 		template <typename C>
 		C* getComponent();
+
+		void SetRenderable(Renderable* renderable);
 
 		//_________________________ normal methods
 
@@ -38,6 +43,8 @@ namespace sxg::engine {
 		const string& tag() const;
 		bool active() const;
 		void setActive(bool active);
+
+		sf::Transformable& transform();
 
 
 		//_________________________ static
@@ -57,8 +64,28 @@ namespace sxg::engine {
 		string getUniqueName(const string& name) const;
 
 		vector<Component*> _components;
-		Renderable _renderable;
+		Renderable* _renderable;
 		sf::Transformable _transform;
 	};
 
+
+	//_____________________________________ COMPONENT
+	//it's here since we want to access gameobject members
+
+	class Component {
+	public:
+		Component(GameObject& go) : _go(_go) {};
+		virtual ~Component() {};
+
+		//main methods -> not abstract as they could be empty and fine
+		virtual void start() {};
+		virtual void update() {};
+		//virtual void draw() {};
+
+		GameObject& gameobject() { return _go; }
+		sf::Transformable& transform() { return _go.transform(); }
+
+	private:
+		GameObject& _go; // must always have a reference
+	};
 }
