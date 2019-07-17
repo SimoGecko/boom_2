@@ -7,13 +7,15 @@ namespace sxg::engine {
 	vector<Renderable*> Renderable::_renderables;
 
 	
-	Renderable::Renderable(sf::Sprite sprite, int layer, int ppu) :
+	Renderable::Renderable(const sf::Sprite& sprite, int layer, int ppu) :
 		_sprite(sprite), _layerOrder(layer), _pxPerUnit(ppu)
 	{
 		//add it to collection & sort
 		_renderables.push_back(this);
-		sort(_renderables.begin(), _renderables.end());
+		sort(_renderables.begin(), _renderables.end(),
+			[](Renderable* r1, Renderable* r2) {return r1->_layerOrder < r2->_layerOrder; });
 
+		_sprite.setScale((1.0f / ppu), (1.0f/ppu));
 	}
 
 	Renderable::~Renderable() {

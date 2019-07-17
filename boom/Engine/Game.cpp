@@ -4,7 +4,7 @@
 
 namespace sxg::engine {
 	Game::Game() {
-		run();
+		run(); // keep it in ctor?
 	}
 
 	void Game::run() {
@@ -40,6 +40,7 @@ namespace sxg::engine {
 		new sxg::boom::BoomScene("boom_scene");
 
 		//start up all components and gameobjects
+		Screen::start();
 		Time::start();
 		Scene::start(); // build scenes, load default one
 		Input::start();

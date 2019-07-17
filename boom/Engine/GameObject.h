@@ -50,6 +50,8 @@ namespace sxg::engine {
 		void update();
 		//void draw();
 
+		//void onCollisionEnter(const GameObject& other);
+		//void onCollisionExit (const GameObject& other);
 
 		//_________________________ queries
 		const string& name() const;

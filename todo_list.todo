@@ -5,28 +5,30 @@
  ☐ Animation @low
  ☐ Audio @low
  ✔ Component
-   ☐ code in scripts works
+   ✔ code in scripts works
    ☐ duplication of component
  ✔ Game
-   ☐ gameloop works
+   ✔ gameloop works
  ☐ GameObject @high
    ☐ can access member functions
    ☐ can access queries
    ☐ can instantiate new objects
  ✔ Input
    ☐ mouse works
-   ☐ keyboard works
- ☐ Loader
-   ☐ can load textures and audio
+   ✔ keyboard works
+ ✔ Loader
+   ✘ can load textures and audio
  ☐ Prefabs
    ☐ can access and instantiate prefabs
  ✔ Renderable
-   ☐ correctly drawn with layerorder/transform/animation
+   ✔ correctly drawn with layerorder,
+   ✔ transform,
+   ☐ animation
  ✔ Scene
-   ☐ load initial scene
+   ✔ load initial scene
    ☐ change scene
  ✔ Screen
-   ☐ startup correctly
+   ✔ startup correctly
    ☐ can move view
  ✔ Time
    ☐ queries work
@@ -36,6 +38,9 @@
  ✔ Utility
 
  ✔ Includes
+
+BUGS:
+  templates for Resources cause error
 
 
 PROTOTYPE FEATUERS:

@@ -29,6 +29,8 @@ namespace sxg::boom {
 		// ______________ queries
 
 
+
+	using Component::Component;
 	};
 
 }

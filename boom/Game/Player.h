@@ -34,7 +34,6 @@ namespace sxg::boom {
 			if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
 			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
 
-			
 			Vector2 moveDelta = normalize(input) * speed * Time::deltaTime();
 
 			transform().move(moveDelta);
