@@ -9,6 +9,7 @@ namespace sxg::engine {
 
 	void Game::run() {
 		//the game loop
+
 		start();
 
 		while (Screen::window().isOpen()) {
@@ -35,6 +36,9 @@ namespace sxg::engine {
 	}
 
 	void Game::start() {
+		//create prefabs and scenes
+		new sxg::boom::BoomScene("boom_scene");
+
 		//start up all components and gameobjects
 		Time::start();
 		Scene::start(); // build scenes, load default one

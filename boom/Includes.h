@@ -6,6 +6,8 @@
 #include <string>
 #include <cmath>
 #include <cassert>
+#include <iomanip>
+#include <sstream>
 
 #include <algorithm>
 #include <map>
@@ -27,3 +29,6 @@
 
 using namespace std;
 //using namespace sf;
+
+//DANGER
+#include "Engine\Utility.h"

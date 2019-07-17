@@ -9,8 +9,9 @@ namespace sxg::engine {
 	
 	class Renderable {
 	public:
+		Renderable() {}
 		Renderable(sf::Sprite sprite, int layer=0, int ppu=100);
-		~Renderable();
+		virtual ~Renderable();
 
 
 		bool operator<(const Renderable& rhs) const { return _layerOrder < rhs._layerOrder; }

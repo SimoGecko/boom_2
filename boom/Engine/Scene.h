@@ -10,26 +10,29 @@ namespace sxg::engine {
 
 	class Scene {
 	public:
+		Scene(const string name);
 
-		void addGameobject(GameObject* go);
-		vector<GameObject*>& AllGameObjects();
+		void addGameObject(GameObject* go);
+		void removeGameObject(GameObject* go);
+
+		const vector<GameObject*>& AllGameObjects() const;
 		
 		//static
 		static void start();
-		static void load(string sceneName);
+		static void load(const string sceneName);
 		//static Scene& current();
 
 	protected:
-		Scene(string name);
 		virtual ~Scene();
+
+		virtual vector<GameObject*> build() = 0; // this has to be implemented by each
 
 	private:
 		//normal
-		virtual vector<GameObject*> build() = 0; // this has to be implemented by each
 		void unload();
 
 		string _name;
-		vector<GameObject*> _allGameObjects;
+		vector<GameObject*> _allGameObjects; // sort them by name?
 
 		//static
 		static string _defaultSceneName;

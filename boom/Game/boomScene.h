@@ -8,8 +8,8 @@
 namespace sxg::boom {
 
 	class BoomScene : public Scene {
-	protected:
-		BoomScene(const string& sceneName) : Scene(sceneName) {}
+	public:
+		BoomScene(const string sceneName) : Scene(sceneName) {}
 		
 	private:
 

@@ -138,6 +138,7 @@
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
+    <ClCompile Include="Engine\Prefabs.cpp" />
     <ClCompile Include="Engine\Renderable.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
@@ -149,14 +150,15 @@
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
-    <ClInclude Include="Engine\Includes.h" />
     <ClInclude Include="Engine\Input.h" />
+    <ClInclude Include="Engine\Prefabs.h" />
     <ClInclude Include="Engine\Renderable.h" />
     <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\Screen.h" />
     <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Engine\Utility.h" />
     <ClInclude Include="Game\boomScene.h" />
+    <ClInclude Include="Includes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

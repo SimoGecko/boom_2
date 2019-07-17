@@ -2,6 +2,7 @@
 #pragma once
 #include "../Includes.h"
 #include "Component.h"
+#include "Renderable.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
@@ -9,44 +10,54 @@ namespace sxg::engine {
 
 	class GameObject {
 	public:
-		GameObject(string name) {
-			//build new
-			_name = name; // ensure unique
-			// add to list
-			_active = true;
-		}
+		//_________________________ construction, components and destruction
+		GameObject(const string name, const string tag = "default");
 
-		GameObject(GameObject& clone) {
-			//build a copy
-		}
+		GameObject(const GameObject& clone);
 
-		template <typename C>
-		void addComponent() {
-			//clone the component and add it to _components
-			auto c = make_shared<C>(this);
-			_components.push_back(c);
-		}
+		//ctor with renderable already
+		//ctor with transform
+
+		//Destroy(lifetime=0)
 
 		template <typename C>
-		C* getComponent() {
-			for (auto& c : _components) {
-				auto ans = dynamic_cast<shared_ptr<C>>(c);
-				if (ans != nullptr) return ans;
-			}
-			return nullptr;
-		}
+		void addComponent();
 
-		//_________________________
+		template <typename C>
+		C* getComponent();
+
+		//_________________________ normal methods
 
 		void start();
 		void update();
 		//void draw();
 
+
+		//_________________________ queries
+		const string& name() const;
+		const string& tag() const;
+		bool active() const;
+		void setActive(bool active);
+
+
+		//_________________________ static
+		static const vector<GameObject*>& All();
+
+		static GameObject* FindGameObjectWithName(const string& name);
+		static vector<GameObject*> FindGameObjectsWithTag(const string& tag);
+
+		static GameObject* Instantiate(const string& name);
+
+
 	private:
 		string _name;
+		string _tag;
 		bool _active;
 
-		vector<shared_ptr<Component>> _components;
+		string getUniqueName(const string& name) const;
+
+		vector<Component*> _components;
+		Renderable _renderable;
 		sf::Transformable _transform;
 	};
 

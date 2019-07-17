@@ -6,6 +6,9 @@
 #include "Renderable.h"
 #include "Scene.h"
 
+//move somewhere else
+#include "../Game/boomScene.h"
+
 // class that manages the gameloop and calls the appropriate components
 
 namespace sxg::engine {

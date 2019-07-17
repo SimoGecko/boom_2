@@ -6,33 +6,39 @@ namespace sxg::engine {
 
 
 	//normal
-	Scene::Scene(string name) : _name(name) {
+	Scene::Scene(const string name) : _name(name) {
 		if (_allScenes.count(_name) > 0) {
-			cerr << "Scene already exists with name " << _name << endl;
+			Debug::LogError("Scene already exists with name " + _name);
 			return;
 		}
 		//add it to the list of all scenes
 		bool mustLoad = _allScenes.empty();
+		if (mustLoad) _defaultSceneName = name;
 		_allScenes[_name] = this;
 
-		if (mustLoad) load(_name);
+		//if (mustLoad) load(_name); // avoid loading from withing ctor since not done yet
 	}
 
 	Scene::~Scene() {
 		unload();
 	}
 
-	void Scene::addGameobject(GameObject* go) {
+	void Scene::addGameObject(GameObject* go) {
 		_allGameObjects.push_back(go);
+	}
+	void Scene::removeGameObject(GameObject* go) {
+		//remove and DELETE?
 	}
 
 	void Scene::unload() {
 		for (GameObject* go : _allGameObjects) {
 			delete go;
+			go = nullptr;
 		}
+		_allGameObjects.clear();
 	}
 
-	vector<GameObject*>& Scene::AllGameObjects() {
+	const vector<GameObject*>& Scene::AllGameObjects() const {
 		return _allGameObjects;
 	}
 
@@ -40,7 +46,7 @@ namespace sxg::engine {
 	void Scene::start() {
 		//build here all the scenes
 		//TODO move out of engine
-		_defaultSceneName = "boom_scene";
+		//_defaultSceneName = "boom_scene";
 		//_allScenes["boom_scene"] = new BoomScene("boom_scene");
 
 		//load default
@@ -49,9 +55,9 @@ namespace sxg::engine {
 
 
 
-	void Scene::load(string sceneName) {
+	void Scene::load(const string sceneName) {
 		if (Scene::_allScenes.count(sceneName) == 0) {
-			cerr << "No scene with name " << sceneName << endl;
+			Debug::LogError("No scene exists with name " + sceneName);
 			return;
 		}
 
@@ -60,7 +66,8 @@ namespace sxg::engine {
 		}
 		_currentScene = _allScenes[sceneName];
 
-		_currentScene->_allGameObjects = _currentScene->build();
+		auto objs = _currentScene->build();
+		_currentScene->_allGameObjects = objs;
 
 	}
 
