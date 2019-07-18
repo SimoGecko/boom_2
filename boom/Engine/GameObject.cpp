@@ -10,23 +10,28 @@ namespace sxg::engine {
 		// add to list
 	}
 
-	GameObject::GameObject(const GameObject& cloneObj) :
-		_name(getUniqueName(cloneObj.name())), _tag(cloneObj.tag()), _active(cloneObj.active()), _renderable(nullptr) {
+	//GameObject::GameObject(const GameObject& cloneObj) :
+		//_name(getUniqueName(cloneObj.name())), _tag(cloneObj.tag()), _active(cloneObj.active()), _renderable(nullptr) {
 
+	GameObject* GameObject::clone() const{
+		GameObject* newGo = new GameObject(_name, _tag);
 		//copy components
-		for (Component* component : cloneObj._components) {
+
+		for (Component* component : _components) {
 			//TODO should call copy ctor of most derived class
-			_components.push_back(new Component(*component));
+			//_components.push_back(new Component(*component));
+			Component* newComponent = component->clone(*newGo);
+			//newComponent->_go = *newGo; // THIS CAUSES THE SWITCH!!!!!!!!!!!!!!!
+			newGo->_components.push_back(newComponent);
 		}
 
-		copyTransform(const_cast<GameObject&>(cloneObj).transform());
+		newGo->copyTransform(transform_const());
 		//copy other members
-		//_transform(clone._transform);
-		if (cloneObj._renderable != nullptr) {
-			_renderable = new Renderable(*cloneObj._renderable);
-
-			_renderable->addToRenderables(); // in case it was prefab
+		if (_renderable != nullptr) {
+			newGo->_renderable = new Renderable(*_renderable);
+			newGo->_renderable->addToRenderables(); // in case it was prefab
 		}
+		return newGo;
 	}
 
 	GameObject::~GameObject() {
@@ -69,6 +74,13 @@ namespace sxg::engine {
 		return _transform;
 	}
 
+	const sf::Transformable& GameObject::transform_const() const {
+		if (_renderable != nullptr) {
+			return _renderable->transform();
+		}
+		return _transform;
+	}
+
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {
 		//return reference to those stored in the scene
@@ -100,10 +112,13 @@ namespace sxg::engine {
 	GameObject* GameObject::Instantiate(const string& name, sf::Transformable* transf) {
 		//find gameobject in prefabs
 		GameObject* goPrefab = Prefabs::getPrefab(name);
-		if (goPrefab == nullptr) return nullptr;
+		if (goPrefab == nullptr) {
+			Debug::LogError("coudnl't instantiate object " + name);
+			return nullptr;
+		}
 
 		//clone it
-		GameObject* newGo = new GameObject(*goPrefab);
+		GameObject* newGo = goPrefab->clone();//new GameObject(*goPrefab);
 
 		//if transform, set it
 		if (transf != nullptr) {
@@ -117,7 +132,7 @@ namespace sxg::engine {
 
 
 	//_________________________ private
-	string GameObject::getUniqueName(const string& name) const {
+	string GameObject::getUniqueName(const string& name) {
 		//name is either in the form
 		//whatevername
 		//whatevername_001
@@ -129,7 +144,7 @@ namespace sxg::engine {
 
 		bool isUnique = numCopies.count(prefix)==0;
 		if (isUnique) {
-			numCopies[prefix] == 1;
+			numCopies[prefix] = 1;
 			return prefix; // or name?(should be same)
 		}
 

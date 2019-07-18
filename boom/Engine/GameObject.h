@@ -17,7 +17,7 @@ namespace sxg::engine {
 		//_________________________ construction, components and destruction
 		GameObject(const string name, const string tag = "default");
 
-		GameObject(const GameObject& clone);
+		//GameObject(const GameObject& clone);
 		virtual ~GameObject();
 
 		//ctor with renderable already
@@ -25,12 +25,14 @@ namespace sxg::engine {
 
 		//Destroy(lifetime=0)
 
+		GameObject* clone() const;
+
 		//_________________________ templatized components
 		//template implementation must be here already
 		template <typename C>
 		void addComponent() {
 			//clone the component and add it to _components
-			C* newComponent = new C(*this);
+			C* newComponent = new C(*this); // most derived
 			_components.push_back(newComponent);
 		}
 
@@ -61,6 +63,7 @@ namespace sxg::engine {
 		void setActive(bool active);
 
 		sf::Transformable& transform();
+		const sf::Transformable& transform_const() const;
 
 
 		//_________________________ static
@@ -77,7 +80,7 @@ namespace sxg::engine {
 		string _tag;
 		bool _active;
 
-		string getUniqueName(const string& name) const;
+		static string getUniqueName(const string& name);
 		void copyTransform(const sf::Transformable& transf);
 
 		vector<Component*> _components;
@@ -94,7 +97,9 @@ namespace sxg::engine {
 
 	class Component {
 	public:
-		Component(GameObject& go) : _go(go) {};
+		Component(GameObject& go) : _go(go) {
+			Debug::Log("base ctor component");
+		};
 		virtual ~Component() {};
 
 		//main methods -> not abstract as they could be empty and fine
@@ -102,11 +107,14 @@ namespace sxg::engine {
 		virtual void update() {};
 		//virtual void draw() {};
 
+		virtual Component* clone(GameObject& go) { return nullptr; };// = 0; // each script must implement this
+
 		GameObject& gameobject() { return _go; }
 		sf::Transformable& transform() { return _go.transform(); }
 
 	private:
 		GameObject& _go; // must always have a reference
+		friend class GameObject;
 
 	};
 }

@@ -26,15 +26,19 @@ namespace sxg::boom {
 		void move() {
 			Vector2 moveDelta = Vector2(1, 0) * speed * Time::deltaTime();
 			transform().move(moveDelta);
-			Debug::Log(gameobject().name() + "_bullet_update");
+			//Debug::Log(gameobject().name() + "_bullet_update");
+
+			if (Input::getMouseButtonDown(0)) {
+				Debug::Log("update on bullet for go " + gameobject().name());
+			}
 		}
 
 		// ______________ queries
 
 
-
+		// ______________ cloning
 		using Component::Component; // must inherit ctor
-		//Bullet* clone override()
+		Bullet* clone(GameObject& go) override { return new Bullet(go); }
 	};
 
 }
