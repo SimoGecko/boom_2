@@ -4,6 +4,7 @@
 //#include "Component.h"
 #include "Renderable.h"
 #include "Scene.h"
+#include "Prefabs.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
@@ -68,7 +69,7 @@ namespace sxg::engine {
 		static GameObject* FindGameObjectWithName(const string& name);
 		static vector<GameObject*> FindGameObjectsWithTag(const string& tag);
 
-		static GameObject* Instantiate(const string& name);
+		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr);
 
 
 	private:
@@ -77,10 +78,14 @@ namespace sxg::engine {
 		bool _active;
 
 		string getUniqueName(const string& name) const;
+		void copyTransform(const sf::Transformable& transf);
 
 		vector<Component*> _components;
 		Renderable* _renderable;
 		sf::Transformable _transform;
+
+		//static
+		static unordered_map<string, size_t> numCopies;
 	};
 
 
@@ -102,5 +107,6 @@ namespace sxg::engine {
 
 	private:
 		GameObject& _go; // must always have a reference
+
 	};
 }

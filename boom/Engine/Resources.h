@@ -13,7 +13,7 @@ namespace sxg::engine {
 		//templates must be defined in the header
 
 		template <typename T>
-		static const T& Get(const string resourceName) {
+		static const T& Get(const string& resourceName) {
 			static unordered_map<string, T> buffer;
 
 			if (buffer.count(resourceName) == 0) {
@@ -31,7 +31,7 @@ namespace sxg::engine {
 			setPrefixAndExtension<T>();
 			T resource;
 			if (resource.loadFromFile(_filepath + _prefix + resourceName + _extension)) {
-				buffer[resourceName] = resource;
+				buffer[resourceName] = move(resource);
 			}
 			else {
 				Debug::LogError("Could not load resource " + resourceName);

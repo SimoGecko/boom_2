@@ -10,12 +10,12 @@ namespace sxg::boom {
 	class Bullet : public Component {
 	private:
 		// ______________ members
-		float speed = 40;
+		float speed = 3;
 
 	public:
 		// ______________ base
 		void start() override {
-
+			Debug::Log("bullet start");
 		}
 
 		void update() override {
@@ -24,15 +24,17 @@ namespace sxg::boom {
 	private:
 		// ______________ commands
 		void move() {
-			Vector2 moveDelta = Vector2(0, 1) * speed * Time::deltaTime();
+			Vector2 moveDelta = Vector2(1, 0) * speed * Time::deltaTime();
 			transform().move(moveDelta);
+			Debug::Log(gameobject().name() + "_bullet_update");
 		}
 
 		// ______________ queries
 
 
 
-
+		using Component::Component; // must inherit ctor
+		//Bullet* clone override()
 	};
 
 }

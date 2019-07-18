@@ -4,24 +4,38 @@
 
 namespace sxg::engine {
 	
-	vector<Renderable*> Renderable::_renderables;
-
-	
-	Renderable::Renderable(const sf::Sprite& sprite, int layer, int ppu) :
-		_sprite(sprite), _layerOrder(layer), _pxPerUnit(ppu)
-	{
-		//add it to collection & sort
-		_renderables.push_back(this);
-		sort(_renderables.begin(), _renderables.end(),
-			[](Renderable* r1, Renderable* r2) {return r1->_layerOrder < r2->_layerOrder; });
+	Renderable::Renderable(const sf::Sprite& sprite, int layer, int ppu, bool add) :
+		_sprite(sprite), _layerOrder(layer), _pxPerUnit(ppu) {
 
 		_sprite.setScale((1.0f / ppu), (1.0f/ppu));
+		//insertion to renderables is made by the scene
+		if (add) addToRenderables();
 	}
 
 	Renderable::~Renderable() {
 		//remove from collection
+		removeFromRenderables();
+	}
+
+	void Renderable::addToRenderables()
+	{
+		//if already present, throw error
+		if (find(_renderables.begin(), _renderables.end(), this) != _renderables.end()) {
+			Debug::LogError("renderables already contains this renderable");
+			return;
+		}
+
+		//add it to collection & sort
+		_renderables.push_back(this);
+		sort(_renderables.begin(), _renderables.end(),
+			[](Renderable* r1, Renderable* r2) {return r1->_layerOrder < r2->_layerOrder; });
+	}
+
+	void Renderable::removeFromRenderables() {
 		auto it = find(_renderables.begin(), _renderables.end(), this);
-		_renderables.erase(it);
+		if (it != _renderables.end()) {
+			_renderables.erase(it);
+		}
 	}
 
 	void Renderable::draw() const {
@@ -33,5 +47,6 @@ namespace sxg::engine {
 	}
 
 	sf::Transformable& Renderable::transform() { return _sprite; }
+	vector<Renderable*> Renderable::_renderables;
 
 }

@@ -6,8 +6,9 @@
 #include "Renderable.h"
 #include "Scene.h"
 
-//move somewhere else
-#include "../Game/boomScene.h"
+// the BUILD scene + prefabs list
+#include "../Game/BoomPrefabs.h"
+#include "../Game/BoomScene.h"
 
 // class that manages the gameloop and calls the appropriate components
 

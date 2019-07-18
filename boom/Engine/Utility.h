@@ -52,6 +52,13 @@ namespace sxg::engine {
 
 		//angle
 	}
+
+	namespace { // UTILITY
+		template <typename T>
+		const string to_string(const sf::Vector2<T>& v) {
+			return "(" + std::to_string(v.x) + ", " + std::to_string(v.y) + ")";
+		}
+	}
 	
 	
 	

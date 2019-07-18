@@ -10,7 +10,7 @@ namespace sxg::engine {
 	class Renderable {
 	public:
 		//Renderable() {}
-		Renderable(const sf::Sprite& sprite, int layer=0, int ppu=100);
+		Renderable(const sf::Sprite& sprite, int layer=0, int ppu=100, bool add=true);
 		virtual ~Renderable();
 
 
@@ -19,6 +19,9 @@ namespace sxg::engine {
 
 		void draw() const;
 		sf::Transformable& transform();
+
+		void addToRenderables();
+		void removeFromRenderables();
 
 	private:
 		sf::Sprite _sprite;

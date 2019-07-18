@@ -10,19 +10,22 @@ namespace sxg::engine {
 		// add to list
 	}
 
-	GameObject::GameObject(const GameObject& clone) :
-		_name(getUniqueName(clone.name())), _tag(clone.tag()), _active(clone.active()), _renderable(nullptr) {
+	GameObject::GameObject(const GameObject& cloneObj) :
+		_name(getUniqueName(cloneObj.name())), _tag(cloneObj.tag()), _active(cloneObj.active()), _renderable(nullptr) {
 
 		//copy components
-		for (Component* component : clone._components) {
+		for (Component* component : cloneObj._components) {
 			//TODO should call copy ctor of most derived class
 			_components.push_back(new Component(*component));
 		}
 
+		copyTransform(const_cast<GameObject&>(cloneObj).transform());
 		//copy other members
 		//_transform(clone._transform);
-		if (clone._renderable != nullptr) {
-			_renderable = new Renderable(*clone._renderable);
+		if (cloneObj._renderable != nullptr) {
+			_renderable = new Renderable(*cloneObj._renderable);
+
+			_renderable->addToRenderables(); // in case it was prefab
 		}
 	}
 
@@ -37,18 +40,6 @@ namespace sxg::engine {
 	}
 
 	//_________________________ components
-
-	/*
-	template <typename C>
-	void GameObject::addComponent() {
-
-	}
-
-	template <typename C>
-	C* GameObject::getComponent() {
-
-	}
-	*/
 
 	void GameObject::SetRenderable(Renderable* renderable) {
 		//copy transformation so far
@@ -105,31 +96,47 @@ namespace sxg::engine {
 		return ans;
 	}
 
-	/*
-	GameObject* GameObject::Instantiate(const string& name) {
+	
+	GameObject* GameObject::Instantiate(const string& name, sf::Transformable* transf) {
 		//find gameobject in prefabs
+		GameObject* goPrefab = Prefabs::getPrefab(name);
+		if (goPrefab == nullptr) return nullptr;
 
 		//clone it
+		GameObject* newGo = new GameObject(*goPrefab);
+
+		//if transform, set it
+		if (transf != nullptr) {
+			newGo->copyTransform(*transf);
+		}
 
 		//add it to the scene
+		Scene::current().addGameObject(newGo);
 	}
-	*/
+	
 
 
 	//_________________________ private
 	string GameObject::getUniqueName(const string& name) const {
-		bool isUnique = true; // TODO lookup
-		if (isUnique) return name;
-
-		//not unique, create new name
-
+		//name is either in the form
+		//whatevername
+		//whatevername_001
 
 		string prefix = name;
 		if (prefix.size() > 4 && prefix[prefix.size() - 4] == '_') {
 			prefix = prefix.substr(0, prefix.size() - 4);
 		}
+
+		bool isUnique = numCopies.count(prefix)==0;
+		if (isUnique) {
+			numCopies[prefix] == 1;
+			return prefix; // or name?(should be same)
+		}
+
+		//not unique, create new name
+		
 		//find new bigger number
-		int copyN = 1;
+		int copyN = numCopies[prefix]++;
 
 		//return name formatted
 		stringstream ss;
@@ -137,5 +144,13 @@ namespace sxg::engine {
 		return prefix + "_" + ss.str();
 	}
 
+	void GameObject::copyTransform(const sf::Transformable& transf) {
+		transform().setPosition(transf.getPosition());
+		transform().setRotation(transf.getRotation());
+		transform().setScale   (transf.getScale());
+	}
+
+
+	unordered_map<string, size_t> GameObject::numCopies;
 
 }

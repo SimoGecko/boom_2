@@ -6,7 +6,7 @@ namespace sxg::engine {
 
 
 	//normal
-	Scene::Scene(const string name) : _name(name) {
+	Scene::Scene(const string& name) : _name(name) {
 		if (_allScenes.count(_name) > 0) {
 			Debug::LogError("Scene already exists with name " + _name);
 			return;
@@ -66,12 +66,15 @@ namespace sxg::engine {
 		}
 		_currentScene = _allScenes[sceneName];
 
-		auto objs = _currentScene->build();
-		_currentScene->_allGameObjects = objs;
+		auto gameobjects = _currentScene->build();
+		_currentScene->_allGameObjects = gameobjects;
+
+		//call start
+		//for (GameObject* go : gameobjects) go->start();
 
 	}
 
-	const Scene& Scene::current() { return *_currentScene; }
+	Scene& Scene::current() { return *_currentScene; }
 
 	//static decl
 	string Scene::_defaultSceneName;

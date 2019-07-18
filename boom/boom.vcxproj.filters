@@ -98,9 +98,6 @@
     <ClInclude Include="Game\BoomPrefabs.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BoomScene.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Bullet.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Resources.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BoomScene.h">
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

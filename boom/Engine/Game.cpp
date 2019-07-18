@@ -38,22 +38,26 @@ namespace sxg::engine {
 	void Game::start() {
 		//create prefabs and scenes
 		new sxg::boom::BoomScene("boom_scene");
+		new sxg::boom::BoomPrefabs();
 
 		//start up all components and gameobjects
-		Screen::start();
-		Time::start();
-		Scene::start(); // build scenes, load default one
-		Input::start();
+		Screen ::start();
+		Prefabs::start();
+		Scene  ::start(); // build scenes, load default one
+		Time   ::start();
+		Input  ::start();
 
-		for (GameObject* go : GameObject::All()) go->start();
+		//for (GameObject* go : GameObject::All()) go->start();
+		for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->start();
 	}
 
 	void Game::update() {
 		//updates up all components and gameobjects
-		Time::update();
+		Time ::update();
 		Input::update();
 
-		for (GameObject* go : GameObject::All()) go->update();
+		//for (GameObject* go : GameObject::All()) go->update();
+		for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->update();
 	}
 
 	void Game::draw() {

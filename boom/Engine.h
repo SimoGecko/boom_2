@@ -5,6 +5,7 @@
 #include "Engine\Input.h"
 #include "Engine\Prefabs.h"
 #include "Engine\Scene.h"
+#include "Engine\Screen.h"
 #include "Engine\Renderable.h"
 #include "Engine\Resources.h"
 //#include "Engine\Screen.h"

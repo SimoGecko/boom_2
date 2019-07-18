@@ -10,10 +10,10 @@ namespace sxg::engine {
 
 	class Scene {
 	public:
-		Scene(const string name);
+		Scene(const string& name);
 		virtual ~Scene();
 
-		void addGameObject(GameObject* go);
+		void addGameObject   (GameObject* go);
 		void removeGameObject(GameObject* go);
 
 		const vector<GameObject*>& AllGameObjects() const;
@@ -21,7 +21,7 @@ namespace sxg::engine {
 		//static
 		static void start();
 		static void load(const string sceneName);
-		static const Scene& current(); // should always have one
+		static Scene& current(); // should always have one
 
 	protected:
 

@@ -43,6 +43,7 @@ namespace sxg::boom {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
 				//instantiate new bullet at this position
 				Debug::Log("shoot");
+				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
 			}
 		}
 
