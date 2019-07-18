@@ -30,10 +30,11 @@ namespace sxg::engine {
 		//_________________________ templatized components
 		//template implementation must be here already
 		template <typename C>
-		void addComponent() {
+		C* addComponent() {
 			//clone the component and add it to _components
 			C* newComponent = new C(*this); // most derived
 			_components.push_back(newComponent);
+			return newComponent;
 		}
 
 		template <typename C>

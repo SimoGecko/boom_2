@@ -1,6 +1,7 @@
 #pragma once
 
 //#include "Engine\Component.h"
+#include "Engine\Animator.h"
 #include "Engine\GameObject.h"
 #include "Engine\Input.h"
 #include "Engine\Prefabs.h"

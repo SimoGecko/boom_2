@@ -33,6 +33,12 @@ namespace sxg::boom {
 			sf::Sprite playerSprite(Resources::Get<sf::Texture>("player"), sf::IntRect(0, 0, 32, 32));
 			player->SetRenderable(new Renderable(playerSprite, 1, 32));
 
+			Animator* anim = player->addComponent<Animator>();
+			//Animator* anim = player->getComponent<Animator>();
+			if (anim != nullptr) {
+				anim->setup(&playerSprite, 12, 8, 8);
+				anim->addAnimation("front", { 0,0 }, 8);
+			}
 
 			//BACKGROUND
 			GameObject* background = new GameObject("background");

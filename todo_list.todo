@@ -12,7 +12,7 @@
  ☐ GameObject @high
    ☐ can access member functions
    ☐ can access queries
-   ☐ can instantiate new objects
+   ✔ can instantiate new objects @high
  ✔ Input
    ☐ mouse works
    ✔ keyboard works
@@ -40,13 +40,16 @@
  ✔ Includes
 
 BUGS:
-  templates for Resources cause error
+  ✔ templates for Resources cause error
+  ✔ prefabs passes incorrect object
+  ✔ objects aren't instantiated correctly
+  ✔ renderable is set as null
 
 
 PROTOTYPE FEATUERS:
   ✔ character moving around (ARROWS)
-  ☐ background drawn behind it
+  ✔ background drawn behind it
   ☐ animation
-  ☐ space to shoot bullet (instantiation)
+  ✔ space to shoot bullet (instantiation)
   ☐ load other scene
   ☐ audio effect

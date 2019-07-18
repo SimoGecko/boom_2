@@ -54,6 +54,9 @@
     <ClCompile Include="Engine\Resources.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Animator.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Game\BoomScene.h">
       <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animator.h">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
