@@ -18,18 +18,16 @@ namespace sxg::boom {
 		// Inherited via Scene
 		vector<pair<string, GameObject*>> build() override {
 			vector<pair<string, GameObject*>> prefabs;
-			Debug::Log("building boom prefabs...");
 			//build______________________________________
 
 			//BULLET
 			GameObject* bullet = new GameObject("bullet");
 			prefabs.push_back({bullet->name(), bullet });
 			bullet->addComponent<Bullet>();
-			sf::Sprite bulletSprite(Resources::Get<sf::Texture>("shot"), sf::IntRect(0, 0, 8, 8));
-			bullet->SetRenderable(new Renderable(bulletSprite, 2, 32, false)); // don't add the renderable to the drawlist
+			//sf::Sprite bulletSprite = new sf::Sprite(Resources::Get<sf::Texture>("shot"), sf::IntRect(0, 0, 8, 8));
+			bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), 2, 32, false)); // don't add the renderable to the drawlist
 
 			//___________________________________________
-			Debug::Log("...done building boom prefabs");
 			return move(prefabs);
 		}
 	};

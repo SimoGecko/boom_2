@@ -10,11 +10,12 @@ namespace sxg::engine {
 		static void start();
 		static void update();
 
-		static int nLoopRepetitions();
+		static int nLoopRepetitions(); // only game can call this
 
 		static int frameNo();
 		static float deltaTime();
 		static float time();
+		static float& timescale();
 
 		static void callback(function<void()>& func, float delay);
 
@@ -29,7 +30,8 @@ namespace sxg::engine {
 
 		static int _frame;
 		static float _dt;
-		static float _time;
+		static float _time; // real time vs game time
+		static float _timescale; // TODO implement
 
 		static vector<pair<float, function<void()>>> _callbacks;
 	};

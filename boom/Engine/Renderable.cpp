@@ -4,8 +4,8 @@
 
 namespace sxg::engine {
 	
-	Renderable::Renderable(const sf::Sprite& sprite, int layer, int ppu, bool add) :
-		_sprite(sprite), _layerOrder(layer), _pxPerUnit(ppu) {
+	Renderable::Renderable(const string& spriteName, sf::IntRect spriteRect, int layer, int ppu, bool add) :
+		_sprite(Resources::Get<sf::Texture>(spriteName), spriteRect), _layerOrder(layer), _pxPerUnit(ppu) {
 
 		_sprite.setScale((1.0f / ppu), (1.0f/ppu));
 		//insertion to renderables is made by the scene
@@ -21,7 +21,7 @@ namespace sxg::engine {
 	{
 		//if already present, throw error
 		if (find(_renderables.begin(), _renderables.end(), this) != _renderables.end()) {
-			Debug::LogError("renderables already contains this renderable");
+			Debug::LogError("Renderables already contains this renderable");
 			return;
 		}
 
@@ -47,6 +47,7 @@ namespace sxg::engine {
 	}
 
 	sf::Transformable& Renderable::transform() { return _sprite; }
+	sf::Sprite& Renderable::sprite() { return _sprite; }
 	vector<Renderable*> Renderable::_renderables;
 
 }

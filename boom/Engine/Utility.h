@@ -58,6 +58,10 @@ namespace sxg::engine {
 		const string to_string(const sf::Vector2<T>& v) {
 			return "(" + std::to_string(v.x) + ", " + std::to_string(v.y) + ")";
 		}
+
+		const string to_string(void* pointer) {
+			return std::to_string((int)pointer);
+		}
 	}
 	
 	

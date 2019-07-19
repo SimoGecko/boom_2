@@ -16,8 +16,8 @@ namespace sxg::engine {
 
 	void Time::update() {
 		_frame++;
-		_time += _dt;
-		_accumulator -= _dt;
+		_time += deltaTime();
+		_accumulator -= _dt; // should remain the same, right?
 
 		processCallbacks();
 	}
@@ -54,8 +54,9 @@ namespace sxg::engine {
 
 	//queries
 	int   Time::frameNo() { return _frame; }
-	float Time::deltaTime() { return _dt; }
-	float Time::time() { return _time;  }
+	float Time::deltaTime() { return _dt * _timescale; }
+	float Time::time() { return _time; }
+	float& Time::timescale() { return _timescale; }
 
 
 	//static decl
@@ -64,6 +65,7 @@ namespace sxg::engine {
 	int Time::_frame;
 	float Time::_dt;
 	float Time::_time;
+	float Time::_timescale = 1;
 
 	vector<pair<float, function<void()>>> Time::_callbacks;
 

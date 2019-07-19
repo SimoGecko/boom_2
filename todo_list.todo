@@ -44,12 +44,14 @@ BUGS:
   ✔ prefabs passes incorrect object
   ✔ objects aren't instantiated correctly
   ✔ renderable is set as null
+  ☐ start is not called on instantiated objects (bullet start)
+  ✔ bullet is accelerating and not showiwng multiple instsances
 
 
 PROTOTYPE FEATUERS:
   ✔ character moving around (ARROWS)
   ✔ background drawn behind it
-  ☐ animation
+  ✔ animation
   ✔ space to shoot bullet (instantiation)
   ☐ load other scene
   ☐ audio effect

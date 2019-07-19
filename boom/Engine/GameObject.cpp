@@ -81,6 +81,11 @@ namespace sxg::engine {
 		return _transform;
 	}
 
+	Renderable& GameObject::renderable() {
+		if (_renderable == nullptr) Debug::LogError("There is no renderable attached to gameobject: " + _name);
+		return *_renderable;
+	} // it will throw error if there is no renderable
+
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {
 		//return reference to those stored in the scene
@@ -91,7 +96,7 @@ namespace sxg::engine {
 		// TODO implement better DS to speed up queries
 		const vector<GameObject*>& all = All();
 		for (GameObject* go : all) {
-			if (go == nullptr) Debug::LogError("gameobject is null in GameObject::All()");
+			if (go == nullptr) Debug::LogError("Gameobject is null in GameObject::All()");
 			else if (go->name() == name) return go;
 		}
 		return nullptr;
@@ -102,7 +107,7 @@ namespace sxg::engine {
 		const vector<GameObject*>& all = All();
 		vector<GameObject*> ans;
 		for (GameObject* go : all) {
-			if (go == nullptr) Debug::LogError("gameobject is null in GameObject::All()");
+			if (go == nullptr) Debug::LogError("Gameobject is null in GameObject::All()");
 			else if (go->tag() == tag) ans.push_back(go);
 		}
 		return ans;
@@ -113,7 +118,7 @@ namespace sxg::engine {
 		//find gameobject in prefabs
 		GameObject* goPrefab = Prefabs::getPrefab(name);
 		if (goPrefab == nullptr) {
-			Debug::LogError("coudnl't instantiate object " + name);
+			Debug::LogError("Couldn't instantiate gameobject " + name);
 			return nullptr;
 		}
 

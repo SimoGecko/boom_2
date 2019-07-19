@@ -16,10 +16,10 @@ namespace sxg::boom {
 		// ______________ base
 		void start() override {
 			//transform().setPosition(0, 0);
+			Debug::Log("player start");
 		}
 
 		void update() override {
-			//Debug::Log("updating");
 			
 			movement();
 			shoot();
@@ -42,7 +42,6 @@ namespace sxg::boom {
 		void shoot() {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
 				//instantiate new bullet at this position
-				Debug::Log("shoot");
 				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
 			}
 		}

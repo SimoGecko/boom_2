@@ -57,6 +57,9 @@
     <ClCompile Include="Engine\Animator.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Audio.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game.h">
@@ -114,6 +117,9 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Animator.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>

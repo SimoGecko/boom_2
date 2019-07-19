@@ -1,6 +1,6 @@
 // (c) Simone Guggiari 2019
 #include "Scene.h"
-
+#include "GameObject.h"
 
 namespace sxg::engine {
 
@@ -8,7 +8,7 @@ namespace sxg::engine {
 	//normal
 	Scene::Scene(const string& name) : _name(name) {
 		if (_allScenes.count(_name) > 0) {
-			Debug::LogError("Scene already exists with name " + _name);
+			Debug::LogError("Scene already exists with name: " + _name);
 			return;
 		}
 		//add it to the list of all scenes
@@ -25,6 +25,7 @@ namespace sxg::engine {
 
 	void Scene::addGameObject(GameObject* go) {
 		_allGameObjects.push_back(go);
+		go->start();
 	}
 	void Scene::removeGameObject(GameObject* go) {
 		//remove and DELETE?
@@ -57,7 +58,7 @@ namespace sxg::engine {
 
 	void Scene::load(const string sceneName) {
 		if (Scene::_allScenes.count(sceneName) == 0) {
-			Debug::LogError("No scene exists with name " + sceneName);
+			Debug::LogError("No scene exists with name: " + sceneName);
 			return;
 		}
 
@@ -70,8 +71,9 @@ namespace sxg::engine {
 		_currentScene->_allGameObjects = gameobjects;
 
 		//call start
-		//for (GameObject* go : gameobjects) go->start();
-
+		for (size_t i = 0; i < _currentScene->_allGameObjects.size(); ++i) {
+			_currentScene->_allGameObjects[i]->start(); // scene calls start when inserted new object
+		}
 	}
 
 	Scene& Scene::current() { return *_currentScene; }

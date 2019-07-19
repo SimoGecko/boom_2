@@ -24,7 +24,7 @@ namespace sxg::engine {
 				GameObject* go     = goPair.second;
 
 				if (_allPrefabs.count(name) > 0) {
-					Debug::LogError("duplicate prefab name: " + name);
+					Debug::LogError("Duplicate prefab name: " + name);
 				}
 				else {
 					_allPrefabs[name] = go;
@@ -35,7 +35,7 @@ namespace sxg::engine {
 
 	GameObject* Prefabs::getPrefab(const string& name) {
 		if (_allPrefabs.count(name) ==0) {
-			Debug::LogError("no prefab with name " + name);
+			Debug::LogError("No prefab with name: " + name);
 			return nullptr;
 		}
 		return _allPrefabs[name];

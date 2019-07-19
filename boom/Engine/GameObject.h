@@ -64,6 +64,7 @@ namespace sxg::engine {
 		void setActive(bool active);
 
 		sf::Transformable& transform();
+		Renderable& renderable();
 		const sf::Transformable& transform_const() const;
 
 
@@ -98,9 +99,7 @@ namespace sxg::engine {
 
 	class Component {
 	public:
-		Component(GameObject& go) : _go(go) {
-			Debug::Log("base ctor component");
-		};
+		Component(GameObject& go) : _go(go) { };
 		virtual ~Component() {};
 
 		//main methods -> not abstract as they could be empty and fine

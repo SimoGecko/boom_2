@@ -46,9 +46,10 @@ namespace sxg::engine {
 		Scene  ::start(); // build scenes, load default one
 		Time   ::start();
 		Input  ::start();
+		Audio  ::start();
 
 		//for (GameObject* go : GameObject::All()) go->start();
-		for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->start();
+		//for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->start(); // scene calls start when inserted new object
 	}
 
 	void Game::update() {

@@ -16,6 +16,7 @@ namespace sxg::engine {
 
 		void setup(sf::Sprite* sprite, int fps, int rows, int cols);
 		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
+		void loadAnimationFromFile(const string& fileName);
 		void startAnimation(const string& animName);
 
 	private:

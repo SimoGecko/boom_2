@@ -47,6 +47,7 @@ namespace sxg::engine {
 		template <> static void setPrefixAndExtension<sf::SoundBuffer>() { _prefix = "Audio/" , _extension = ".wav"; }
 
 
+
 		//specializations
 		/*
 		template <> static void Load(const string& resourceName, unordered_map<string, sf::Texture>& buffer) {

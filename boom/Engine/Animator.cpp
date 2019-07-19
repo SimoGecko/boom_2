@@ -14,7 +14,7 @@ namespace sxg::engine {
 	}
 
 	void Animator::addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop) {
-		int row = firstFrame.x, col = firstFrame.x;
+		int row = firstFrame.x, col = firstFrame.y;
 
 		if (_animFrames.count(animName) > 0) {
 			Debug::LogError("Animation already exists with name " + animName);
@@ -28,10 +28,10 @@ namespace sxg::engine {
 		vector<sf::IntRect> frames;
 		while (nFrames--) {
 			frames.push_back(sf::IntRect(_width*col, _height*row, _width, _height));
-			if (++row == _rows) {
-				row = 0;
-				if (++col == _cols) {
-					Debug::LogError("Too many frames passed for animation");
+			if (++col == _cols) {
+				col = 0;
+				if (++row == _rows) {
+					Debug::LogError("Too many frames passed for animation " + animName);
 					return;
 				}
 			}
@@ -39,12 +39,18 @@ namespace sxg::engine {
 		_animFrames[animName] = { move(frames), loop };
 	}
 
+	void Animator::loadAnimationFromFile(const string& fileName) {
+		//const string& file = Resources::Get<string>(fileName);
+		//stringstream ss(file);
+		//ifstream inputFile("Assets/")
+	}
+
 	bool Animator::valid(int row, int col) { return 0 <= row && row < _rows && 0 <= col && col < _cols; }
 
 
 	void Animator::startAnimation(const string& animName) {
 		if (_animFrames.count(animName) == 0) {
-			Debug::LogError("animator doesn't have animation " + animName);
+			Debug::LogError("Animator doesn't have animation " + animName);
 			return;
 		}
 		_stopped = false;
@@ -80,7 +86,6 @@ namespace sxg::engine {
 				return;
 			}
 		}
-
 		_spriteRef->setTextureRect(_currentAnim->_frames[_currentIndex]);
 	}
 }

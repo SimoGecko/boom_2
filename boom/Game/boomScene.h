@@ -19,25 +19,21 @@ namespace sxg::boom {
 		// Inherited via Scene
 		vector<GameObject*> build() override {
 			vector<GameObject*> scene;
-			Debug::Log("building boom scene...");
 			//build______________________________________
 
 			//PlAYER
 			GameObject* player = new GameObject("player");
 			scene.push_back(player);
-			player->addComponent<Player>(); // unresolved external for this particular one
-			//const sf::Texture& playertex = ; // ERROR:
-			//an internal OpenGL call failed in Texture.cpp(98)
-			//sf::Texture* playertex = new sf::Texture();
-			//playertex->loadFromFile("Assets/Images/player.png");
-			sf::Sprite playerSprite(Resources::Get<sf::Texture>("player"), sf::IntRect(0, 0, 32, 32));
-			player->SetRenderable(new Renderable(playerSprite, 1, 32));
+			player->addComponent<Player>();
+			player->SetRenderable(new Renderable("player", sf::IntRect(0, 0, 32, 32), 1, 32));
 
 			Animator* anim = player->addComponent<Animator>();
-			//Animator* anim = player->getComponent<Animator>();
 			if (anim != nullptr) {
-				anim->setup(&playerSprite, 12, 8, 8);
+				anim->setup(&(player->renderable().sprite()), 12, 8, 8); // IT'S DELETED!
 				anim->addAnimation("front", { 0,0 }, 8);
+				anim->addAnimation("back",  { 0,0 }, 8);
+				anim->addAnimation("left",  { 0,0 }, 8);
+				anim->addAnimation("right", { 0,0 }, 8);
 			}
 
 			//BACKGROUND
@@ -45,13 +41,13 @@ namespace sxg::boom {
 			scene.push_back(background);
 			//sf::Texture* backgroundtex = new sf::Texture();
 			//backgroundtex->loadFromFile("Assets/Images/mockup.png");
-			sf::Sprite backgroundSprite(Resources::Get<sf::Texture>("mockup"), sf::IntRect(0, 0, 640, 480));
-			backgroundSprite.move(-4, -1);
-			background->SetRenderable(new Renderable(backgroundSprite, -1, 32));
+			//sf::Sprite* backgroundSprite = new sf::Sprite(Resources::Get<sf::Texture>("mockup"), sf::IntRect(0, 0, 640, 480));
+			background->SetRenderable(new Renderable("mockup", sf::IntRect(0, 0, 640, 480), -1, 32));
+			background->renderable().sprite().move(-4, -1);
+			//backgroundSprite->move(-4, -1);
 
 
 			//___________________________________________
-			Debug::Log("...done building boom scene");
 			return move(scene);
 		}
 
