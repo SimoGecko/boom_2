@@ -19,7 +19,7 @@ namespace sxg::boom {
 		// ______________ base
 		void start() override {
 			buildPrefabMap();
-			loadLevel(23);
+			loadLevel(45);
 		}
 
 		void update() override {
@@ -27,7 +27,7 @@ namespace sxg::boom {
 		}
 
 		void loadLevel(int level) {
-			assert(1 <= level && level <= maxLevel);
+			Debug::ensure(1 <= level && level <= maxLevel, "Invalid level index: " + to_string(level));
 
 			//0. create background and border
 
@@ -66,7 +66,7 @@ namespace sxg::boom {
 		}
 
 		bool doInstantiate(const string& s) {
-			return s == "block" || s == "wall";
+			return s == "block" || s == "wall" || s=="coin" || s=="teleporter";
 		}
 
 
@@ -87,7 +87,7 @@ namespace sxg::boom {
 
 		const string& prefabNameFromColor(const sf::Color color) {
 			if (prefabNamesMap.count(color.toInteger()) == 0) {
-				Debug::LogError("MapBuilder queried prefab name with incorrect color");
+				Debug::logError("MapBuilder queried prefab name with incorrect color");
 				return "";
 			}
 			return prefabNamesMap[color.toInteger()];

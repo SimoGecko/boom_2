@@ -164,11 +164,16 @@
     <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Engine\Utility.h" />
     <ClInclude Include="Game\Background.h" />
+    <ClInclude Include="Game\Block.h" />
+    <ClInclude Include="Game\Bomb.h" />
     <ClInclude Include="Game\BoomPrefabs.h" />
     <ClInclude Include="Game\BoomScene.h" />
     <ClInclude Include="Game\Bullet.h" />
+    <ClInclude Include="Game\Coin.h" />
+    <ClInclude Include="Game\Explosion.h" />
     <ClInclude Include="Game\MapBuilder.h" />
     <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\Teleporter.h" />
     <ClInclude Include="Includes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

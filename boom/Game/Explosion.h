@@ -3,11 +3,15 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// doesn't do much..
+// the graphic effect of an explosion
 
 namespace sxg::boom {
 
-	class Background : public Component {
+	class Explosion : public Component {
+	private:
+		// ______________ members
+
+
 	public:
 		// ______________ base
 		void start() override {
@@ -17,6 +21,7 @@ namespace sxg::boom {
 		void update() override {
 
 		}
+		
 	private:
 		// ______________ commands
 
@@ -25,7 +30,9 @@ namespace sxg::boom {
 
 
 
-		// ______________ members
+		// ______________ cloning
+		using Component::Component;
+		Explosion* clone(GameObject& go) override { return new Explosion(go); }
 
 	};
 

@@ -21,7 +21,7 @@ namespace sxg::engine {
 	{
 		//if already present, throw error
 		if (find(_renderables.begin(), _renderables.end(), this) != _renderables.end()) {
-			Debug::LogError("Renderables already contains this renderable");
+			Debug::logError("Renderables already contains this renderable");
 			return;
 		}
 

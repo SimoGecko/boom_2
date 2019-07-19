@@ -34,7 +34,7 @@ namespace sxg::engine {
 				buffer[resourceName] = move(resource);
 			}
 			else {
-				Debug::LogError("Could not load resource " + resourceName);
+				Debug::logError("Could not load resource " + resourceName);
 			}
 		}
 

@@ -1,0 +1,5 @@
+# COIN animations
+# [anim_name startRow startCol numFrames loop]
+
+rotate	0 0 10	T
+default	0 0 1	F

@@ -21,10 +21,10 @@ namespace sxg::boom {
 		}
 
 		void update() override {
-			
 			movement();
 			shoot();
-			
+			//setAnimation();
+			if (Input::getKeyDown(sf::Keyboard::Q)) anim->play("front_walk");
 		}
 	private:
 		// ______________ commands
@@ -37,14 +37,11 @@ namespace sxg::boom {
 			// can only move in one direction
 
 			vector2 moveDelta = normalize(input) * speed * Time::deltaTime();
-
 			transform().move(moveDelta);
-
 		}
 
 		void setAnimation(vector2 input) {
 			bool moving = magnitude2(input) > 0;
-
 
 		}
 

@@ -33,23 +33,16 @@ namespace sxg::boom {
 			GameObject* player = new GameObject("player");
 			scene.push_back(player);
 			player->addComponent<Player>();
-			player->SetRenderable(new Renderable("player", sf::IntRect(0, 0, 32, 32), 1, 32));
-
+			player->SetRenderable(new Renderable("player", sf::IntRect(0, 0, 32, 32), Layer::characters, 32));
 			Animator* anim = player->addComponent<Animator>();
-			if (anim != nullptr) {
-				anim->setup(&(player->renderable().sprite()), 12, 8, 8);
-				anim->loadAnimationsFromFile("anim_boom");
-			}
+			anim->setup(&(player->renderable().sprite()), 12, { 8, 8 });
+			anim->loadAnimationsFromFile("anim_boom");
 
 			//BACKGROUND
-			GameObject* background = new GameObject("background");
+			GameObject* background = new GameObject("background"); // temporary
 			scene.push_back(background);
-			//sf::Texture* backgroundtex = new sf::Texture();
-			//backgroundtex->loadFromFile("Assets/Images/mockup.png");
-			//sf::Sprite* backgroundSprite = new sf::Sprite(Resources::Get<sf::Texture>("mockup"), sf::IntRect(0, 0, 640, 480));
-			background->SetRenderable(new Renderable("mockup", sf::IntRect(0, 0, 640, 480), -1, 32));
+			background->SetRenderable(new Renderable("mockup", sf::IntRect(0, 0, 640, 480), Layer::background, 32));
 			background->renderable().sprite().move(-4, -1);
-			//backgroundSprite->move(-4, -1);
 
 
 

@@ -3,36 +3,37 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// bullet that flies and damages characters
+// on contact with a character, it teleports it to the next instance of a teleporter
 
 namespace sxg::boom {
 
-	class Bullet : public Component {
+	class Teleporter : public Component {
 	private:
 		// ______________ members
-		float speed = 3;
+
 
 	public:
 		// ______________ base
 		void start() override {
+
 		}
 
 		void update() override {
-			move();
+
 		}
+		
 	private:
 		// ______________ commands
-		void move() {
-			vector2 moveDelta = vector2(1, 0) * speed * Time::deltaTime();
-			transform().move(moveDelta);
-		}
+
 
 		// ______________ queries
 
 
+
 		// ______________ cloning
-		using Component::Component; // must inherit ctor
-		Bullet* clone(GameObject& go) override { return new Bullet(go); }
+		using Component::Component;
+		Teleporter* clone(GameObject& go) override { return new Teleporter(go); }
+
 	};
 
 }

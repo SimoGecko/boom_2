@@ -1,5 +1,4 @@
-# BLOCK animations
+# TELEPORTER animations
 # [anim_name startRow startCol numFrames loop]
 
-default	0 0 1	F
-break	0 1 3	F
+default	0 0 8	T

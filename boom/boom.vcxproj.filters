@@ -125,5 +125,20 @@
     <ClInclude Include="Game\MapBuilder.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Block.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Bomb.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Coin.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Explosion.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Teleporter.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

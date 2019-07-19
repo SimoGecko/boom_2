@@ -8,13 +8,15 @@ namespace sxg::engine {
 
 	class Debug {
 	public:
-		static void Log(const string& message) {
+		static void log(const string& message) {
 			cout << "[LOG]\t" << message << endl;
 		}
-		static void LogError(const string& message) {
+		static void logError(const string& message) {
 			cout << "[ERROR]\t" << message << endl;
 		}
-
+		static void ensure(bool condition, const string& message) {
+			if (!condition) cout << "[ASSERT]\t" << message << endl;
+		}
 		
 	};
 

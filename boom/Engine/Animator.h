@@ -12,14 +12,14 @@ namespace sxg::engine {
 
 	public:
 		void start() override { 
-			startDefaultAnim();
 			_spriteRef = &gameobject().renderable().sprite();
+			startDefaultAnim();
 		}
 		void update() override {
 			updateFrame();
 		}
 
-		void setup(sf::Sprite* sprite, int fps, int rows, int cols);
+		void setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols);
 		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
 		void loadAnimationsFromFile(const string& fileName);
 		void play(const string& animName);

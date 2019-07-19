@@ -8,7 +8,7 @@ namespace sxg::engine {
 	//normal
 	Scene::Scene(const string& name) : _name(name) {
 		if (_allScenes.count(_name) > 0) {
-			Debug::LogError("Scene already exists with name: " + _name);
+			Debug::logError("Scene already exists with name: " + _name);
 			return;
 		}
 		//add it to the list of all scenes
@@ -58,7 +58,7 @@ namespace sxg::engine {
 
 	void Scene::load(const string sceneName) {
 		if (Scene::_allScenes.count(sceneName) == 0) {
-			Debug::LogError("No scene exists with name: " + sceneName);
+			Debug::logError("No scene exists with name: " + sceneName);
 			return;
 		}
 

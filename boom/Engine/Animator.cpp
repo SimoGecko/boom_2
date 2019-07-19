@@ -4,24 +4,24 @@
 
 namespace sxg::engine {
 
-	void Animator::setup(sf::Sprite* sprite, int fps, int rows, int cols) {
+	void Animator::setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols) {
 		_spriteRef = sprite;
 		_fps = fps;
-		_rows = rows;
-		_cols = cols;
-		_width = sprite->getTexture()->getSize().x / rows;
-		_height = sprite->getTexture()->getSize().y / cols;
+		_rows = rowsCols.x;
+		_cols = rowsCols.y;
+		_width = sprite->getTexture()->getSize().x / _rows;
+		_height = sprite->getTexture()->getSize().y / _cols;
 	}
 
 	void Animator::addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop) {
 		int row = firstFrame.x, col = firstFrame.y;
 
 		if (_animFrames.count(animName) > 0) {
-			Debug::LogError("Animation already exists with name " + animName);
+			Debug::logError("Animation already exists with name " + animName);
 			return;
 		}
 		if (!valid(row, col)) { // && valid(rend, cend) && (rbeg < rend || (rbeg == rend && cbeg <= cend))
-			Debug::LogError("Invalid start frame index for animation " + animName);
+			Debug::logError("Invalid start frame index for animation " + animName);
 			return;
 		}
 
@@ -31,7 +31,7 @@ namespace sxg::engine {
 			if (++col == _cols) {
 				col = 0;
 				if (++row == _rows && nFrames >0) {
-					Debug::LogError("Too many frames passed for animation " + animName);
+					Debug::logError("Too many frames passed for animation " + animName);
 					return;
 				}
 			}
@@ -66,7 +66,7 @@ namespace sxg::engine {
 
 	void Animator::play(const string& animName) {
 		if (_animFrames.count(animName) == 0) {
-			Debug::LogError("Animator doesn't have animation " + animName);
+			Debug::logError("Animator doesn't have animation " + animName);
 			return;
 		}
 		_stopped = false;
