@@ -132,6 +132,13 @@ namespace sxg::engine {
 
 		//add it to the scene
 		Scene::current().addGameObject(newGo);
+		return newGo;
+	}
+
+	GameObject* GameObject::Instantiate(const string& name, sf::Vector2f position) {
+		GameObject* newGo = Instantiate(name, nullptr);
+		newGo->transform().setPosition(position);
+		return newGo;
 	}
 	
 

@@ -122,5 +122,8 @@
     <ClInclude Include="Engine\Audio.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Game\MapBuilder.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

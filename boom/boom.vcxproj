@@ -167,6 +167,7 @@
     <ClInclude Include="Game\BoomPrefabs.h" />
     <ClInclude Include="Game\BoomScene.h" />
     <ClInclude Include="Game\Bullet.h" />
+    <ClInclude Include="Game\MapBuilder.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Includes.h" />
   </ItemGroup>

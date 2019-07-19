@@ -15,7 +15,6 @@ namespace sxg::boom {
 	public:
 		// ______________ base
 		void start() override {
-			Debug::Log("bullet start");
 		}
 
 		void update() override {
@@ -24,7 +23,7 @@ namespace sxg::boom {
 	private:
 		// ______________ commands
 		void move() {
-			Vector2 moveDelta = Vector2(1, 0) * speed * Time::deltaTime();
+			vector2 moveDelta = vector2(1, 0) * speed * Time::deltaTime();
 			transform().move(moveDelta);
 		}
 
@@ -33,7 +32,7 @@ namespace sxg::boom {
 
 		// ______________ cloning
 		using Component::Component; // must inherit ctor
-		Bullet* clone(GameObject& go) override { Debug::Log("new bullet");  return new Bullet(go); }
+		Bullet* clone(GameObject& go) override { return new Bullet(go); }
 	};
 
 }

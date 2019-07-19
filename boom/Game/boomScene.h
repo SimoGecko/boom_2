@@ -6,6 +6,7 @@
 //SCRIPTS
 #include "Player.h"
 #include "Background.h"
+#include "MapBuilder.h"
 
 // provides the general game scene for boom
 
@@ -21,6 +22,13 @@ namespace sxg::boom {
 			vector<GameObject*> scene;
 			//build______________________________________
 
+			// MANAGER
+			GameObject* manager = new GameObject("manager");
+			scene.push_back(manager);
+			manager->addComponent<MapBuilder>();
+
+
+
 			//PlAYER
 			GameObject* player = new GameObject("player");
 			scene.push_back(player);
@@ -29,11 +37,8 @@ namespace sxg::boom {
 
 			Animator* anim = player->addComponent<Animator>();
 			if (anim != nullptr) {
-				anim->setup(&(player->renderable().sprite()), 12, 8, 8); // IT'S DELETED!
-				anim->addAnimation("front", { 0,0 }, 8);
-				anim->addAnimation("back",  { 0,0 }, 8);
-				anim->addAnimation("left",  { 0,0 }, 8);
-				anim->addAnimation("right", { 0,0 }, 8);
+				anim->setup(&(player->renderable().sprite()), 12, 8, 8);
+				anim->loadAnimationsFromFile("anim_boom");
 			}
 
 			//BACKGROUND
@@ -45,6 +50,8 @@ namespace sxg::boom {
 			background->SetRenderable(new Renderable("mockup", sf::IntRect(0, 0, 640, 480), -1, 32));
 			background->renderable().sprite().move(-4, -1);
 			//backgroundSprite->move(-4, -1);
+
+
 
 
 			//___________________________________________

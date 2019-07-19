@@ -30,7 +30,7 @@ namespace sxg::engine {
 			frames.push_back(sf::IntRect(_width*col, _height*row, _width, _height));
 			if (++col == _cols) {
 				col = 0;
-				if (++row == _rows) {
+				if (++row == _rows && nFrames >0) {
 					Debug::LogError("Too many frames passed for animation " + animName);
 					return;
 				}
@@ -39,16 +39,32 @@ namespace sxg::engine {
 		_animFrames[animName] = { move(frames), loop };
 	}
 
-	void Animator::loadAnimationFromFile(const string& fileName) {
+	void Animator::loadAnimationsFromFile(const string& fileName) {
 		//const string& file = Resources::Get<string>(fileName);
 		//stringstream ss(file);
 		//ifstream inputFile("Assets/")
+		const vector<string>& lines = Resources::Get<vector<string>>(fileName);
+		for (auto& line : lines) {
+			if (line.empty() || line[0] == '#') continue;
+			string animName;
+			int row, col, numframes;
+			stringstream ss(line);
+			char loopChar;
+			ss >> animName >> row >> col >> numframes >> loopChar;
+			bool loop = loopChar == 'T';
+			//if valid parsing
+			addAnimation(animName, { row, col }, numframes, loop);
+		}
 	}
 
 	bool Animator::valid(int row, int col) { return 0 <= row && row < _rows && 0 <= col && col < _cols; }
 
+	const string& Animator::currentAnimName() const {
+		return _currentAnimName;
+	}
 
-	void Animator::startAnimation(const string& animName) {
+
+	void Animator::play(const string& animName) {
 		if (_animFrames.count(animName) == 0) {
 			Debug::LogError("Animator doesn't have animation " + animName);
 			return;
@@ -61,7 +77,7 @@ namespace sxg::engine {
 
 	void Animator::startDefaultAnim() {
 		if (!_animFrames.empty()) {
-			startAnimation(_animFrames.begin()->first);
+			play(_animFrames.begin()->first);
 		}
 	}
 

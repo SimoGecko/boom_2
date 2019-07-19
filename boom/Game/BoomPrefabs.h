@@ -25,7 +25,20 @@ namespace sxg::boom {
 			prefabs.push_back({bullet->name(), bullet });
 			bullet->addComponent<Bullet>();
 			//sf::Sprite bulletSprite = new sf::Sprite(Resources::Get<sf::Texture>("shot"), sf::IntRect(0, 0, 8, 8));
-			bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), 2, 32, false)); // don't add the renderable to the drawlist
+			bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), Layer::elements, 32, false)); // don't add the renderable to the drawlist
+
+			//WALL
+			GameObject* wall = new GameObject("wall");
+			prefabs.push_back({ wall->name(), wall });
+			wall->SetRenderable(new Renderable("wall", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+
+			//BLOCK
+			GameObject* block = new GameObject("block");
+			prefabs.push_back({ block->name(), block });
+			block->SetRenderable(new Renderable("block", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+			Animator* anim = block->addComponent<Animator>();
+			anim->setup(&block->renderable().sprite(), 12, 1, 4);
+			anim->loadAnimationsFromFile("anim_block");
 
 			//___________________________________________
 			return move(prefabs);

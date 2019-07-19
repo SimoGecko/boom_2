@@ -1,0 +1,13 @@
+# BOOM PLAYER animations
+# [anim_name startrow startcol numframes loop]
+
+front_idle	0 0 1	T
+back_idle	1 0 1	T
+right_idle	2 0 1	T
+left_idle	3 0 1	T
+front_walk	0 0 8	T
+back_walk	1 0 8	T
+right_walk	2 0 8	T
+left_walk	3 0 8	T
+die			4 0 3	T
+win			4 3 1	T

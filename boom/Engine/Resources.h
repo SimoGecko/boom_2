@@ -38,44 +38,23 @@ namespace sxg::engine {
 			}
 		}
 
-		//specializations
+		template <> // load data
+		static void Load(const string& resourceName, unordered_map<string, vector<string>>& buffer) {
+			ifstream inputFile("Assets/Data/" + resourceName + ".txt");
+			string line;
+			while (getline(inputFile, line)) {
+				buffer[resourceName].push_back(line);
+			}
+		}
+
 		template <typename T>
 		static void setPrefixAndExtension() { }
-
-		template <> static void setPrefixAndExtension<sf::Texture>()     { _prefix = "Images/", _extension = ".png"; }
-		template <> static void setPrefixAndExtension<sf::Font>()        { _prefix = "Fonts/" , _extension = ".ttf"; }
-		template <> static void setPrefixAndExtension<sf::SoundBuffer>() { _prefix = "Audio/" , _extension = ".wav"; }
-
-
-
 		//specializations
-		/*
-		template <> static void Load(const string& resourceName, unordered_map<string, sf::Texture>& buffer) {
-			_prefix = "Images/", _extension = ".png";
-			Load(resourceName, buffer);
-		}
-		template <> static void Load(const string& resourceName, unordered_map<string, sf::Font>& buffer) {
-			_prefix = "Fonts/", _extension = ".ttf";
-			Load(resourceName, buffer);
-		}
-		template <> static void Load(const string& resourceName, unordered_map<string, sf::SoundBuffer>& buffer) {
-			_prefix = "Audio/", _extension = ".wav";
-			Load(resourceName, buffer);
-		}
-		*/
-
-
-		//static void Load(const string& resourceName, unordered_map<string, string>& buffer);
+		template <> static void setPrefixAndExtension<sf::Texture>()	 { _prefix = "Images/", _extension = ".png"; }
+		template <> static void setPrefixAndExtension<sf::Image>()		 { _prefix = "Images/", _extension = ".png"; }
+		template <> static void setPrefixAndExtension<sf::Font>()        { _prefix = "Fonts/" , _extension = ".ttf"; }
+		template <> static void setPrefixAndExtension<sf::SoundBuffer>() { _prefix = "Audio/Sounds/" , _extension = ".wav"; }
 		
 	};
-
-	//explicit instantiation
-	/*
-	template const sf::Texture& Resources::Get(const string resourceName);
-	template <> static void Resources::Load(const string& resourceName, unordered_map<string, sf::Texture>& buffer) {
-		_prefix = "Images/", _extension = ".png";
-		Load(resourceName, buffer);
-	}
-	*/
 
 }

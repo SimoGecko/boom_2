@@ -39,7 +39,7 @@ namespace sxg::engine {
 
 		template <typename C>
 		C* getComponent() {
-			for (C* component : _components) {
+			for (Component* component : _components) {
 				auto ans = dynamic_cast<C*>(component);
 				if (ans != nullptr) return ans;
 			}
@@ -75,6 +75,7 @@ namespace sxg::engine {
 		static vector<GameObject*> FindGameObjectsWithTag(const string& tag);
 
 		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr);
+		static GameObject* Instantiate(const string& name, sf::Vector2f position);
 
 
 	private:

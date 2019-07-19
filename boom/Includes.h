@@ -32,4 +32,4 @@ using namespace std;
 
 //DANGER ZONE
 #include "Engine\Utility.h"
-using Vector2 = sf::Vector2f;
+using vector2 = sf::Vector2f;

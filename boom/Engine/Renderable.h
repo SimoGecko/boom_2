@@ -33,6 +33,14 @@ namespace sxg::engine {
 
 		static vector<Renderable*> _renderables;
 	};
+
+	enum Layer {
+		background,
+		elements,
+		characters,
+		effects,
+		ui
+	};
 	
 
 }

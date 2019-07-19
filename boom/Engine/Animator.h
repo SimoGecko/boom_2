@@ -11,13 +11,19 @@ namespace sxg::engine {
 	class Animator : public Component {
 
 	public:
-		void start() override { startDefaultAnim(); }
-		void update() override { updateFrame(); }
+		void start() override { 
+			startDefaultAnim();
+			_spriteRef = &gameobject().renderable().sprite();
+		}
+		void update() override {
+			updateFrame();
+		}
 
 		void setup(sf::Sprite* sprite, int fps, int rows, int cols);
 		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
-		void loadAnimationFromFile(const string& fileName);
-		void startAnimation(const string& animName);
+		void loadAnimationsFromFile(const string& fileName);
+		void play(const string& animName);
+		const string& currentAnimName() const;
 
 	private:
 		struct FrameSequence {
@@ -30,8 +36,8 @@ namespace sxg::engine {
 		void setNextFrame();
 		bool valid(int row, int col);
 
-		map<string, FrameSequence> _animFrames;
-		sf::Sprite* _spriteRef;
+		map<string, FrameSequence> _animFrames; // could even be shared
+		sf::Sprite* _spriteRef; // must be unique
 
 		FrameSequence* _currentAnim;
 		int _currentIndex;
@@ -41,6 +47,7 @@ namespace sxg::engine {
 		int _width, _height;
 		int _rows, _cols;
 		bool _stopped;
+		string _currentAnimName;
 
 		// ______________ cloning
 		using Component::Component;
