@@ -12,7 +12,7 @@ namespace sxg::engine {
 	class Animator : public Component {
 
 	public:
-		void start() override { 
+		void start() override {
 			findSpriteReference();
 			startDefaultAnim();
 		}
@@ -43,10 +43,11 @@ namespace sxg::engine {
 		bool valid(int row, int col);
 
 		// shared
-		map<string, FrameSequence>* _animFrames; // shared ptr
+		unordered_map<string, FrameSequence>* _animFrames; // shared ptr
 		int _fps;
 		int _width, _height;
 		int _rows, _cols;
+		string _defaultAnimation;
 
 		//unique
 		sf::Sprite* _spriteRef;
@@ -56,13 +57,10 @@ namespace sxg::engine {
 		bool _stopped;
 
 
+
 		// ______________ cloning
-		using Component::Component;
-		Animator* clone(GameObject& go) override {
-			Animator* ans = new Animator(go);
-			//ans = rhs;
-			return ans;
-		}
+		//using Component::Component;
+		Component* clone() { return new Animator(*this); }
 	};
 
 

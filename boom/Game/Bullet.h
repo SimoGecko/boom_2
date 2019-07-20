@@ -31,8 +31,8 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		using Component::Component; // must inherit ctor
-		Bullet* clone(GameObject& go) override { return new Bullet(go); }
+		//using Component::Component;
+		Component* clone() { return new Bullet(*this); }
 	};
 
 }

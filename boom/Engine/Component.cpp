@@ -3,15 +3,13 @@
 #include "GameObject.h"
 
 namespace sxg::engine {
-		Component::Component(GameObject& go) : _go(go) { };
+		//Component::Component(GameObject& go) : _go(&go) { }; //memberwise copy
 
 		// each script must implement this
-		Component* Component::clone(GameObject& go) {
-			return nullptr;
-		};
+		//Component* Component::clone(Component* original) = 0;
 
 		//queries
-		GameObject& Component::gameobject() { return _go; }
-		sf::Transformable& Component::transform() { return _go.transform(); }
+		GameObject& Component::gameobject() { return *_go; }
+		sf::Transformable& Component::transform() { return _go->transform(); }
 
 }

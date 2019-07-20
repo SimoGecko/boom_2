@@ -10,7 +10,10 @@ namespace sxg::engine {
 
 	class Component {
 	public:
-		Component(GameObject& go);
+		//default ctor?
+		//Component(GameObject& go);
+		Component() = default; // ctor
+		Component(const Component& src) = default; // copy ctor
 		virtual ~Component() {};
 
 		//main methods -> not abstract as they could be empty and fine
@@ -18,13 +21,13 @@ namespace sxg::engine {
 		virtual void update() {};
 		//virtual void draw() {};
 
-		virtual Component* clone(GameObject& go);// = 0; // each script must implement this
+		virtual Component* clone() = 0; // each script must implement this
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
 
 	private:
-		GameObject& _go; // must always have a reference
+		GameObject* _go; // must always have a reference
 		friend class GameObject;
 
 	};

@@ -31,8 +31,8 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		using Component::Component;
-		Coin* clone(GameObject& go) override { return new Coin(go); }
+		//using Component::Component;
+		Component* clone() { return new Coin(*this); }
 
 	};
 

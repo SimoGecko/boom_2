@@ -98,8 +98,8 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		using Component::Component;
-		MapBuilder* clone(GameObject& go) override { return new MapBuilder(go); }
+		//using Component::Component;
+		Component* clone() { return new MapBuilder(*this); }
 
 	};
 

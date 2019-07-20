@@ -34,7 +34,8 @@ namespace sxg::engine {
 		template <typename C>
 		C* addComponent() {
 			//clone the component and add it to _components
-			C* newComponent = new C(*this); // most derived
+			C* newComponent = new C(); // most derived
+			newComponent->_go = this;
 			_components.push_back(newComponent);
 			return newComponent;
 		}

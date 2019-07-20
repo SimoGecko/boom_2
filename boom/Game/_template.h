@@ -24,16 +24,14 @@ namespace sxg::boom {
 		
 	private:
 		// ______________ commands
-
+ 
 
 		// ______________ queries
 
 
 
 		// ______________ cloning
-		using Component::Component;
-		__NAME__* clone(GameObject& go) override { return new __NAME__(go); }
-
+		Component* clone() { return new __NAME__(*this); }
 	};
 
 }

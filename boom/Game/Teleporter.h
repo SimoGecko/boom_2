@@ -19,11 +19,11 @@ namespace sxg::boom {
 		}
 
 		void update() override {
-			/*
+			
 			if (Input::getKeyDown(sf::Keyboard::Q)){
 				gameobject().getComponent<Animator>()->playAnimation("default");
 			}
-			*/
+			
 		}
 		
 	private:
@@ -35,9 +35,8 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		using Component::Component;
-		Teleporter* clone(GameObject& go) override { return new Teleporter(go); }
-
+		//using Component::Component;
+		Component* clone() { return new Teleporter(*this); }
 	};
 
 }

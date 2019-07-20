@@ -20,8 +20,9 @@ namespace sxg::engine {
 		for (Component* component : _components) {
 			//TODO should call copy ctor of most derived class
 			//_components.push_back(new Component(*component));
-			Component* newComponent = component->clone(*newGo);
-			//newComponent->_go = *newGo; // THIS CAUSES THE SWITCH!!!!!!!!!!!!!!!
+			Component* newComponent = component->clone(); // *newGo
+			newComponent->_go = newGo;
+			//by using a reference instead of a pointer we were causing a switch // THIS CAUSES THE SWITCH!!!!!!!!!!!!!!!
 			newGo->_components.push_back(newComponent);
 		}
 

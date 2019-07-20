@@ -27,7 +27,7 @@ namespace sxg::boom {
 			if (Input::getKeyDown(sf::Keyboard::Q)) {
 				anim->playAnimation("front_walk");
 			}
-			Gizmos::drawCircle(transform().getPosition(), 0.5f);
+			//Gizmos::drawCircle(transform().getPosition(), 0.5f);
 		}
 	private:
 		// ______________ commands
@@ -58,7 +58,9 @@ namespace sxg::boom {
 
 		// ______________ queries
 
-		using Component::Component; // must inherit ctor
+		// ______________ cloning
+		//using Component::Component;
+		Component* clone() { return new Player(*this); }
 	};
 
 }

@@ -31,9 +31,8 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		using Component::Component;
-		Block* clone(GameObject& go) override { return new Block(go); }
-
+		//using Component::Component;
+		Component* clone() { return new Block(*this); }
 	};
 
 }
