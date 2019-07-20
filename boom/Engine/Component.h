@@ -6,12 +6,11 @@
 
 namespace sxg::engine {
 
-	/*
 	class GameObject; // forward declaration
 
 	class Component {
 	public:
-		Component(GameObject& go) : _go(_go) {};
+		Component(GameObject& go);
 		virtual ~Component() {};
 
 		//main methods -> not abstract as they could be empty and fine
@@ -19,14 +18,16 @@ namespace sxg::engine {
 		virtual void update() {};
 		//virtual void draw() {};
 
+		virtual Component* clone(GameObject& go);// = 0; // each script must implement this
 
-
-		GameObject& gameobject() { return _go; }
-		//sf::Transformable& transform() { return _go.transform(); }
+		GameObject& gameobject();
+		sf::Transformable& transform();
 
 	private:
 		GameObject& _go; // must always have a reference
+		friend class GameObject;
+
 	};
-	*/
+	
 
 }

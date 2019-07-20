@@ -36,7 +36,7 @@ namespace sxg::engine {
 		sf::FloatRect rect = sprite.getGlobalBounds();
 		sf::Vector2i mousePos = sf::Mouse::getPosition(Screen::window());
 		if (sf::Mouse::isButtonPressed((sf::Mouse::Button)button)) {
-			if (rect.contains(round(mousePos.x), round(mousePos.y))) return true;
+			if (rect.contains((float)round(mousePos.x), (float)round(mousePos.y))) return true;
 		}
 		return false;
 	}

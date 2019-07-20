@@ -1,6 +1,7 @@
 // (c) Simone Guggiari 2019
 #pragma once
 #include "../Includes.h"
+#include "Component.h"
 #include "GameObject.h"
 #include "Time.h"
 
@@ -12,48 +13,56 @@ namespace sxg::engine {
 
 	public:
 		void start() override { 
-			_spriteRef = &gameobject().renderable().sprite();
+			findSpriteReference();
 			startDefaultAnim();
 		}
 		void update() override {
 			updateFrame();
 		}
 
-		void setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols);
-		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
-		void loadAnimationsFromFile(const string& fileName);
-		void play(const string& animName);
-		const string& currentAnimName() const;
+		void setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName);
+		//Animator(const Animator& rhs);
+		virtual ~Animator();
+
+		void playAnimation(const string& animName);
+		const string& currentAnimation() const;
 
 	private:
 		struct FrameSequence {
+			string _animName;
 			vector<sf::IntRect> _frames;
 			bool _loop;
 		};
 
+		void loadAnimationsFromFile(const string& fileName);
+		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
+		void findSpriteReference();
 		void startDefaultAnim();
 		void updateFrame();
 		void setNextFrame();
 		bool valid(int row, int col);
 
-		map<string, FrameSequence> _animFrames; // could even be shared
-		sf::Sprite* _spriteRef; // must be unique
-
-		FrameSequence* _currentAnim;
-		int _currentIndex;
-		float _timer;
-
+		// shared
+		map<string, FrameSequence>* _animFrames; // shared ptr
 		int _fps;
 		int _width, _height;
 		int _rows, _cols;
+
+		//unique
+		sf::Sprite* _spriteRef;
+		FrameSequence* _currentAnim;
+		int _currentIndex;
+		float _timer;
 		bool _stopped;
-		string _currentAnimName;
+
 
 		// ______________ cloning
 		using Component::Component;
-		Animator* clone(GameObject& go) override { return new Animator(go); }
-
-		
+		Animator* clone(GameObject& go) override {
+			Animator* ans = new Animator(go);
+			//ans = rhs;
+			return ans;
+		}
 	};
 
 

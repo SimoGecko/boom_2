@@ -19,7 +19,11 @@ namespace sxg::boom {
 		}
 
 		void update() override {
-
+			/*
+			if (Input::getKeyDown(sf::Keyboard::Q)){
+				gameobject().getComponent<Animator>()->playAnimation("default");
+			}
+			*/
 		}
 		
 	private:

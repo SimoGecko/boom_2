@@ -31,33 +31,28 @@ namespace sxg::engine {
 			Screen::window().clear();
 			draw();
 			Screen::window().display();
-
 		}
 	}
 
 	void Game::start() {
 		//create prefabs and scenes
-		new sxg::boom::BoomScene("boom_scene");
-		new sxg::boom::BoomPrefabs();
+		BuildList::AddActiveScenesAndPrefabs();
 
 		//start up all components and gameobjects
 		Screen ::start();
-		Prefabs::start();
-		Scene  ::start(); // build scenes, load default one
 		Time   ::start();
 		Input  ::start();
 		Audio  ::start();
-
-		//for (GameObject* go : GameObject::All()) go->start();
-		//for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->start(); // scene calls start when inserted new object
+		Prefabs::start();
+		Scene  ::start(); // build scenes, load default one, call start on gameobjects
 	}
 
 	void Game::update() {
 		//updates up all components and gameobjects
 		Time ::update();
 		Input::update();
+		Gizmos::update();
 
-		//for (GameObject* go : GameObject::All()) go->update();
 		for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->update();
 	}
 
@@ -66,6 +61,7 @@ namespace sxg::engine {
 		for (Renderable* renderable : Renderable::All()) {
 			renderable->draw();
 		}
+		Gizmos::draw();
 	}
 
 

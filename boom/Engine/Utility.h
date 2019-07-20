@@ -23,15 +23,15 @@ namespace sxg::engine {
 	
 	class Utility {
 	public:
-
 	private:
-
 	};
+	
+	const string emptyString = "";
 	
 
 	//FREE MATH FUNCTIONS
 	namespace { 
-		constexpr float eps			= 1e-5;
+		constexpr float eps			= 1e-5f;
 		constexpr float pi			= 3.1415927f;
 		constexpr float deg2rad		= 0.01745329251f;
 		constexpr float rad2deg		= 57.2957795131f;
@@ -74,8 +74,8 @@ namespace sxg::engine {
 
 		//angle
 		float angle(const sf::Vector2f& v) {
-			if      (v.y == 0) return v.x < 0 ? 180 : 0;
-			else if (v.x == 0) return v.y < 0 ? 270 : 90;
+			if      (v.y == 0) return v.x < 0 ? 180.f : 0.f;
+			else if (v.x == 0) return v.y < 0 ? 270.f : 90.f;
 
 			if (v.y > 0) {
 				if (v.x > 0) return atan(v.y / v.x)  * rad2deg;

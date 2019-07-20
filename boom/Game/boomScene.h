@@ -30,13 +30,13 @@ namespace sxg::boom {
 
 
 			//PlAYER
-			GameObject* player = new GameObject("player");
+			GameObject* player = new GameObject("player", Tag::player);
 			scene.push_back(player);
 			player->addComponent<Player>();
 			player->SetRenderable(new Renderable("player", sf::IntRect(0, 0, 32, 32), Layer::characters, 32));
+			sf::Sprite* playerSprite = &(player->renderable().sprite());
 			Animator* anim = player->addComponent<Animator>();
-			anim->setup(&(player->renderable().sprite()), 12, { 8, 8 });
-			anim->loadAnimationsFromFile("anim_boom");
+			anim->setup(playerSprite, 12, { 8, 8 }, "anim_boom");
 
 			//BACKGROUND
 			GameObject* background = new GameObject("background"); // temporary

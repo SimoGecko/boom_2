@@ -41,7 +41,7 @@ namespace sxg::engine {
 	int Time::nLoopRepetitions() {
 		_accumulator += _clock.restart().asSeconds();
 		if (_accumulator > 0.25) _accumulator = 0.25; // clamp
-		int reps = _accumulator / _dt;
+		int reps = (int)floor(_accumulator / _dt);
 		return reps;
 	}
 

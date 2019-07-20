@@ -10,16 +10,17 @@ namespace sxg::boom {
 	class MapBuilder : public Component {
 	private:
 		// ______________ members
-		const int width = 15;
-		const int height = 13;
+		const size_t width  = 15;
+		const size_t height = 13;
 		const int maxLevel = 80;
 		unordered_map<int, string> prefabNamesMap;
+		vector<vector<GameObject*>> mapObjects;
 
 	public:
 		// ______________ base
 		void start() override {
 			buildPrefabMap();
-			loadLevel(45);
+			loadLevel(35);
 		}
 
 		void update() override {
@@ -35,6 +36,8 @@ namespace sxg::boom {
 			sf::Image levelImage = getLevelPixels(level);
 
 			//2. iterate instantiating right prefabs
+			mapObjects.resize(width); mapObjects[0].resize(height);
+
 			for (size_t r = 0; r < height; ++r) {
 				for (size_t c = 0; c < width; ++c) {
 					//get color
@@ -42,11 +45,11 @@ namespace sxg::boom {
 					//find name of prefab
 					const string& prefabName = prefabNameFromColor(pxColor);
 					//compute position
-					vector2 position(c, r);
+					vector2 position((float)c, (float)r);
 
 					//instantiate prefab
 					if (doInstantiate(prefabName)) {
-						GameObject::Instantiate(prefabName, position);
+						/*mapObjects[c][r] =*/ GameObject::Instantiate(prefabName, position);
 					}
 				}
 			}
@@ -61,7 +64,7 @@ namespace sxg::boom {
 			prefabNamesMap[sf::Color(  0,   0,   0).toInteger()] = "border";	// black
 			prefabNamesMap[sf::Color(207,  61,  61).toInteger()] = "enemy";		// red
 			prefabNamesMap[sf::Color( 69, 141, 208).toInteger()] = "player";	// blue
-			prefabNamesMap[sf::Color( 61, 207, 126).toInteger()] = "teleport";	// green
+			prefabNamesMap[sf::Color( 61, 207, 126).toInteger()] = "teleporter";	// green
 			prefabNamesMap[sf::Color(214, 202,  73).toInteger()] = "coin";		// yellow
 		}
 
@@ -88,7 +91,7 @@ namespace sxg::boom {
 		const string& prefabNameFromColor(const sf::Color color) {
 			if (prefabNamesMap.count(color.toInteger()) == 0) {
 				Debug::logError("MapBuilder queried prefab name with incorrect color");
-				return "";
+				return emptyString;
 			}
 			return prefabNamesMap[color.toInteger()];
 		}

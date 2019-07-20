@@ -10,7 +10,7 @@ namespace sxg::boom {
 	class Player : public Component {
 	private:
 		// ______________ members
-		float speed = 30.f;
+		float speed = 6.f;
 		Animator* anim;
 
 	public:
@@ -24,7 +24,10 @@ namespace sxg::boom {
 			movement();
 			shoot();
 			//setAnimation();
-			if (Input::getKeyDown(sf::Keyboard::Q)) anim->play("front_walk");
+			if (Input::getKeyDown(sf::Keyboard::Q)) {
+				anim->playAnimation("front_walk");
+			}
+			Gizmos::drawCircle(transform().getPosition(), 0.5f);
 		}
 	private:
 		// ______________ commands

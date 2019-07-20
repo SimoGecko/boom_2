@@ -1,21 +1,23 @@
 // (c) Simone Guggiari 2019
 #pragma once
 #include "../Includes.h"
-//#include "Component.h"
+#include "Component.h"
 #include "Renderable.h"
 #include "Scene.h"
 #include "Prefabs.h"
+#include "Specific.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
 namespace sxg::engine {
 
 	class Component; // forward decl
+	
 
 	class GameObject {
 	public:
 		//_________________________ construction, components and destruction
-		GameObject(const string name, const string tag = "default");
+		GameObject(const string name, int tag = 0);
 
 		//GameObject(const GameObject& clone);
 		virtual ~GameObject();
@@ -59,7 +61,7 @@ namespace sxg::engine {
 
 		//_________________________ queries
 		const string& name() const;
-		const string& tag() const;
+		int tag() const;
 		bool active() const;
 		void setActive(bool active);
 
@@ -72,7 +74,7 @@ namespace sxg::engine {
 		static const vector<GameObject*>& All();
 
 		static GameObject* FindGameObjectWithName(const string& name);
-		static vector<GameObject*> FindGameObjectsWithTag(const string& tag);
+		static vector<GameObject*> FindGameObjectsWithTag(int tag);
 
 		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr);
 		static GameObject* Instantiate(const string& name, sf::Vector2f position);
@@ -80,7 +82,7 @@ namespace sxg::engine {
 
 	private:
 		string _name;
-		string _tag;
+		int _tag;
 		bool _active;
 
 		static string getUniqueName(const string& name);
@@ -98,24 +100,5 @@ namespace sxg::engine {
 	//_____________________________________ COMPONENT
 	//it's here since we want to access gameobject members
 
-	class Component {
-	public:
-		Component(GameObject& go) : _go(go) { };
-		virtual ~Component() {};
-
-		//main methods -> not abstract as they could be empty and fine
-		virtual void start() {};
-		virtual void update() {};
-		//virtual void draw() {};
-
-		virtual Component* clone(GameObject& go) { return nullptr; };// = 0; // each script must implement this
-
-		GameObject& gameobject() { return _go; }
-		sf::Transformable& transform() { return _go.transform(); }
-
-	private:
-		GameObject& _go; // must always have a reference
-		friend class GameObject;
-
-	};
+	
 }

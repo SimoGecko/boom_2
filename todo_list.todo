@@ -1,29 +1,26 @@
-
-
-
- FEATURES TO TEST:
- ☐ Animation @low
- ☐ Audio @low
+ ENGINE FEATURES TO TEST:
+ ✔ Animation
+ ✔ Audio
  ✔ Component
    ✔ code in scripts works
-   ☐ duplication of component
+   ☐ duplication of components
  ✔ Game
    ✔ gameloop works
- ☐ GameObject @high
+ ☐ GameObject
    ☐ can access member functions
-   ☐ can access queries
+   ✔ can access queries
    ✔ can instantiate new objects @high
  ✔ Input
-   ☐ mouse works
+   ✔ mouse works
    ✔ keyboard works
  ✔ Loader
-   ✘ can load textures and audio
- ☐ Prefabs
-   ☐ can access and instantiate prefabs
+   ✔ can load textures and audio
+ ✔ Prefabs
+   ✔ can access and instantiate prefabs
  ✔ Renderable
    ✔ correctly drawn with layerorder,
    ✔ transform,
-   ☐ animation
+   ✔ animation
  ✔ Scene
    ✔ load initial scene
    ☐ change scene
@@ -31,11 +28,13 @@
    ✔ startup correctly
    ☐ can move view
  ✔ Time
-   ☐ queries work
-   ☐ slowup/slowdown
+   ✔ queries work
+   ✔ slowup/slowdown
  ✘ Transform
  ✘ Vector
  ✔ Utility
+ ☐ PHYSICS @high
+ ☐ CLONING! @high
 
  ✔ Includes
 
@@ -44,14 +43,20 @@ BUGS:
   ✔ prefabs passes incorrect object
   ✔ objects aren't instantiated correctly
   ✔ renderable is set as null
-  ☐ start is not called on instantiated objects (bullet start)
   ✔ bullet is accelerating and not showiwng multiple instsances
+  ✔ start is not called on instantiated objects (bullet start)
+  ☐ cloning still doesn't work properly
 
 
-PROTOTYPE FEATUERS:
+PROTOTYPE FEATURES:
   ✔ character moving around (ARROWS)
   ✔ background drawn behind it
   ✔ animation
   ✔ space to shoot bullet (instantiation)
-  ☐ load other scene
-  ☐ audio effect
+  ✔ audio effect
+  ☐ correct movement with animation and collisions
+  ☐ placing bombs, exploding and removing blocks
+  ☐ collecting coin, score
+  ☐ enemies moving, shooting, damaging
+  ☐ UI
+  ☐ game flow -> load level, finish, lives

@@ -17,7 +17,7 @@ namespace sxg::engine {
 		static void playMusic(const string& musicName);
 
 	private:
-		static const int _nConcurrentSounds;
+		static const size_t _nConcurrentSounds;
 		static int _currentIndex;
 		static vector<sf::Sound> _soundPlayers;
 	};

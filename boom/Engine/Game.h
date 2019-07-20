@@ -7,11 +7,10 @@
 #include "Renderable.h"
 #include "Scene.h"
 #include "Audio.h"
+#include "Specific.h"
 */
 #include "../Engine.h"
-// the BUILD scene + prefabs list
-#include "../Game/BoomPrefabs.h"
-#include "../Game/BoomScene.h"
+#include "../BuildList.h"
 
 // class that manages the gameloop and calls the appropriate components
 

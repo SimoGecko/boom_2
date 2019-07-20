@@ -3,6 +3,7 @@
 #include "../Includes.h"
 #include "Screen.h"
 #include "Resources.h"
+#include "Specific.h"
 
 // Represents a sprite that can be rendered in game, with additional layeroder and container
 
@@ -34,13 +35,7 @@ namespace sxg::engine {
 		static vector<Renderable*> _renderables;
 	};
 
-	enum Layer {
-		background,
-		elements,
-		characters,
-		effects,
-		ui
-	};
+	
 	
 
 }

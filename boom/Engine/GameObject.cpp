@@ -5,7 +5,7 @@
 namespace sxg::engine {
 
 	//_________________________ construction / destruction
-	GameObject::GameObject(const string name, const string tag) :
+	GameObject::GameObject(const string name,  int tag) :
 		_name(getUniqueName(name)), _tag(tag), _active(true), _renderable(nullptr) {
 		// add to list
 	}
@@ -63,7 +63,7 @@ namespace sxg::engine {
 
 	//_________________________ queries
 	const string& GameObject::name() const { return _name; }
-	const string& GameObject::tag() const { return _tag; }
+	int GameObject::tag() const { return _tag; }
 	bool GameObject::active() const { return _active; }
 	void GameObject::setActive(bool active) { _active = active; }
 
@@ -102,7 +102,7 @@ namespace sxg::engine {
 		return nullptr;
 	}
 
-	vector<GameObject*> GameObject::FindGameObjectsWithTag(const string& tag) {
+	vector<GameObject*> GameObject::FindGameObjectsWithTag(int tag) {
 		// TODO implement better DS to speed up queries
 		const vector<GameObject*>& all = All();
 		vector<GameObject*> ans;

@@ -1,13 +1,13 @@
 // (c) Simone Guggiari 2019
 #pragma once
 #include "../Includes.h"
-//#include "GameObject.h"
+#include "GameObject.h"
 
 // provides access to pre-build gameobjects for easy cloning and instantiation in the scene
 
 namespace sxg::engine {
 
-	class GameObject; // forward decl
+	//class GameObject; // forward decl
 
 	class Prefabs {
 	public:

@@ -67,12 +67,12 @@ namespace sxg::engine {
 		}
 		_currentScene = _allScenes[sceneName];
 
-		auto gameobjects = _currentScene->build();
-		_currentScene->_allGameObjects = gameobjects;
+		auto startingGameObjects = _currentScene->build();
+		_currentScene->_allGameObjects = startingGameObjects;
 
 		//call start
-		for (size_t i = 0; i < _currentScene->_allGameObjects.size(); ++i) {
-			_currentScene->_allGameObjects[i]->start(); // scene calls start when inserted new object
+		for (size_t i = 0; i < startingGameObjects.size(); ++i) { // since the scene might grow dynamically, call start only on those generated statically by the scene
+			startingGameObjects[i]->start(); // scene calls start when inserted new object
 		}
 	}
 

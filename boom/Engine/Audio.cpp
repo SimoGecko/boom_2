@@ -32,7 +32,7 @@ namespace sxg::engine {
 	}
 
 	//static definitions
-	const int Audio::_nConcurrentSounds = 8;
+	const size_t Audio::_nConcurrentSounds = 8;
 	int Audio::_currentIndex;
 	vector<sf::Sound> Audio::_soundPlayers;
 }
