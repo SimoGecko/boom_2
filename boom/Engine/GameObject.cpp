@@ -72,10 +72,10 @@ namespace sxg::engine {
 		for (Component* component : _components) component->update();
 	}
 
-	void GameObject::onCollisionEnter(const GameObject& other) {
+	void GameObject::onCollisionEnter(GameObject& other) {
 		for (Component* component : _components) component->onCollisionEnter(other);
 	}
-	void GameObject::onCollisionExit(const GameObject& other) {
+	void GameObject::onCollisionExit(GameObject& other) {
 		for (Component* component : _components) component->onCollisionExit(other);
 	}
 

@@ -183,10 +183,14 @@
     <ClInclude Include="Game\BoomScene.h" />
     <ClInclude Include="Game\Bullet.h" />
     <ClInclude Include="Game\Coin.h" />
+    <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />
+    <ClInclude Include="Game\ExtraPickup.h" />
     <ClInclude Include="Game\MapBuilder.h" />
     <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\Powerup.h" />
     <ClInclude Include="Game\Teleporter.h" />
+    <ClInclude Include="Game\Ui.h" />
     <ClInclude Include="Includes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

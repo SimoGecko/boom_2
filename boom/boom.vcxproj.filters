@@ -179,5 +179,17 @@
     <ClInclude Include="Engine\Physics.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Enemy.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Powerup.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Ui.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ExtraPickup.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

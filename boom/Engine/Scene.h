@@ -21,7 +21,7 @@ namespace sxg::engine {
 		//static
 		static void start();
 		static void update();
-		static void load(const string sceneName);
+		static void load(const string& sceneName);
 		static Scene& current(); // should always have one
 
 	protected:
@@ -32,12 +32,14 @@ namespace sxg::engine {
 		//normal
 		void unload();
 		static void finalDelete();
+		static void actualLoad(const string& sceneName);
 
 		string _name;
 		vector<GameObject*> _allGameObjects; // sort them by name?
 
 		//static
-		static string _defaultSceneName;
+		static string _loadSceneName;
+		static bool _doLoadScene;
 		static Scene* _currentScene;
 		static unordered_map<string, Scene*> _allScenes;
 		static vector<GameObject*> _toDelete; // used to avoid deleting something while updating

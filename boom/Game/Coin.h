@@ -10,7 +10,7 @@ namespace sxg::boom {
 	class Coin : public Component {
 	private:
 		// ______________ members
-		const float rotationTime = 1.f;
+		const float rotationTime = 2.f;
 
 	public:
 		// ______________ base

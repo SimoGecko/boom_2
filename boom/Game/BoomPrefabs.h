@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Explosion.h"
 #include "Teleporter.h"
+#include "Powerup.h"
 
 // provides the instantiatables prefabs for boom
 
@@ -79,7 +80,7 @@ namespace sxg::boom {
 				coin->addComponent<Coin>();
 				coin->SetRenderable(new Renderable("coin", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
 				Animator* coinAnim = coin->addComponent<Animator>();
-				coinAnim->setup(&(coin->renderable().sprite()), 12, { 1, 10 }, "anim_coin");
+				coinAnim->setup(&(coin->renderable().sprite()), 24, { 1, 10 }, "anim_coin");
 				coin->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
@@ -114,6 +115,17 @@ namespace sxg::boom {
 				Animator* explosionAnim = explosion->addComponent<Animator>();
 				explosionAnim->setup(&(explosion->renderable().sprite()), 48, { 3, 4 }, "anim_explosion");
 				explosion->addComponent<CircleCollider>()->setRadius(0.5f);
+			}
+
+			// POWERUP
+			{
+				GameObject* powerup = new GameObject("powerup", Tag::powerup);
+				prefabs.push_back({ powerup->name(), powerup });
+				powerup->addComponent<Powerup>();
+				powerup->SetRenderable(new Renderable("bonus", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				Animator* powerupAnim = powerup->addComponent<Animator>();
+				powerupAnim->setup(&(powerup->renderable().sprite()), 24, { 1, 10 }, "anim_bonus");
+				powerup->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
 			//ENEMY

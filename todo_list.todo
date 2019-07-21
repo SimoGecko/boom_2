@@ -34,7 +34,7 @@
  ✘ Vector
  ✔ Utility
  ☐ PHYSICS @high
- ☐ CLONING! @high
+ ✔ CLONING! @high
 
  ✔ Includes
 
@@ -45,7 +45,7 @@ BUGS:
   ✔ renderable is set as null
   ✔ bullet is accelerating and not showiwng multiple instsances
   ✔ start is not called on instantiated objects (bullet start)
-  ☐ cloning still doesn't work properly
+  ✔ cloning still doesn't work properly
 
 
 PROTOTYPE FEATURES:
@@ -54,13 +54,14 @@ PROTOTYPE FEATURES:
   ✔ animation
   ✔ space to shoot bullet (instantiation)
   ✔ audio effect
-  ☐ correct movement with animation and collisions
-  ☐ placing bombs, exploding and removing blocks
-  ☐ collecting coin, score
+  ✔ correct movement with animation and collisions
+  ✔ placing bombs, exploding and removing blocks
+  ✔ collecting coin, score
+  ☐ UI (time, score, powerups)
   ☐ enemies moving, shooting, damaging
-  ☐ UI
+  ☐ powerups
   ☐ game flow -> load level, finish, lives
 
-
+ ☐ provide facility for custom drawing
 
 use default ctor for stack as Gameobject b; not Gameobject b();

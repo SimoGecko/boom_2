@@ -15,6 +15,7 @@ namespace sxg::engine {
 		wall,
 		block,
 		coin,
+		powerup,
 		teleporter,
 		bomb,
 		explosion,

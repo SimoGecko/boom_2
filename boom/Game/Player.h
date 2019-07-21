@@ -39,6 +39,10 @@ namespace sxg::boom {
 			//shoot();
 			//Gizmos::drawCircle(transform().getPosition(), 0.5f);
 		}
+
+		void teleport(sf::Vector2f to) {
+			//wait to stop
+		}
 	private:
 		// ______________ commands
 		void movement() {

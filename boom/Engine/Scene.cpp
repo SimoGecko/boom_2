@@ -13,7 +13,7 @@ namespace sxg::engine {
 		}
 		//add it to the list of all scenes
 		bool mustLoad = _allScenes.empty();
-		if (mustLoad) _defaultSceneName = name;
+		if (mustLoad) _loadSceneName = name;
 		_allScenes[_name] = this;
 
 		//if (mustLoad) load(_name); // avoid loading from withing ctor since not done yet
@@ -52,16 +52,24 @@ namespace sxg::engine {
 		//_allScenes["boom_scene"] = new BoomScene("boom_scene");
 
 		//load default
-		Scene::load(_defaultSceneName);
+		Scene::actualLoad(_loadSceneName);
 	}
 
 	void Scene::update() {
 		finalDelete();
+		if (_doLoadScene) {
+			_doLoadScene = false;
+			actualLoad(_loadSceneName);
+		}
+	}
+
+	void Scene::load(const string& sceneName) {
+		_doLoadScene = true;
+		_loadSceneName = sceneName;
 	}
 
 
-
-	void Scene::load(const string sceneName) {
+	void Scene::actualLoad(const string& sceneName) {
 		if (Scene::_allScenes.count(sceneName) == 0) {
 			Debug::logError("No scene exists with name: " + sceneName);
 			return;
@@ -99,9 +107,10 @@ namespace sxg::engine {
 	}
 
 	//static decl
-	string Scene::_defaultSceneName;
+	string Scene::_loadSceneName;
 	unordered_map<string, Scene*> Scene::_allScenes;
 	Scene* Scene::_currentScene = nullptr;
 	vector<GameObject*> Scene::_toDelete;
-
+	bool Scene::_doLoadScene;
+	 
 }
