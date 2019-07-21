@@ -1,0 +1,4 @@
+# __NAME__ animations
+# [anim_name startrow startcol numframes loop]
+
+____		0 0 0	T

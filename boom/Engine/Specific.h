@@ -8,6 +8,7 @@ namespace sxg::engine {
 
 	enum Tag {
 		defaultTag = 0,
+		environment,
 		player,
 		enemy,
 		bullet,

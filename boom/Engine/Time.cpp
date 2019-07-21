@@ -67,6 +67,6 @@ namespace sxg::engine {
 	float Time::_time;
 	float Time::_timescale = 1;
 
-	vector<pair<float, function<void()>>> Time::_callbacks;
+	vector<pair<float, function<void()>&>> Time::_callbacks;
 
 }

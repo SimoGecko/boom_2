@@ -41,6 +41,9 @@ namespace sxg::engine {
 		template <> // load data
 		static void Load(const string& resourceName, unordered_map<string, vector<string>>& buffer) {
 			ifstream inputFile("Assets/Data/" + resourceName + ".txt");
+			if (inputFile.fail()) {
+				Debug::logError("Couldn't open file: Assets/Data/" + resourceName + ".txt");
+			}
 			string line;
 			while (getline(inputFile, line)) {
 				buffer[resourceName].push_back(line);

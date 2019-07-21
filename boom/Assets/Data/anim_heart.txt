@@ -1,0 +1,6 @@
+# HEART frames
+# [anim_name startrow startcol numframes loop]
+
+emmpty		0 0 1	F
+half		0 1 1	F
+full		0 2 1	F

@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Prefabs.h"
 #include "Specific.h"
+#include "Time.h"
 
 // Hub for components, with name, transform, and renderable. Also provides cloning and accessor functions
 
@@ -25,7 +26,7 @@ namespace sxg::engine {
 		//ctor with renderable already
 		//ctor with transform
 
-		//Destroy(lifetime=0)
+		void destroy(const float lifetime = 0);
 
 		GameObject* clone() const;
 

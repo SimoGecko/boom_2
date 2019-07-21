@@ -25,7 +25,8 @@ namespace sxg::engine {
 		virtual ~Animator();
 
 		void playAnimation(const string& animName);
-		const string& currentAnimation() const;
+		const string& currentAnimationName() const;
+		//void setDefaultAnimation(const string& animName); // avoid as default animation is called before you have a change to set it
 
 	private:
 		struct FrameSequence {
@@ -47,7 +48,7 @@ namespace sxg::engine {
 		int _fps;
 		int _width, _height;
 		int _rows, _cols;
-		string _defaultAnimation;
+		string _defaultAnimationName;
 
 		//unique
 		sf::Sprite* _spriteRef;

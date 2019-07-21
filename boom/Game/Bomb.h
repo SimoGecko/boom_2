@@ -9,13 +9,18 @@ namespace sxg::boom {
 
 	class Bomb : public Component {
 	private:
-		// ______________ members
+		// ______________ const
+		const float bombTimer = 3.f;
+		const float tickingOffset = 1.f;
+
+		// ______________ variables
 
 
 	public:
 		// ______________ base
 		void start() override {
-
+			//Time::callback(startTicking(), bombTimer - tickingOffset);
+			//Time::callback(explode(), bombTimer);
 		}
 
 		void update() override {
@@ -24,6 +29,15 @@ namespace sxg::boom {
 		
 	private:
 		// ______________ commands
+		void startTicking() {
+			gameobject().getComponent<Animator>()->playAnimation("ticking");
+
+		}
+
+		void explode() {
+			//DESTROY
+			gameobject().destroy();
+		}
 
 
 		// ______________ queries

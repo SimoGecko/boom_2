@@ -45,6 +45,16 @@ namespace sxg::engine {
 		if (_renderable != nullptr) delete _renderable;
 	}
 
+	void GameObject::destroy(const float lifetime) {
+		if (lifetime > 0) {
+			//callback
+			//Time::callback((Scene::current().removeGameObject(this)), lifetime);
+		}
+		else {
+			Scene::current().removeGameObject(this);
+		}
+	}
+
 	//_________________________ components
 
 	void GameObject::SetRenderable(Renderable* renderable) {

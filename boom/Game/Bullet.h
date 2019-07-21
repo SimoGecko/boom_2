@@ -23,7 +23,7 @@ namespace sxg::boom {
 	private:
 		// ______________ commands
 		void move() {
-			vector2 moveDelta = vector2(1, 0) * speed * Time::deltaTime();
+			sf::Vector2f moveDelta = sf::Vector2f(1, 0) * speed * Time::deltaTime();
 			transform().move(moveDelta);
 		}
 

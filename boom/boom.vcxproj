@@ -148,6 +148,7 @@
     <ClCompile Include="Engine\Scene.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
     <ClCompile Include="Engine\Time.cpp" />
+    <ClCompile Include="Game\Managers.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

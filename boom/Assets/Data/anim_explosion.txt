@@ -1,0 +1,6 @@
+# EXPLOSION animations
+# [anim_name startrow startcol numframes loop]
+
+center		0 0 4	F
+vertical	1 0 4	F
+horizontal	2 0 4	F

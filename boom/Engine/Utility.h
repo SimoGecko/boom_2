@@ -15,7 +15,9 @@ namespace sxg::engine {
 			cout << "[ERROR]\t" << message << endl;
 		}
 		static void ensure(bool condition, const string& message) {
-			if (!condition) cout << "[ASSERT]\t" << message << endl;
+			if (!condition) {
+				cout << "[ASSERT]\t" << message << endl;
+			}
 		}
 		
 	};
@@ -32,11 +34,13 @@ namespace sxg::engine {
 	//FREE MATH FUNCTIONS
 	namespace { 
 		constexpr float eps			= 1e-5f;
-		constexpr float pi			= 3.1415927f;
+		constexpr float pi			= 3.14159265359f;
 		constexpr float deg2rad		= 0.01745329251f;
 		constexpr float rad2deg		= 57.2957795131f;
 
-		sf::Vector2f& normalize(sf::Vector2f& v) {
+
+
+		static inline sf::Vector2f& normalize(sf::Vector2f& v) {
 			float norm = sqrt(v.x*v.x + v.y*v.y);
 			if (norm > eps) {
 				v.x /= norm;
@@ -49,8 +53,22 @@ namespace sxg::engine {
 			return v;
 		}
 
-		float magnitude (const sf::Vector2f& v) { return sqrt(v.x*v.x + v.y*v.y); }
-		float magnitude2(const sf::Vector2f& v) { return      v.x*v.x + v.y*v.y; }
+		static inline float magnitude (const sf::Vector2f& v) { return sqrt(v.x*v.x + v.y*v.y); }
+		static inline float magnitude2(const sf::Vector2f& v) { return      v.x*v.x + v.y*v.y; }
+
+		static inline float dot(const sf::Vector2f& a, const sf::Vector2f& b) { return a.x*b.x + a.y*b.y; }
+
+		static inline sf::Vector2f lerp(const sf::Vector2f& a, const sf::Vector2f& b, float t) {
+			return (1 - t)*a + t * b;
+		}
+		static inline sf::Vector2f lerp(const sf::Vector2i& a, const sf::Vector2i& b, float t) {
+			return sf::Vector2f((1 - t)*(float)a.x + t * (float)b.x, (1 - t)*(float)a.y + t * (float)b.y);
+		}
+
+		static inline sf::Vector2f to_v2f(const sf::Vector2i& v) { return sf::Vector2f((float)round(v.x), (float)round(v.y)); }
+
+		//const sf::Vector2f v2fzero(0, 0);
+		//const sf::Vector2i v2izero(0, 0);
 
 		//rotate
 		sf::Vector2f& rotateby(sf::Vector2f& v, float degrees, const sf::Vector2f& center = {0,0}) {
@@ -73,7 +91,7 @@ namespace sxg::engine {
 		}
 
 		//angle
-		float angle(const sf::Vector2f& v) {
+		static inline float angle(const sf::Vector2f& v) {
 			if      (v.y == 0) return v.x < 0 ? 180.f : 0.f;
 			else if (v.x == 0) return v.y < 0 ? 270.f : 90.f;
 
@@ -95,7 +113,7 @@ namespace sxg::engine {
 		}
 
 		const string to_string(void* pointer) {
-			return std::to_string((int)pointer);
+			return "0x" + std::to_string((int)pointer);
 		}
 
 		enum dir {right, up, left, down};
@@ -104,10 +122,19 @@ namespace sxg::engine {
 			assert(0 <= a && a <= 360);
 
 			if (a <= 45)  return dir::right;
-			if (a <= 135) return dir::up;
+			if (a <= 135) return dir::down;
 			if (a <= 225) return dir::left;
-			if (a <= 315) return dir::down;
+			if (a <= 315) return dir::up;
 			return dir::right;
+		}
+		char charFromDir(dir d) {
+			switch (d) {
+				case dir::down : return 'D';
+				case dir::up   : return 'U';
+				case dir::right: return 'R';
+				case dir::left : return 'L';
+			}
+			return '0';
 		}
 	}
 	

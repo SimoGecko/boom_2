@@ -1,0 +1,5 @@
+# BOMB animations
+# [anim_name startRow startCol numFrames loop]
+
+default	0 0 2	T
+ticking	0 1 2	T

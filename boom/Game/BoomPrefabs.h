@@ -28,11 +28,24 @@ namespace sxg::boom {
 			vector<pair<string, GameObject*>> prefabs;
 			//build______________________________________
 
+			//BACKGROUND
+			GameObject* background = new GameObject("background", Tag::environment);
+			prefabs.push_back({ background->name(), background });
+			background->SetRenderable(new Renderable("background", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false));
+
+			//BORDER
+			GameObject* border = new GameObject("border", Tag::environment);
+			prefabs.push_back({ border->name(), border });
+			border->SetRenderable(new Renderable("border", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false));
+			Animator* borderAnim = border->addComponent<Animator>();
+			borderAnim->setup(&(border->renderable().sprite()), 1, { 1,8 }, "anim_border");
+
 			//BULLET
 			GameObject* bullet = new GameObject("bullet", Tag::bullet);
 			prefabs.push_back({ bullet->name(), bullet });
 			bullet->addComponent<Bullet>();
-			bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), Layer::elements, 32, false)); // don't add the renderable to the drawlist
+			bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false)); // don't add the renderable to the drawlist
+			//effect
 
 			//WALL
 			GameObject* wall = new GameObject("wall", Tag::wall);
@@ -65,12 +78,27 @@ namespace sxg::boom {
 			teleportAnim->setup(&(teleporter->renderable().sprite()), 12, { 1, 8 }, "anim_teleporter");
 
 			//BOMB
+			GameObject* bomb = new GameObject("bomb", Tag::bomb);
+			prefabs.push_back({ bomb->name(), bomb });
+			bomb->addComponent<Bomb>();
+			bomb->SetRenderable(new Renderable("bomb", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+			Animator* bombAnim = bomb->addComponent<Animator>();
+			bombAnim->setup(&(bomb->renderable().sprite()), 12, { 1, 3 }, "anim_bomb");
 
 
 			//EXPLOSION
-
+			GameObject* explosion = new GameObject("explosion", Tag::explosion);
+			prefabs.push_back({ explosion->name(), explosion });
+			explosion->addComponent<Explosion>();
+			explosion->SetRenderable(new Renderable("explosion", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false));
+			Animator* explosionAnim = explosion->addComponent<Animator>();
+			explosionAnim->setup(&(explosion->renderable().sprite()), 12, { 3, 4 }, "anim_explosion");
 
 			//ENEMY
+
+
+
+
 			//___________________________________________
 			return move(prefabs);
 		}

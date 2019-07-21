@@ -12,7 +12,7 @@ namespace sxg::engine {
 		_width  = sprite->getTexture()->getSize().x / _cols;
 		_height = sprite->getTexture()->getSize().y / _rows;
 		_animFrames = new unordered_map<string, FrameSequence>();
-		_defaultAnimation = "";
+		_defaultAnimationName = "";
 
 		_currentAnim = nullptr;
 		_currentIndex = 0;
@@ -41,9 +41,11 @@ namespace sxg::engine {
 		_timer = 1.0f / _fps;
 		_currentIndex = 0;
 		_currentAnim = &(_animFrames->at(animName));
+		//set initial frame
+		_spriteRef->setTextureRect(_currentAnim->_frames[0]);
 	}
 
-	const string& Animator::currentAnimation() const {
+	const string& Animator::currentAnimationName() const {
 		if (_currentAnim == nullptr) return emptyString;
 		return _currentAnim->_animName;
 	}
@@ -90,7 +92,7 @@ namespace sxg::engine {
 			}
 		}
 		(*_animFrames)[animName] = { animName, move(frames), loop };
-		if (_defaultAnimation.empty()) _defaultAnimation = animName;
+		if (_defaultAnimationName.empty()) _defaultAnimationName = animName;
 	}
 
 	void Animator::findSpriteReference() {
@@ -108,8 +110,15 @@ namespace sxg::engine {
 			Debug::logError("Animator has no animations.");
 			return;
 		}
-		playAnimation(_defaultAnimation);
+		playAnimation(_defaultAnimationName);
 	}
+
+	/*
+	void Animator::setDefaultAnimation(const string& animName) {
+		_defaultAnimationName = animName;
+	}
+	*/
+
 
 	void Animator::updateFrame() {
 		if (_stopped || _currentAnim==nullptr) return;

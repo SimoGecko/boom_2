@@ -33,6 +33,6 @@ namespace sxg::engine {
 		static float _time; // real time vs game time
 		static float _timescale; // TODO implement
 
-		static vector<pair<float, function<void()>>> _callbacks;
+		static vector<pair<float, function<void()>&>> _callbacks;
 	};
 }

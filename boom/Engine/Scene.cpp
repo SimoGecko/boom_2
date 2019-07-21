@@ -28,7 +28,13 @@ namespace sxg::engine {
 		go->start();
 	}
 	void Scene::removeGameObject(GameObject* go) {
+		if (go == nullptr) return;
 		//remove and DELETE?
+		auto it = find(_allGameObjects.begin(), _allGameObjects.end(), go);
+		if (it != _allGameObjects.end()) {
+			_allGameObjects.erase(it);
+		}
+		delete *it;
 	}
 
 	void Scene::unload() {
