@@ -22,10 +22,14 @@ namespace sxg::engine {
 		virtual void update() {};
 		//virtual void draw() {};
 
+		virtual void onCollisionEnter(const GameObject& other) {};
+		virtual void onCollisionExit (const GameObject& other) {};
+
 		virtual Component* clone() = 0; // each script must implement this
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
+		const sf::Transformable& transform() const;
 
 		void invoke(void(Component::*memfun)(), float time);
 
@@ -33,7 +37,6 @@ namespace sxg::engine {
 	private:
 		GameObject* _go; // must always have a reference
 		friend class GameObject;
-
 	};
 	
 

@@ -10,7 +10,7 @@ namespace sxg::boom {
 	class Coin : public Component {
 	private:
 		// ______________ members
-
+		const float rotationTime = 1.f;
 
 	public:
 		// ______________ base
@@ -21,10 +21,22 @@ namespace sxg::boom {
 		void update() override {
 
 		}
+
+		void onCollisionEnter(const GameObject& other) override {
+			if (other.tag() == Tag::player) {
+				collectCoin();
+			}
+		}
 		
 	private:
 		// ______________ commands
-
+		void collectCoin() {
+			Animator* anim = gameobject().getComponent<Animator>();
+			anim->playAnimation("rotate");
+			//add to score manager
+			MapBuilder::instance->removeGo(to_v2i(transform().getPosition()));
+			gameobject().destroy(rotationTime);
+		}
 
 		// ______________ queries
 

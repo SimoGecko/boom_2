@@ -13,7 +13,6 @@ namespace sxg::boom {
 	private:
 		// ______________ members
 
-
 	public:
 		// ______________ base
 		void start() override {
@@ -22,7 +21,7 @@ namespace sxg::boom {
 		}
 
 		void update() override {
-
+			
 		}
 		
 	private:

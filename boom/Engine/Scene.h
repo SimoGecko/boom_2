@@ -20,6 +20,7 @@ namespace sxg::engine {
 		
 		//static
 		static void start();
+		static void update();
 		static void load(const string sceneName);
 		static Scene& current(); // should always have one
 
@@ -30,6 +31,7 @@ namespace sxg::engine {
 	private:
 		//normal
 		void unload();
+		static void finalDelete();
 
 		string _name;
 		vector<GameObject*> _allGameObjects; // sort them by name?
@@ -38,6 +40,7 @@ namespace sxg::engine {
 		static string _defaultSceneName;
 		static Scene* _currentScene;
 		static unordered_map<string, Scene*> _allScenes;
+		static vector<GameObject*> _toDelete; // used to avoid deleting something while updating
 	};
 
 }

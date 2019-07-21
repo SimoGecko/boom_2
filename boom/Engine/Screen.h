@@ -17,6 +17,7 @@ namespace sxg::engine {
 	private:
 		static int _width;
 		static int _height;
+		static float scaleFactor;
 		static string _title;
 
 		static sf::RenderWindow _window;

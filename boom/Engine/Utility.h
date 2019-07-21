@@ -21,6 +21,14 @@ namespace sxg::engine {
 	private:
 	};
 
+	class Ray {
+	public:
+
+	private:
+		sf::Vector2f origin;
+		sf::Vector2f direction;
+	};
+
 	class Random {
 	public:
 		static sf::Vector2f insideUnitCircle();

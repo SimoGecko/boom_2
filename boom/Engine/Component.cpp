@@ -16,5 +16,6 @@ namespace sxg::engine {
 	//queries
 	GameObject& Component::gameobject() { return *_go; }
 	sf::Transformable& Component::transform() { return _go->transform(); }
+	const sf::Transformable& Component::transform() const { return _go->transform(); }
 
 }

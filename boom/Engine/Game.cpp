@@ -49,11 +49,15 @@ namespace sxg::engine {
 
 	void Game::update() {
 		//updates up all components and gameobjects
-		Time ::update();
-		Input::update();
-		Gizmos::update();
+		Time   ::update();
+		Input  ::update();
+		Physics::update();
+		Gizmos ::update();
+		Scene  ::update();
 
-		for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->update();
+		vector<GameObject*> allGo = GameObject::All(); // fix it to avoid modification
+		//for (size_t i = 0; i < GameObject::All().size(); ++i) GameObject::All()[i]->update();
+		for (GameObject* go : allGo) go->update();
 	}
 
 	void Game::draw() {

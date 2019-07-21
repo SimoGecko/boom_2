@@ -12,10 +12,11 @@ namespace sxg::boom {
 	class MapBuilder : public Component {
 	private:
 		// ______________ members
+		const int startLevel = 19;
+
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
-		const int startLevel = 45;
 		unordered_map<int, string> prefabNamesMap;
 		vector<vector<GameObject*>> mapObjects;
 
@@ -63,11 +64,17 @@ namespace sxg::boom {
 
 		// ______________ commands
 		void explosionAt(sf::Vector2i position) {
+			int r = position.y;
+			int c = position.x;
 			//destroy block
-			if (isValid(position) && mapObjects[position.x][position.y] != nullptr && mapObjects[position.x][position.y]->tag() == Tag::block) {
-				mapObjects[position.x][position.y]->getComponent<Block>()->breakBlock();
-				mapObjects[position.x][position.y] = nullptr;
+			if (isValid(position) && mapObjects[r][c] != nullptr && mapObjects[r][c]->tag() == Tag::block) {
+				mapObjects[r][c]->getComponent<Block>()->breakBlock();
+				mapObjects[r][c] = nullptr;
 			}
+		}
+
+		void removeGo(sf::Vector2i position) {
+			mapObjects[position.y][position.x] = nullptr;
 		}
 
 

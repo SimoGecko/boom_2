@@ -59,8 +59,8 @@ namespace sxg::engine {
 		void update();
 		//void draw();
 
-		//void onCollisionEnter(const GameObject& other);
-		//void onCollisionExit (const GameObject& other);
+		void onCollisionEnter(const GameObject& other);
+		void onCollisionExit (const GameObject& other);
 
 		//_________________________ queries
 		const string& name() const;
@@ -70,7 +70,7 @@ namespace sxg::engine {
 
 		sf::Transformable& transform();
 		Renderable& renderable();
-		const sf::Transformable& transform_const() const;
+		const sf::Transformable& transform() const;
 
 
 		//_________________________ static
@@ -79,7 +79,7 @@ namespace sxg::engine {
 		static GameObject* FindGameObjectWithName(const string& name);
 		static vector<GameObject*> FindGameObjectsWithTag(int tag);
 
-		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr);
+		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr, sf::Vector2f position = {0,0});
 		static GameObject* Instantiate(const string& name, sf::Vector2f position);
 
 

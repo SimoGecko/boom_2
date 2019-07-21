@@ -29,16 +29,10 @@ namespace sxg::engine {
 	}
 	void Scene::removeGameObject(GameObject* go) {
 		if (go == nullptr) return;
-		//remove and DELETE?
-		auto it = find(_allGameObjects.begin(), _allGameObjects.end(), go);
-		if (it != _allGameObjects.end()) {
-			GameObject* goToDelete = *it;
-			_allGameObjects.erase(it);
-			delete goToDelete;
-		}
+		_toDelete.push_back(go);
 	}
 
-	void Scene::unload() {
+	void Scene::unload() { // make sure it's called at the end of the update
 		for (GameObject* go : _allGameObjects) {
 			delete go;
 			//go = nullptr; // its a copy
@@ -59,6 +53,10 @@ namespace sxg::engine {
 
 		//load default
 		Scene::load(_defaultSceneName);
+	}
+
+	void Scene::update() {
+		finalDelete();
 	}
 
 
@@ -85,9 +83,25 @@ namespace sxg::engine {
 
 	Scene& Scene::current() { return *_currentScene; }
 
+	void Scene::finalDelete() {
+		if (_toDelete.empty() || _currentScene==nullptr) return;
+		vector<GameObject*>& allGo = _currentScene->_allGameObjects;
+
+		for (GameObject* go : _toDelete) {
+			auto it = find(allGo.begin(), allGo.end(), go);
+			if (it != allGo.end()) {
+				allGo.erase(it);
+				delete go;
+			}
+		}
+
+		_toDelete.clear();
+	}
+
 	//static decl
 	string Scene::_defaultSceneName;
 	unordered_map<string, Scene*> Scene::_allScenes;
 	Scene* Scene::_currentScene = nullptr;
+	vector<GameObject*> Scene::_toDelete;
 
 }

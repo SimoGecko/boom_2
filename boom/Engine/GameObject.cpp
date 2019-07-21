@@ -26,7 +26,7 @@ namespace sxg::engine {
 			newGo->_components.push_back(newComponent);
 		}
 
-		newGo->copyTransform(transform_const());
+		newGo->copyTransform(transform());
 		//copy other members
 		if (_renderable != nullptr) {
 			newGo->_renderable = new Renderable(*_renderable);
@@ -47,8 +47,7 @@ namespace sxg::engine {
 
 	void GameObject::destroy(const float lifetime) {
 		if (lifetime > 0) {
-			//callback
-			//Time::callback((Scene::current().removeGameObject(this)), lifetime);
+			Time::callback([this]() {Scene::current().removeGameObject(this); }, lifetime);
 		}
 		else {
 			Scene::current().removeGameObject(this);
@@ -69,7 +68,15 @@ namespace sxg::engine {
 	}
 
 	void GameObject::update() {
+		//destroy in the mids of others?
 		for (Component* component : _components) component->update();
+	}
+
+	void GameObject::onCollisionEnter(const GameObject& other) {
+		for (Component* component : _components) component->onCollisionEnter(other);
+	}
+	void GameObject::onCollisionExit(const GameObject& other) {
+		for (Component* component : _components) component->onCollisionExit(other);
 	}
 
 	//_________________________ queries
@@ -85,7 +92,7 @@ namespace sxg::engine {
 		return _transform;
 	}
 
-	const sf::Transformable& GameObject::transform_const() const {
+	const sf::Transformable& GameObject::transform() const {
 		if (_renderable != nullptr) {
 			return _renderable->transform();
 		}
@@ -125,7 +132,7 @@ namespace sxg::engine {
 	}
 
 	
-	GameObject* GameObject::Instantiate(const string& name, sf::Transformable* transf) {
+	GameObject* GameObject::Instantiate(const string& name, sf::Transformable* transf, sf::Vector2f position) {
 		//find gameobject in prefabs
 		GameObject* goPrefab = Prefabs::getPrefab(name);
 		if (goPrefab == nullptr) {
@@ -140,16 +147,19 @@ namespace sxg::engine {
 		if (transf != nullptr) {
 			newGo->copyTransform(*transf);
 		}
+		else {
+			newGo->transform().setPosition(position);
+		}
 
 		//add it to the scene
-		Scene::current().addGameObject(newGo);
+		Scene::current().addGameObject(newGo); // start is called here!
 		return newGo;
 	}
 
 	GameObject* GameObject::Instantiate(const string& name, sf::Vector2f position) {
-		GameObject* newGo = Instantiate(name, nullptr);
-		newGo->transform().setPosition(position);
-		return newGo;
+		return Instantiate(name, nullptr, position);
+		//newGo->transform().setPosition(position);
+		//return newGo;
 	}
 	
 
