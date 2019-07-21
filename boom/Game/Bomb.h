@@ -58,7 +58,7 @@ namespace sxg::boom {
 			onExplode();
 
 			instantiateExplosion();
-			//gameobject().destroy();
+			gameobject().destroy();
 		}
 
 		void instantiateExplosion() {

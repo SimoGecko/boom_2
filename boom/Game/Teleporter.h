@@ -31,7 +31,14 @@ namespace sxg::boom {
 
 
 		// ______________ queries
-
+		Teleporter* getOtherRandomTeleporter() {
+			vector<GameObject*> teleporters = GameObject::FindGameObjectsWithTag(Tag::teleporter);
+			size_t i;
+			do {
+				i = Random::range(0, teleporters.size());
+			} while (teleporters[i] = &gameobject());
+			return teleporters[i]->getComponent<Teleporter>();
+		}
 
 
 		// ______________ cloning

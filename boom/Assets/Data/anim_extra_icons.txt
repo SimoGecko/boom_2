@@ -1,0 +1,9 @@
+# EXTRA_ICONS animations
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
+
+empty			S 	0 0 1	F
+E				S 	0 1 1	F
+X				S 	0 2 1	F
+T				S 	0 3 1	F
+R				S 	0 4 1	F
+A				S 	0 5 1	F

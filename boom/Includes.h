@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <functional>
+#include <typeinfo>
 
 //SFML
 #include <SFML/System.hpp>

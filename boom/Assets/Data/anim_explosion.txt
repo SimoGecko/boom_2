@@ -1,6 +1,6 @@
 # EXPLOSION animations
 # [anim_name type startrow startcol (numframes)|(frames_offset+) loop]
 
-center			R 	0 0 	0 1 2 3 2 1 0 12	F
-vertical		R 	1 0 	0 1 2 3 2 1 0 8		F
-horizontal		R 	2 0 	0 1 2 3 2 1 0 4		F
+center			R 	0 0 	0 1 2 3 2 1 0	F
+vertical		R 	1 0 	0 1 2 3 2 1 0	F
+horizontal		R 	2 0 	0 1 2 3 2 1 0	F

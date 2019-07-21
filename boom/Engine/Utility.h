@@ -10,24 +10,31 @@ namespace sxg::engine {
 
 	class Debug {
 	public:
-		static void log(const string& message) {
-			cout << "[LOG]\t" << message << endl;
-		}
-		static void logError(const string& message) {
-			cout << "[ERROR]\t" << message << endl;
-		}
-		static void ensure(bool condition, const string& message) {
-			if (!condition) {
-				cout << "[ASSERT]\t" << message << endl;
-			}
-		}
-		
+		static void log		(const string& message);
+		static void logError(const string& message);
+		static void ensure	(bool condition, const string& message);
 	};
 
 	
 	class Utility {
 	public:
 	private:
+	};
+
+	class Random {
+	public:
+		static sf::Vector2f insideUnitCircle();
+		static sf::Vector2f onUnitCircle();
+		static sf::Vector2f insideUnitSquare();
+		static sf::Vector2f onUnitSquare();
+		static sf::Vector2f insideRectange(sf::FloatRect rect);
+
+		static inline float value();
+		static inline int   range(int min, int max); // random in range [min, max[
+		static inline float range(float min, float max);
+
+	private:
+		//set a generator here
 	};
 	
 	const string emptyString = "";
@@ -151,8 +158,6 @@ namespace sxg::engine {
 			}
 			return "";
 		}
-
-
 	}
 	
 	

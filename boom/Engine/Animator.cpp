@@ -188,6 +188,7 @@ namespace sxg::engine {
 			if (_currentAnim->_loop) _currentIndex = 0;
 			else {
 				_stopped = true;
+				onAnimationFinish();
 				return;
 			}
 		}

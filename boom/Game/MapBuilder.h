@@ -3,6 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
+#include "Block.h"
 // reads the appropriate pixel subsection representing a map and instantiates the prefabs in the correct position.
 
 namespace sxg::boom {
@@ -14,7 +15,7 @@ namespace sxg::boom {
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
-		const int startLevel = 10;
+		const int startLevel = 45;
 		unordered_map<int, string> prefabNamesMap;
 		vector<vector<GameObject*>> mapObjects;
 
@@ -59,6 +60,17 @@ namespace sxg::boom {
 			int r = pos.y, c = pos.x;
 			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
 		}
+
+		// ______________ commands
+		void explosionAt(sf::Vector2i position) {
+			//destroy block
+			if (isValid(position) && mapObjects[position.x][position.y] != nullptr && mapObjects[position.x][position.y]->tag() == Tag::block) {
+				mapObjects[position.x][position.y]->getComponent<Block>()->breakBlock();
+				mapObjects[position.x][position.y] = nullptr;
+			}
+		}
+
+
 
 	private:
 		// ______________ commands

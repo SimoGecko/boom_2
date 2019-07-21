@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Time.h"
+#include "Event.h"
 
 // provides easy interface to animate sprites by swapping the rectange in the original texture
 
@@ -27,6 +28,8 @@ namespace sxg::engine {
 		void playAnimation(const string& animName);
 		const string& currentAnimationName() const;
 		//void setDefaultAnimation(const string& animName); // avoid as default animation is called before you have a change to set it
+
+		Event onAnimationFinish;
 
 	private:
 		struct FrameSequence {

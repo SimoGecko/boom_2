@@ -60,3 +60,7 @@ PROTOTYPE FEATURES:
   ☐ enemies moving, shooting, damaging
   ☐ UI
   ☐ game flow -> load level, finish, lives
+
+
+
+use default ctor for stack as Gameobject b; not Gameobject b();

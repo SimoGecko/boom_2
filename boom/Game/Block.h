@@ -22,6 +22,12 @@ namespace sxg::boom {
 
 		}
 		
+		void breakBlock() {
+			Animator* anim = gameobject().getComponent<Animator>();
+			anim->playAnimation("break");
+			anim->onAnimationFinish += [this]() { gameobject().destroy(); };
+		}
+
 	private:
 		// ______________ commands
 

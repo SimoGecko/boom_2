@@ -137,18 +137,21 @@
   <ItemGroup>
     <ClCompile Include="Engine\Animator.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
+    <ClCompile Include="Engine\Collider.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Engine\Event.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Gizmos.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
+    <ClCompile Include="Engine\Physics.cpp" />
     <ClCompile Include="Engine\Prefabs.cpp" />
     <ClCompile Include="Engine\Renderable.cpp" />
     <ClCompile Include="Engine\Resources.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
     <ClCompile Include="Engine\Screen.cpp" />
     <ClCompile Include="Engine\Time.cpp" />
+    <ClCompile Include="Engine\Utility.cpp" />
     <ClCompile Include="Game\Managers.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -157,12 +160,14 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Engine\Animator.h" />
     <ClInclude Include="Engine\Audio.h" />
+    <ClInclude Include="Engine\Collider.h" />
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\Event.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\Gizmos.h" />
     <ClInclude Include="Engine\Input.h" />
+    <ClInclude Include="Engine\Physics.h" />
     <ClInclude Include="Engine\Prefabs.h" />
     <ClInclude Include="Engine\Renderable.h" />
     <ClInclude Include="Engine\Resources.h" />
