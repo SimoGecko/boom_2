@@ -1,4 +1,4 @@
 # __NAME__ animations
-# [anim_name startrow startcol numframes loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-____		0 0 0	T
+____			S 	0 0 0	T

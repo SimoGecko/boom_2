@@ -111,9 +111,10 @@ namespace sxg::boom {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
 				//instantiate new bullet at this position
 				if (availableBombs > 0) {
-					GameObject* bomb = GameObject::Instantiate("bomb", &transform());
+					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
 					availableBombs--;
 					//call back on explosion
+					bombGo->getComponent<Bomb>()->onExplode += [this]() {availableBombs++; };
 				}
 			}
 		}

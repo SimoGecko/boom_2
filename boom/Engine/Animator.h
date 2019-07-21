@@ -36,12 +36,16 @@ namespace sxg::engine {
 		};
 
 		void loadAnimationsFromFile(const string& fileName);
-		void addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop = true);
+		void addAnimation(const string& animName, vector<sf::IntRect> frames, bool loop = true);
 		void findSpriteReference();
 		void startDefaultAnim();
 		void updateFrame();
 		void setNextFrame();
 		bool valid(int row, int col);
+
+		vector<sf::IntRect> buildFrames(const string& animName, sf::Vector2i firstFrame, int nFrames);
+		vector<sf::IntRect> buildFrames(const string& animName, sf::Vector2i firstFrame, vector<int> frameOffsets);
+
 
 		// shared
 		unordered_map<string, FrameSequence>* _animFrames; // shared ptr

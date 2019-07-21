@@ -10,6 +10,7 @@ namespace sxg::engine {
 
 	class Component {
 	public:
+		using memfct = void(Component::*)();
 		//default ctor?
 		//Component(GameObject& go);
 		Component() = default; // ctor
@@ -25,6 +26,9 @@ namespace sxg::engine {
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
+
+		void invoke(void(Component::*memfun)(), float time);
+
 
 	private:
 		GameObject* _go; // must always have a reference

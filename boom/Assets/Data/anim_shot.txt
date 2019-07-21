@@ -1,5 +1,5 @@
 # SHOT animation
-# [anim_name startrow startcol numframes loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-default		0 0 1	F
-collide		0 1 4	F
+default			S 	0 0 1	F
+collide			S 	0 1 4	F

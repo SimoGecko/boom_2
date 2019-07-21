@@ -45,7 +45,7 @@ namespace sxg::engine {
 		return reps;
 	}
 
-	void Time::callback(function<void()>& func, float delay) {
+	void Time::callback(function<void(void)> func, float delay) {
 		_callbacks.push_back({ _time + delay, func });
 		//sort by increasing time
 		sort(_callbacks.begin(), _callbacks.end(), [](auto& l, auto& r) {return l.first < r.first; });
@@ -67,6 +67,6 @@ namespace sxg::engine {
 	float Time::_time;
 	float Time::_timescale = 1;
 
-	vector<pair<float, function<void()>&>> Time::_callbacks;
+	vector<pair<float, function<void()>>> Time::_callbacks;
 
 }

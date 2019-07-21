@@ -1,14 +1,14 @@
 # ENEMY animations
-# [anim_name startrow startcol numframes loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-walk_D		0 0 4	T
-walk_U		1 0 4	T
-walk_R		2 0 4	T
-walk_L		3 0 4	T
+walk_D			S 	0 0 4	T
+walk_U			S 	1 0 4	T
+walk_R			S 	2 0 4	T
+walk_L			S 	3 0 4	T
 
-shoot_D		0 0 1	T
-shoot_U		1 0 1	T
-shoot_R		2 0 1	T
-shoot_L		3 0 1	T
+shoot_D			S 	0 0 1	T
+shoot_U			S 	1 0 1	T
+shoot_R			S 	2 0 1	T
+shoot_L			S 	3 0 1	T
 
-die			4 0 2	T
+die				S 	4 0 2	T

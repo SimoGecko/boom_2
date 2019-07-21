@@ -1,15 +1,15 @@
 # PLAYER animations
-# [anim_name startrow startcol numframes loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-idle_D		0 0 1	F
-idle_U		1 0 1	F
-idle_R		2 0 1	F
-idle_L		3 0 1	F
+idle_D			S 	0 0 1	F
+idle_U			S 	1 0 1	F
+idle_R			S 	2 0 1	F
+idle_L			S 	3 0 1	F
 
-walk_D		0 0 8	T
-walk_U		1 0 8	T
-walk_R		2 0 8	T
-walk_L		3 0 8	T
+walk_D			S 	0 0 8	T
+walk_U			S 	1 0 8	T
+walk_R			S 	2 0 8	T
+walk_L			S 	3 0 8	T
 
-die			4 0 3	T
-win			4 3 1	F
+die				S 	4 0 3	T
+win				S 	4 3 1	F

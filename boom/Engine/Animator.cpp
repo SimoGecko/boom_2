@@ -51,49 +51,101 @@ namespace sxg::engine {
 	}
 
 	void Animator::loadAnimationsFromFile(const string& fileName) {
-		//const string& file = Resources::Get<string>(fileName);
-		//stringstream ss(file);
-		//ifstream inputFile("Assets/")
+		//parses the content of the anim_list.txt
+		//format:
+		//anim_name		S 	0 0		0		T
+		//anim_name		R 	0 0		A B C..	T
+
 		const vector<string>& lines = Resources::Get<vector<string>>(fileName);
 		for (auto& line : lines) {
 			if (line.empty() || line[0] == '#') continue;
 			stringstream ss(line);
+
+			//sequence (S) or random frame (R)
 			string animName;
-			int row, col, numframes;
-			char loopChar;
-			ss >> animName >> row >> col >> numframes >> loopChar;
-			bool loop = loopChar == 'T';
-			//if valid parsing
-			addAnimation(animName, { row, col }, numframes, loop);
+			int row, col;
+			string animType;
+			ss >> animName >> animType >> row >> col;
+
+			if (animType == "S") {
+				char loopChar;
+				int numframes;
+				ss >> numframes >> loopChar;
+				bool loop = loopChar == 'T';
+				//if valid parsing
+				addAnimation(animName, buildFrames(animName, { row, col }, numframes), loop);
+			}
+			else if (animType == "R") {
+				vector<int> framesOffset;
+				int offset;
+				while (ss >> offset) framesOffset.push_back(offset);
+				char loopChar;
+				ss >> loopChar;
+				bool loop = loopChar == 'T'; //framesOffset.erase(prev(framesOffset.end()));
+				addAnimation(animName, buildFrames(animName, { row, col }, framesOffset), loop);
+			}
+			else {
+				Debug::logError("First character in animation data sequence unrecognized: " + animType);
+			}
 		}
 	}
 
-	void Animator::addAnimation(const string& animName, sf::Vector2i firstFrame, int nFrames, bool loop) {
-		int row = firstFrame.x, col = firstFrame.y;
-
+	void Animator::addAnimation(const string& animName, vector<sf::IntRect> frames, bool loop) {
 		if (_animFrames->count(animName) > 0) {
 			Debug::logError("Animation already exists with name " + animName);
 			return;
 		}
+
+		(*_animFrames)[animName] = { animName, move(frames), loop };
+		if (_defaultAnimationName.empty()) _defaultAnimationName = animName;
+	}
+
+	vector<sf::IntRect> Animator::buildFrames(const string& animName, sf::Vector2i firstFrame, int nFrames) {
+		int row = firstFrame.x, col = firstFrame.y;
+		vector<sf::IntRect> frames;
+
 		if (!valid(row, col)) {
 			Debug::logError("Invalid start frame index for animation " + animName);
-			return;
+			return move(frames);
 		}
 
-		vector<sf::IntRect> frames;
 		while (nFrames--) {
 			frames.push_back(sf::IntRect(_width*col, _height*row, _width, _height));
 			if (++col == _cols) {
 				col = 0;
 				if (++row == _rows && nFrames >0) {
 					Debug::logError("Too many frames passed for animation " + animName);
-					return;
+					return move(frames);
 				}
 			}
 		}
-		(*_animFrames)[animName] = { animName, move(frames), loop };
-		if (_defaultAnimationName.empty()) _defaultAnimationName = animName;
+		return move(frames);
 	}
+
+	vector<sf::IntRect> Animator::buildFrames(const string& animName, sf::Vector2i firstFrame, vector<int> frameOffsets) {
+		int row = firstFrame.x, col = firstFrame.y;
+		vector<sf::IntRect> frames;
+
+		if (!valid(row, col)) {
+			Debug::logError("Invalid start frame index for animation " + animName);
+			return move(frames);
+		}
+
+		for(size_t i=0; i<frameOffsets.size(); ++i){
+			int r = row, c = col;
+			c += frameOffsets[i];
+			r += c / _cols;
+			c %= _cols;
+			if (!valid(r, c)) {
+				Debug::logError("Invalid frame offset for animation " + animName);
+				continue;
+			}
+			frames.push_back(sf::IntRect(_width*c, _height*r, _width, _height));
+		}
+		return move(frames);
+	}
+
+	
 
 	void Animator::findSpriteReference() {
 		//ensure it has sprite (gameobject does this already);

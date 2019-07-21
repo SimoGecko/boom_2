@@ -1,4 +1,4 @@
 # TELEPORTER animations
-# [anim_name startRow startCol numFrames loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-default	0 0 8	T
+default			S 	0 0 8	T

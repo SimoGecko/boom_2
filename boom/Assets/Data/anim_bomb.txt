@@ -1,5 +1,5 @@
 # BOMB animations
-# [anim_name startRow startCol numFrames loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-default	0 0 2	T
-ticking	0 1 2	T
+default			S 	0 0 2	T
+ticking			S 	0 1 2	T

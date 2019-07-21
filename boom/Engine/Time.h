@@ -17,7 +17,7 @@ namespace sxg::engine {
 		static float time();
 		static float& timescale();
 
-		static void callback(function<void()>& func, float delay);
+		static void callback(function<void(void)> func, float delay);
 
 	private:
 		static void processCallbacks();
@@ -33,6 +33,6 @@ namespace sxg::engine {
 		static float _time; // real time vs game time
 		static float _timescale; // TODO implement
 
-		static vector<pair<float, function<void()>&>> _callbacks;
+		static vector<pair<float, function<void()>>> _callbacks; // don't use references as they are usually destroyed
 	};
 }

@@ -1,11 +1,11 @@
 # BORDER frames
-# [anim_name startRow startCol numFrames loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-L		0 0 1	F
-R		0 1 1	F
-U		0 2 1	F
-D		0 3 1	F
-DL		0 4 1	F
-DR		0 5 1	F
-UR		0 6 1	F
-UL		0 7 1	F
+L				S 	0 0 1	F
+R				S 	0 1 1	F
+U				S 	0 2 1	F
+D				S 	0 3 1	F
+DL				S 	0 4 1	F
+DR				S 	0 5 1	F
+UR				S 	0 6 1	F
+UL				S 	0 7 1	F

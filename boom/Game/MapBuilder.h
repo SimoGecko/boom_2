@@ -52,7 +52,12 @@ namespace sxg::boom {
 		// ________________ queries
 		bool isWalkable(sf::Vector2i pos) {
 			int r = pos.y, c = pos.x;
-			return (0 <= c && c < W && 0 <= r && r < H) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
+			return isValid(pos) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
+		}
+
+		bool isValidExplosionPlace(sf::Vector2i pos) {
+			int r = pos.y, c = pos.x;
+			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
 		}
 
 	private:
@@ -138,9 +143,17 @@ namespace sxg::boom {
 			return prefabNamesMap[color.toInteger()];
 		}
 
-		
+		bool isValid(sf::Vector2i pos) {
+			int r = pos.y, c = pos.x;
+			return (0 <= c && c < W && 0 <= r && r < H);
+		}
+
+		//shouldn't have player or enemy
 		bool isWalkableTag(int objectTag) {
 			return objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
+		}
+		bool isExplodableTag(int objectTag) {
+			return objectTag == Tag::block || objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
 		}
 
 

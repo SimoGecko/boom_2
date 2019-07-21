@@ -1,5 +1,5 @@
 # BLOCK animations
-# [anim_name startRow startCol numFrames loop]
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-default	0 0 1	F
-break	0 1 3	F
+default			S 	0 0 1	F
+break			S 	0 1 3	F

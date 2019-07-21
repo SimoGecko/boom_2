@@ -92,7 +92,7 @@ namespace sxg::boom {
 			explosion->addComponent<Explosion>();
 			explosion->SetRenderable(new Renderable("explosion", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false));
 			Animator* explosionAnim = explosion->addComponent<Animator>();
-			explosionAnim->setup(&(explosion->renderable().sprite()), 12, { 3, 4 }, "anim_explosion");
+			explosionAnim->setup(&(explosion->renderable().sprite()), 36, { 4, 4 }, "anim_explosion");
 
 			//ENEMY
 

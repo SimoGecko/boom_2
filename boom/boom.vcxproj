@@ -138,6 +138,7 @@
     <ClCompile Include="Engine\Animator.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\Event.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Gizmos.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Engine\Animator.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\Event.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\Gizmos.h" />

@@ -6,6 +6,8 @@
 
 namespace sxg::engine {
 
+	//TODO move into Utility.cpp
+
 	class Debug {
 	public:
 		static void log(const string& message) {
@@ -65,7 +67,8 @@ namespace sxg::engine {
 			return sf::Vector2f((1 - t)*(float)a.x + t * (float)b.x, (1 - t)*(float)a.y + t * (float)b.y);
 		}
 
-		static inline sf::Vector2f to_v2f(const sf::Vector2i& v) { return sf::Vector2f((float)round(v.x), (float)round(v.y)); }
+		static inline sf::Vector2f to_v2f(const sf::Vector2i& v) { return sf::Vector2f((float)v.x, (float)v.y); }
+		static inline sf::Vector2i to_v2i(const sf::Vector2f& v) { return sf::Vector2i((int)round(v.x), (int)round(v.y)); }
 
 		//const sf::Vector2f v2fzero(0, 0);
 		//const sf::Vector2i v2izero(0, 0);
@@ -116,7 +119,9 @@ namespace sxg::engine {
 			return "0x" + std::to_string((int)pointer);
 		}
 
-		enum dir {right, up, left, down};
+		enum dir {none, right, up, left, down};
+		enum orientation {center, horizontal, vertical};
+
 		dir dirFromVector(const sf::Vector2f& v) {
 			float a = angle(v);
 			assert(0 <= a && a <= 360);
@@ -127,6 +132,7 @@ namespace sxg::engine {
 			if (a <= 315) return dir::up;
 			return dir::right;
 		}
+
 		char charFromDir(dir d) {
 			switch (d) {
 				case dir::down : return 'D';
@@ -136,6 +142,17 @@ namespace sxg::engine {
 			}
 			return '0';
 		}
+
+		const string stringFromOrientation(orientation o) {
+			switch (o) {
+			case orientation::center:		return "center";
+			case orientation::horizontal:	return "horizontal";
+			case orientation::vertical:		return "vertical";
+			}
+			return "";
+		}
+
+
 	}
 	
 	
