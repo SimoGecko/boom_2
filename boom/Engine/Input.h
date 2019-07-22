@@ -26,10 +26,10 @@ namespace sxg::engine {
 		static bool getKey		(sf::Keyboard::Key key);
 		static bool getKeyUp	(sf::Keyboard::Key key);
 	private:
-		static vector<bool>* _mouseStateOld;
-		static vector<bool>* _mouseStateNew;
-		static vector<bool>* _keyStateOld;
-		static vector<bool>* _keyStateNew;
+		static vector<bool> _mouseStateOld;
+		static vector<bool> _mouseStateNew;
+		static vector<bool> _keyStateOld;
+		static vector<bool> _keyStateNew;
 	};
 
 }

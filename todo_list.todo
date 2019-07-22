@@ -1,67 +1,101 @@
- ENGINE FEATURES TO TEST:
- ✔ Animation
- ✔ Audio
- ✔ Component
-   ✔ code in scripts works
-   ☐ duplication of components
- ✔ Game
-   ✔ gameloop works
+
+
+
+ FEATURES TO TEST:
+ ☐ Audio
  ☐ GameObject
    ☐ can access member functions
-   ✔ can access queries
-   ✔ can instantiate new objects @high
- ✔ Input
+   ☐ can access queries
    ✔ mouse works
-   ✔ keyboard works
- ✔ Loader
-   ✔ can load textures and audio
- ✔ Prefabs
-   ✔ can access and instantiate prefabs
- ✔ Renderable
-   ✔ correctly drawn with layerorder,
-   ✔ transform,
-   ✔ animation
- ✔ Scene
-   ✔ load initial scene
    ☐ change scene
- ✔ Screen
-   ✔ startup correctly
    ☐ can move view
+   ☐ queries work
+
+
+BUGS:
+  ✔ start is not called on instantiated objects (bullet start)
+    ✔ class must be able to include gameobject
+
+
+ TRICS:
+   include header of the class for which you need the implementation only in the .cpp
+
+IMPROVEMENTS:
+ ☐ component in own class
+
+
+PROTOTYPE FEATUERS:
+  ☐ load other scene @low
+  ☐ audio effect
+
+GAME:
+  1. load map with prefabs
+
+ITEMS:
+  border
+  bg
+  ui background
+
+  wall
+  block
+  coin
+  explosion
+  ui point
+  enemy
+    soldier
+    greenhair
+    fire
+  player
+
+UI
+  background
+  head icon
+  numlives
+  hearts
+  extra
+  powerups
+  powerupnum
+  score
+  time left
+
+  level upright
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Animation
+ ✔ Component
+ ✔ code in scripts works @project(FEATURES TO TEST)
+ ✔ duplication of component @project(FEATURES TO TEST)
+ ✔ Game
+ ✔ gameloop works @project(FEATURES TO TEST)
+ ✔ can instantiate new objects @high @project(FEATURES TO TEST)
+ ✔ Input
+ ✔ keyboard works @project(FEATURES TO TEST)
+ ✔ Loader
+ ✔ can load textures and audio @project(FEATURES TO TEST)
+ ✔ Prefabs
+ ✔ can access and instantiate prefabs @project(FEATURES TO TEST)
+ ✔ Renderable
+ ✔ correctly drawn with layerorder, @project(FEATURES TO TEST)
+ ✔ transform, @project(FEATURES TO TEST)
+ ✔ animation @project(FEATURES TO TEST)
+ ✔ Scene
+ ✔ load initial scene @project(FEATURES TO TEST)
+ ✔ Screen
+ ✔ startup correctly @project(FEATURES TO TEST)
  ✔ Time
-   ✔ queries work
-   ✔ slowup/slowdown
+ ✔ slowup/slowdown @project(FEATURES TO TEST)
  ✘ Transform
  ✘ Vector
  ✔ Utility
- ☐ PHYSICS @high
- ✔ CLONING! @high
-
  ✔ Includes
-
-BUGS:
-  ✔ templates for Resources cause error
-  ✔ prefabs passes incorrect object
-  ✔ objects aren't instantiated correctly
-  ✔ renderable is set as null
-  ✔ bullet is accelerating and not showiwng multiple instsances
-  ✔ start is not called on instantiated objects (bullet start)
-  ✔ cloning still doesn't work properly
-
-
-PROTOTYPE FEATURES:
-  ✔ character moving around (ARROWS)
-  ✔ background drawn behind it
-  ✔ animation
-  ✔ space to shoot bullet (instantiation)
-  ✔ audio effect
-  ✔ correct movement with animation and collisions
-  ✔ placing bombs, exploding and removing blocks
-  ✔ collecting coin, score
-  ☐ UI (time, score, powerups)
-  ☐ enemies moving, shooting, damaging
-  ☐ powerups
-  ☐ game flow -> load level, finish, lives
-
- ☐ provide facility for custom drawing
-
-use default ctor for stack as Gameobject b; not Gameobject b();
+ ✔ templates for Resources cause error @project(BUGS)
+ ✔ prefabs passes incorrect object @project(BUGS)
+ ✔ objects aren't instantiated correctly @project(BUGS)
+ ✔ renderable is set as null @project(BUGS)
+ ✔ bullet is accelerating and not showiwng multiple instsances @project(BUGS)
+ ✔ character moving around (ARROWS) @project(PROTOTYPE FEATUERS)
+ ✔ background drawn behind it @project(PROTOTYPE FEATUERS)
+ ✔ animation @project(PROTOTYPE FEATUERS)
+ ✔ space to shoot bullet (instantiation) @project(PROTOTYPE FEATUERS)

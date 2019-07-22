@@ -12,7 +12,7 @@ namespace sxg::engine {
 	class Renderable {
 	public:
 		//Renderable() {}
-		Renderable(const string& spriteName, sf::IntRect spriteRect, int layer=0, int ppu=100, bool add=true);
+		Renderable(const string& spriteName, sf::IntRect spriteRect, int layer=Layer::defaultLayer, int ppu=100, bool add=true);
 		virtual ~Renderable();
 
 

@@ -51,8 +51,7 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new Teleporter(*this); }
+		CLONABLE(Teleporter)
 	};
 
 }

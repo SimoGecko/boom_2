@@ -177,9 +177,7 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new MapBuilder(*this); }
-
+		CLONABLE(MapBuilder)
 	};
 
 

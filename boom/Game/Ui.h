@@ -39,7 +39,7 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		Component* clone() { return new Ui(*this); }
+		CLONABLE(Ui)
 	};
 
 }

@@ -48,8 +48,6 @@ namespace sxg::engine {
 	void Scene::start() {
 		//build here all the scenes
 		//TODO move out of engine
-		//_defaultSceneName = "boom_scene";
-		//_allScenes["boom_scene"] = new BoomScene("boom_scene");
 
 		//load default
 		Scene::actualLoad(_loadSceneName);
@@ -85,7 +83,7 @@ namespace sxg::engine {
 
 		//call start
 		for (size_t i = 0; i < startingGameObjects.size(); ++i) { // since the scene might grow dynamically, call start only on those generated statically by the scene
-			startingGameObjects[i]->start(); // scene calls start when inserted new object
+			startingGameObjects[i]->start(); // scene calls start when newObject is inserted 
 		}
 	}
 

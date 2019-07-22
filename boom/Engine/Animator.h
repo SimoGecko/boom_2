@@ -51,7 +51,7 @@ namespace sxg::engine {
 
 
 		// shared
-		unordered_map<string, FrameSequence>* _animFrames; // shared ptr
+		shared_ptr<unordered_map<string, FrameSequence>> _animFrames;
 		int _fps;
 		int _width, _height;
 		int _rows, _cols;
@@ -67,8 +67,7 @@ namespace sxg::engine {
 
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new Animator(*this); }
+		CLONABLE(Animator)
 	};
 
 

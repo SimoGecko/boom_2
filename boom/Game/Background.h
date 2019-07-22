@@ -28,8 +28,7 @@ namespace sxg::boom {
 		// ______________ members
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new Background(*this); }
+		CLONABLE(Background)
 	};
 
 }

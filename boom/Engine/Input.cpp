@@ -5,22 +5,22 @@
 namespace sxg::engine {
 
 	void Input::start() {
-		_mouseStateOld = new vector<bool>(sf::Mouse::ButtonCount, false);
-		_mouseStateNew = new vector<bool>(sf::Mouse::ButtonCount, false);
+		_mouseStateOld.resize(sf::Mouse::ButtonCount);
+		_mouseStateNew.resize(sf::Mouse::ButtonCount);
 
-		_keyStateOld   = new vector<bool>(sf::Keyboard::KeyCount, false);
-		_keyStateNew   = new vector<bool>(sf::Keyboard::KeyCount, false);
+		_keyStateOld.resize(sf::Keyboard::KeyCount);
+		_keyStateNew.resize(sf::Keyboard::KeyCount);
 	}
 
 	void Input::update() {
 		swap(_mouseStateOld, _mouseStateNew);
 		for (int i = 0; i < sf::Mouse::ButtonCount; i++) {
-			_mouseStateNew->at(i) = sf::Mouse::isButtonPressed((sf::Mouse::Button)i);
+			_mouseStateNew[i] = sf::Mouse::isButtonPressed((sf::Mouse::Button)i);
 		}
 
 		swap(_keyStateOld, _keyStateNew);
 		for (int i = 0; i < sf::Keyboard::KeyCount; i++) {
-			_keyStateNew->at(i) = sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i);
+			_keyStateNew[i] = sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i);
 		}
 	}
 
@@ -43,32 +43,32 @@ namespace sxg::engine {
 
 
 	bool Input::getMouseButtonDown(int button) {
-		return !_mouseStateOld->at(button) && _mouseStateNew->at(button);
+		return !_mouseStateOld[button] && _mouseStateNew[button];
 	}
 	bool Input::getMouseButton(int button) {
-		return _mouseStateNew->at(button);
+		return _mouseStateNew[button];
 	}
 	bool Input::getMouseButtonUp(int button) {
-		return _mouseStateOld->at(button) && !_mouseStateNew->at(button);
+		return _mouseStateOld[button] && !_mouseStateNew[button];
 	}
 
 	// KEYBOARD __________________________________________________________
 
 	bool Input::getKeyDown(sf::Keyboard::Key key) {
-		return !_keyStateOld->at((int)key) && _keyStateNew->at((int)key);
+		return !_keyStateOld[(int)key] && _keyStateNew[(int)key];
 	}
 	bool Input::getKey(sf::Keyboard::Key key) {
-		return _keyStateNew->at((int)key);
+		return _keyStateNew[(int)key];
 	}
 	bool Input::getKeyUp(sf::Keyboard::Key key) {
-		return _keyStateOld->at((int)key) && !_keyStateNew->at((int)key);
+		return _keyStateOld[(int)key] && !_keyStateNew[(int)key];
 	}
 
 
 
 	//static definitions
-	vector<bool>* Input::_mouseStateOld;
-	vector<bool>* Input::_mouseStateNew;
-	vector<bool>* Input::_keyStateOld;
-	vector<bool>* Input::_keyStateNew;
+	vector<bool> Input::_mouseStateOld;
+	vector<bool> Input::_mouseStateNew;
+	vector<bool> Input::_keyStateOld;
+	vector<bool> Input::_keyStateNew;
 }

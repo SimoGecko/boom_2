@@ -37,7 +37,7 @@ namespace sxg::engine {
 		bool intersectsCircle(const CircleCollider& other) const;
 		bool intersectsBox   (const BoxCollider& other) const;
 
-		Component* clone() { return new CircleCollider(*this); }
+		CLONABLE(CircleCollider)
 	};
 
 	class BoxCollider : public Collider { // axis-aligned bounding-box with center same as the gameobject transform
@@ -51,7 +51,7 @@ namespace sxg::engine {
 		bool intersectsCircle(const CircleCollider& other) const;
 		bool intersectsBox   (const BoxCollider&    other) const;
 
-		Component* clone() { return new BoxCollider(*this); }
+		CLONABLE(BoxCollider)
 	};
 
 }

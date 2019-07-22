@@ -33,14 +33,14 @@ namespace sxg::boom {
 			{
 				GameObject* background = new GameObject("background", Tag::environment);
 				prefabs.push_back({ background->name(), background });
-				background->SetRenderable(new Renderable("background", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false));
+				background->addRenderable("background", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 			}
 
 			//BORDER
 			{
 				GameObject* border = new GameObject("border", Tag::environment);
 				prefabs.push_back({ border->name(), border });
-				border->SetRenderable(new Renderable("border", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false));
+				border->addRenderable("border", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 				Animator* borderAnim = border->addComponent<Animator>();
 				borderAnim->setup(&(border->renderable().sprite()), 1, { 1,8 }, "anim_border");
 			}
@@ -50,7 +50,7 @@ namespace sxg::boom {
 				GameObject* bullet = new GameObject("bullet", Tag::bullet);
 				prefabs.push_back({ bullet->name(), bullet });
 				bullet->addComponent<Bullet>();
-				bullet->SetRenderable(new Renderable("shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false)); // don't add the renderable to the drawlist
+				bullet->addRenderable("shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false); // don't add the renderable to the drawlist
 				bullet->addComponent<CircleCollider>()->setRadius(0.1f);
 				//effect
 			}
@@ -59,7 +59,7 @@ namespace sxg::boom {
 			{
 				GameObject* wall = new GameObject("wall", Tag::wall);
 				prefabs.push_back({ wall->name(), wall });
-				wall->SetRenderable(new Renderable("wall", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				wall->addRenderable("wall", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				//add collider
 			}
 
@@ -68,7 +68,7 @@ namespace sxg::boom {
 				GameObject* block = new GameObject("block", Tag::block);
 				prefabs.push_back({ block->name(), block });
 				block->addComponent<Block>();
-				block->SetRenderable(new Renderable("block", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				block->addRenderable("block", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
 				blockAnim->setup(&(block->renderable().sprite()), 12, { 1, 4 }, "anim_block");
 			}
@@ -78,7 +78,7 @@ namespace sxg::boom {
 				GameObject* coin = new GameObject("coin", Tag::coin);
 				prefabs.push_back({ coin->name(), coin });
 				coin->addComponent<Coin>();
-				coin->SetRenderable(new Renderable("coin", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				coin->addRenderable("coin", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* coinAnim = coin->addComponent<Animator>();
 				coinAnim->setup(&(coin->renderable().sprite()), 24, { 1, 10 }, "anim_coin");
 				coin->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -89,7 +89,7 @@ namespace sxg::boom {
 				GameObject* teleporter = new GameObject("teleporter", Tag::teleporter);
 				prefabs.push_back({ teleporter->name(), teleporter });
 				teleporter->addComponent<Teleporter>();
-				teleporter->SetRenderable(new Renderable("teleporter", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				teleporter->addRenderable("teleporter", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* teleportAnim = teleporter->addComponent<Animator>();
 				teleportAnim->setup(&(teleporter->renderable().sprite()), 12, { 1, 8 }, "anim_teleporter");
 				teleporter->addComponent<CircleCollider>()->setRadius(0.1f);
@@ -100,7 +100,7 @@ namespace sxg::boom {
 				GameObject* bomb = new GameObject("bomb", Tag::bomb);
 				prefabs.push_back({ bomb->name(), bomb });
 				bomb->addComponent<Bomb>();
-				bomb->SetRenderable(new Renderable("bomb", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				bomb->addRenderable("bomb", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* bombAnim = bomb->addComponent<Animator>();
 				bombAnim->setup(&(bomb->renderable().sprite()), 12, { 1, 3 }, "anim_bomb");
 				//bomb->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -111,7 +111,7 @@ namespace sxg::boom {
 				GameObject* explosion = new GameObject("explosion", Tag::explosion);
 				prefabs.push_back({ explosion->name(), explosion });
 				explosion->addComponent<Explosion>();
-				explosion->SetRenderable(new Renderable("explosion", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false));
+				explosion->addRenderable("explosion", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false);
 				Animator* explosionAnim = explosion->addComponent<Animator>();
 				explosionAnim->setup(&(explosion->renderable().sprite()), 48, { 3, 4 }, "anim_explosion");
 				explosion->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -122,7 +122,7 @@ namespace sxg::boom {
 				GameObject* powerup = new GameObject("powerup", Tag::powerup);
 				prefabs.push_back({ powerup->name(), powerup });
 				powerup->addComponent<Powerup>();
-				powerup->SetRenderable(new Renderable("bonus", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false));
+				powerup->addRenderable("bonus", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* powerupAnim = powerup->addComponent<Animator>();
 				powerupAnim->setup(&(powerup->renderable().sprite()), 24, { 1, 10 }, "anim_bonus");
 				powerup->addComponent<CircleCollider>()->setRadius(0.5f);

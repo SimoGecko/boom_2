@@ -15,14 +15,11 @@ namespace sxg::engine {
 
 	GameObject* GameObject::clone() const{
 		GameObject* newGo = new GameObject(_name, _tag);
+		
 		//copy components
-
 		for (Component* component : _components) {
-			//TODO should call copy ctor of most derived class
-			//_components.push_back(new Component(*component));
 			Component* newComponent = component->clone(); // *newGo
 			newComponent->_go = newGo;
-			//by using a reference instead of a pointer we were causing a switch // THIS CAUSES THE SWITCH!!!!!!!!!!!!!!!
 			newGo->_components.push_back(newComponent);
 		}
 
@@ -56,9 +53,9 @@ namespace sxg::engine {
 
 	//_________________________ components
 
-	void GameObject::SetRenderable(Renderable* renderable) {
+	void GameObject::addRenderable(const string& spriteName, sf::IntRect spriteRect, int layer, int ppu, bool add) {
 		//copy transformation so far
-		_renderable = renderable;
+		_renderable = new Renderable(spriteName, spriteRect, layer, ppu, add);
 	}
 
 
@@ -89,6 +86,7 @@ namespace sxg::engine {
 		if (_renderable != nullptr) {
 			return _renderable->transform();
 		}
+		//Debug::logError("Trying to access transform even though don't have one: " + _name);
 		return _transform;
 	}
 
@@ -96,6 +94,7 @@ namespace sxg::engine {
 		if (_renderable != nullptr) {
 			return _renderable->transform();
 		}
+		//Debug::logError("Trying to access transform even though don't have one: " + _name);
 		return _transform;
 	}
 
@@ -141,7 +140,7 @@ namespace sxg::engine {
 		}
 
 		//clone it
-		GameObject* newGo = goPrefab->clone();//new GameObject(*goPrefab);
+		GameObject* newGo = goPrefab->clone();
 
 		//if transform, set it
 		if (transf != nullptr) {
@@ -181,9 +180,9 @@ namespace sxg::engine {
 			return prefix; // or name?(should be same)
 		}
 
-		//not unique, create new name
+		//not unique, add extension to name
 		
-		//find new bigger number
+		//find next number
 		int copyN = numCopies[prefix]++;
 
 		//return name formatted

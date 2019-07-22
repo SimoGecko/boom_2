@@ -11,7 +11,7 @@ namespace sxg::engine {
 		_cols = rowsCols.y;
 		_width  = sprite->getTexture()->getSize().x / _cols;
 		_height = sprite->getTexture()->getSize().y / _rows;
-		_animFrames = new unordered_map<string, FrameSequence>();
+		_animFrames = make_shared<unordered_map<string, FrameSequence>>();
 		_defaultAnimationName = "";
 
 		_currentAnim = nullptr;

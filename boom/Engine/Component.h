@@ -4,6 +4,8 @@
 
 // every script derives from component and has these functions called automatically
 
+#define CLONABLE(Script) Component* clone() { return new Script(*this); }
+
 namespace sxg::engine {
 
 	class GameObject; // forward declaration

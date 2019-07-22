@@ -13,16 +13,12 @@
 namespace sxg::engine {
 
 	class Component; // forward decl
-	
 
 	class GameObject {
 	public:
 		//_________________________ construction, components and destruction
-		GameObject(const string name, int tag = 0);
-
-		//GameObject(const GameObject& clone);
+		GameObject(const string name, int tag = Tag::defaultTag);
 		virtual ~GameObject();
-
 		//ctor with renderable already
 		//ctor with transform
 
@@ -51,7 +47,7 @@ namespace sxg::engine {
 			return nullptr;
 		}
 
-		void SetRenderable(Renderable* renderable);
+		void addRenderable(const string& spriteName, sf::IntRect spriteRect, int layer = Layer::defaultLayer, int ppu = 100, bool add = true);
 
 		//_________________________ normal methods
 
@@ -66,10 +62,11 @@ namespace sxg::engine {
 		const string& name() const;
 		int tag() const;
 		bool active() const;
+
 		void setActive(bool active);
 
-		sf::Transformable& transform();
 		Renderable& renderable();
+		sf::Transformable& transform();
 		const sf::Transformable& transform() const;
 
 
@@ -82,18 +79,18 @@ namespace sxg::engine {
 		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr, sf::Vector2f position = {0,0});
 		static GameObject* Instantiate(const string& name, sf::Vector2f position);
 
-
 	private:
 		string _name;
 		int _tag;
 		bool _active;
 
-		static string getUniqueName(const string& name);
-		void copyTransform(const sf::Transformable& transf);
-
 		vector<Component*> _components;
 		Renderable* _renderable;
-		sf::Transformable _transform;
+		sf::Transformable _transform; // not really needed
+
+		//methods
+		static string getUniqueName(const string& name);
+		void copyTransform(const sf::Transformable& transf);
 
 		//static
 		static unordered_map<string, size_t> numCopies;

@@ -50,7 +50,7 @@ namespace sxg::boom {
 			bool moving = prevCell != nextCell;
 			if (!moving) {
 				sf::Vector2i input;
-				//look for new dir
+				//look for input dir
 				if (Input::getKey(sf::Keyboard::A)) input.x -= 1;
 				if (Input::getKey(sf::Keyboard::D)) input.x += 1;
 				if (input.x == 0) {
@@ -105,7 +105,6 @@ namespace sxg::boom {
 
 		void shoot() {
 			if (Input::getMouseButtonDown(0)) {
-				//instantiate new bullet at this position
 				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
 				Audio::play("Shot");
 			}
@@ -113,7 +112,6 @@ namespace sxg::boom {
 
 		void placeBomb() {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
-				//instantiate new bullet at this position
 				if (availableBombs > 0) {
 					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
 					availableBombs--;
@@ -128,8 +126,7 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new Player(*this); }
+		CLONABLE(Player)
 	};
 
 }

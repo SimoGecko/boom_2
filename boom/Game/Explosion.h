@@ -39,9 +39,7 @@ namespace sxg::boom {
 
 
 		// ______________ cloning
-		//using Component::Component;
-		Component* clone() { return new Explosion(*this); }
-
+		CLONABLE(Explosion)
 	};
 
 }
