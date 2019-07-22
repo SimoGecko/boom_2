@@ -44,7 +44,7 @@ namespace sxg::engine {
 
 	void GameObject::destroy(const float lifetime) {
 		if (lifetime > 0) {
-			Time::callback([this]() {Scene::current().removeGameObject(this); }, lifetime);
+			Time::invoke([this]() {Scene::current().removeGameObject(this); }, lifetime, this);
 		}
 		else {
 			Scene::current().removeGameObject(this);

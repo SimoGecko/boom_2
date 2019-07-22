@@ -6,11 +6,12 @@ namespace sxg::engine {
 
 	void Animator::setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName) {
 		_spriteRef = sprite;
+
 		_fps = fps;
 		_rows = rowsCols.x;
 		_cols = rowsCols.y;
-		_width  = sprite->getTexture()->getSize().x / _cols;
-		_height = sprite->getTexture()->getSize().y / _rows;
+		_width  = _spriteRef->getTexture()->getSize().x / _cols;
+		_height = _spriteRef->getTexture()->getSize().y / _rows;
 		_animFrames = make_shared<unordered_map<string, FrameSequence>>();
 		_defaultAnimationName = "";
 

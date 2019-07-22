@@ -28,14 +28,14 @@ namespace sxg::engine {
 		virtual void update() {};
 		//virtual void draw() {};
 
-		virtual void onCollisionEnter(const GameObject& other) {};
-		virtual void onCollisionExit (const GameObject& other) {};
+		virtual void onCollisionEnter(GameObject& other) {};
+		virtual void onCollisionExit (GameObject& other) {};
 
 		virtual Component* clone() = 0; // each script must implement this
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
-		//void invoke(void(Component::*memfun)(), float time);
+		void invoke(function<void(void)> func, float delay);
 
 	private:
 		GameObject* _go; // must always have a reference

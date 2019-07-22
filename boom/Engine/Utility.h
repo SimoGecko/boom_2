@@ -6,13 +6,22 @@
 
 namespace sxg::engine {
 
-	//TODO move into Utility.cpp
+	//move into Utility.cpp
+	//most of the methods are inline, so they'll stay here
 
 	class Debug {
 	public:
-		static void log		(const string& message);
-		static void logError(const string& message);
-		static void ensure	(bool condition, const string& message);
+		static inline void log		(const string& message) {
+			cout << "[LOG]\t" << message << endl;
+		}
+		static inline void logError (const string& message) {
+			cout << "[ERROR]\t" << message << endl;
+		}
+		static inline void ensure	(bool condition, const string& message) {
+			if (!condition) {
+				cout << "[ASSERT]\t" << message << endl;
+			}
+		}
 	};
 
 	
@@ -37,9 +46,15 @@ namespace sxg::engine {
 		static sf::Vector2f onUnitSquare();
 		static sf::Vector2f insideRectange(sf::FloatRect rect);
 
-		static inline float value();
-		static inline int   range(int min, int max); // random in range [min, max[
-		static inline float range(float min, float max);
+		static inline float value() {
+			return (float)rand() / RAND_MAX;
+		}
+		static inline int   range(int min, int max){ // random in range [min, max[
+			return min + rand() % (max - min);
+		}
+		static inline float range(float min, float max) {
+			return min + ((float)rand() / RAND_MAX)*(max - min);
+		}
 
 	private:
 		//set a generator here

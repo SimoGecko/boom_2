@@ -8,17 +8,19 @@ namespace sxg::engine {
 
 	enum Tag {
 		defaultTag = 0,
-		environment,
-		player,
-		enemy,
-		bullet,
-		wall,
+
 		block,
+		bomb,
+		bullet,
 		coin,
+		enemy,
+		environment,
+		explosion,
+		extra,
+		player,
 		powerup,
 		teleporter,
-		bomb,
-		explosion,
+		wall,
 	};
 
 	enum Layer {
@@ -27,7 +29,7 @@ namespace sxg::engine {
 		elements,
 		characters,
 		effects,
-		ui
+		ui,
 	};
 
 

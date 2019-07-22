@@ -8,6 +8,7 @@
 #include <cassert>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 
 #include <algorithm>
 #include <map>

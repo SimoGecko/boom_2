@@ -18,7 +18,7 @@ namespace sxg::engine {
 		static GameObject* getPrefab(const string& prefabName);
 
 	protected:
-		virtual vector<pair<string, GameObject*>> build() = 0; // this has to be implemented by each
+		virtual vector<GameObject*> build() = 0; // this has to be implemented by each
 
 	private:
 		static unordered_map<string, GameObject*> _allPrefabs;

@@ -17,11 +17,10 @@ namespace sxg::engine {
 	void Prefabs::start() {
 		//call build on all builders
 		for (Prefabs* builder : _allBuilders) {
-			vector<pair<string, GameObject*>> prefabs = builder->build();
+			vector<GameObject*> prefabsList = builder->build();
 			//insert into full list
-			for (auto& goPair : prefabs) {
-				const string& name = goPair.first;
-				GameObject* go     = goPair.second;
+			for (GameObject* go : prefabsList) {
+				const string& name = go->name();
 
 				if (_allPrefabs.count(name) > 0) {
 					Debug::logError("Duplicate prefab name: " + name);

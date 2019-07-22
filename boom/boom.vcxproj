@@ -185,8 +185,9 @@
     <ClInclude Include="Game\Coin.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />
-    <ClInclude Include="Game\ExtraPickup.h" />
+    <ClInclude Include="Game\Extra.h" />
     <ClInclude Include="Game\MapBuilder.h" />
+    <ClInclude Include="Game\Pickup.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Powerup.h" />
     <ClInclude Include="Game\Teleporter.h" />

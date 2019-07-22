@@ -96,6 +96,7 @@ namespace sxg::engine {
 		for (GameObject* go : _toDelete) {
 			auto it = find(allGo.begin(), allGo.end(), go);
 			if (it != allGo.end()) {
+				Time::eraseCallbacksOfDeletedObject(go);
 				allGo.erase(it);
 				delete go;
 			}

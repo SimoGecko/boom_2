@@ -30,6 +30,7 @@ namespace sxg::boom {
 
 			//PlAYER
 			{
+				//move into prefabs
 				GameObject* player = new GameObject("player", Tag::player);
 				scene.push_back(player);
 				player->addComponent<Player>();

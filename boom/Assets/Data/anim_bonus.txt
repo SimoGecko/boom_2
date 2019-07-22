@@ -3,8 +3,8 @@
 
 flash			S 	0 0 1	F
 skull			S 	0 1 1	F
-two_bombs		S 	0 2 1	F
-one_bomb		S 	0 3 1	F
+moreBombs		S 	0 2 1	F
+fasterBombs		S 	0 3 1	F
 explosion		S 	0 4 1	F
 heart			S 	0 5 1	F
 hearts			S 	0 6 1	F

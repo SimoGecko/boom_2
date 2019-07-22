@@ -1,7 +1,6 @@
 // (c) Simone Guggiari 2019
 #pragma once
 #include "../Includes.h"
-#include <fstream>
 
 // loads resources (Textures, Fonts, Sounds, Data, Images) from files and stores them for easy subsequent access
 

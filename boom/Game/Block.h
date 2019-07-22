@@ -13,7 +13,11 @@ namespace sxg::boom {
 		void breakBlock() {
 			Animator* anim = gameobject().getComponent<Animator>();
 			anim->playAnimation("break");
-			anim->onAnimationFinish += [this]() { gameobject().destroy(); };
+			
+			anim->onAnimationFinish += [this]() {
+				onDestroy();
+			};
+			
 		}
 
 	private:
@@ -32,7 +36,15 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		
+		void trySpawnPowerup() {
+			if (Random::value() < 0.5f) GameObject::Instantiate("powerup", transform().getPosition());
+			else						GameObject::Instantiate("extra",   transform().getPosition());
+		}
 
+		void onDestroy() {
+			trySpawnPowerup();
+			gameobject().destroy();
+		}
 
 
 		// ________________________________ queries

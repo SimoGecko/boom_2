@@ -25,8 +25,8 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void start() override {
-			Time::callback([this]() {this->startTicking(); }, bombTimer - tickingOffset);
-			Time::callback([this]() {this->explode(); }, bombTimer);
+			invoke([this]() {this->startTicking(); }, bombTimer - tickingOffset);
+			invoke([this]() {this->explode(); }, bombTimer);
 
 			//test graveyard
 			//Time::callback(bind(&Bomb::startTicking, this), bombTimer - tickingOffset);

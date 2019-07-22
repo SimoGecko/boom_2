@@ -13,6 +13,10 @@ namespace sxg::engine {
 		//memfun(*this);
 	}
 	*/
+	void Component::invoke(function<void(void)> func, float delay) {
+		Time::invoke(func, delay, &gameobject());
+	}
+
 
 	//queries
 	GameObject& Component::gameobject() { return *_go; }

@@ -26,6 +26,7 @@ namespace sxg::engine {
 		for (const pair<GameObject*, GameObject*>& p : collisionEnter) {
 			p.first ->onCollisionEnter(*p.second);
 			p.second->onCollisionEnter(*p.first);
+			//Debug::log("collision enter: " + p.first->name() + " " + p.second->name());
 		}
 		//collision exit
 		for (const pair<GameObject*, GameObject*>& p : collisionExit) {

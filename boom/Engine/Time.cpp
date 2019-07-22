@@ -27,9 +27,10 @@ namespace sxg::engine {
 		if (!_callbacks.empty()) {
 			size_t i;
 			for (i = 0; i < _callbacks.size(); ++i) {
-				if (_callbacks[i].first > _time) break; // not time yet
+				if (_callbacks[i].time > _time) break; // not time yet
 				//invoke
-				_callbacks[i].second();
+				//ONLY IF THE OBJECT IS NOT DELETED!
+				_callbacks[i].func();
 			}
 			//delete up to i-1
 			if (i > 0) {
@@ -45,10 +46,15 @@ namespace sxg::engine {
 		return reps;
 	}
 
-	void Time::callback(function<void(void)> func, float delay) {
-		_callbacks.push_back({ _time + delay, func });
+	void Time::invoke(function<void(void)> func, float delay, GameObject* go) {
+		_callbacks.push_back({ _time + delay, func, go });
 		//sort by increasing time
-		sort(_callbacks.begin(), _callbacks.end(), [](auto& l, auto& r) {return l.first < r.first; });
+		sort(_callbacks.begin(), _callbacks.end(), [](auto& l, auto& r) {return l.time < r.time; });
+	}
+
+	void Time::eraseCallbacksOfDeletedObject(GameObject* go) {
+		auto deleteCriterion = [go](const Time::callback& c) {return c.go == go; };
+		_callbacks.erase(remove_if(_callbacks.begin(), _callbacks.end(), deleteCriterion), _callbacks.end());
 	}
 
 
@@ -67,6 +73,6 @@ namespace sxg::engine {
 	float Time::_time;
 	float Time::_timescale = 1;
 
-	vector<pair<float, function<void()>>> Time::_callbacks;
+	vector<Time::callback> Time::_callbacks;
 
 }

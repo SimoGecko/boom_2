@@ -26,12 +26,12 @@ namespace sxg::engine {
 
 	bool CircleCollider::intersectsCircle(const CircleCollider& other) const {
 		float dist2 = magnitude2(transform().getPosition() - other.transform().getPosition());
-		return dist2 <= pow(_radius + other._radius, 2);
+		return dist2 < pow(_radius + other._radius, 2);
 	}
 	bool CircleCollider::intersectsBox(const BoxCollider& other) const {
 		float dist2 = magnitude2(transform().getPosition() - other.transform().getPosition());
 		float boxEffectiveRadius = 0; // TODO
-		return dist2 <= pow(_radius + boxEffectiveRadius, 2);
+		return dist2 < pow(_radius + boxEffectiveRadius, 2);
 	}
 	
 	void BoxCollider::setSize(sf::Vector2f size) { _size = size; }
