@@ -10,8 +10,35 @@ namespace sxg::boom {
 
 
 	class MapBuilder : public Component {
+		CLONABLE(MapBuilder)
+	public:
+		static MapBuilder* instance;
+		void explosionAt(sf::Vector2i position) {
+			int r = position.y;
+			int c = position.x;
+			//destroy block
+			if (isValid(position) && mapObjects[r][c] != nullptr && mapObjects[r][c]->tag() == Tag::block) {
+				mapObjects[r][c]->getComponent<Block>()->breakBlock();
+				mapObjects[r][c] = nullptr;
+			}
+		}
+
+		bool isValidExplosionPlace(sf::Vector2i pos) {
+			int r = pos.y, c = pos.x;
+			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
+		}
+
+		bool isWalkable(sf::Vector2i pos) {
+			int r = pos.y, c = pos.x;
+			return isValid(pos) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
+		}
+
+		void removeGo(sf::Vector2i position) {
+			mapObjects[position.y][position.x] = nullptr;
+		}
+
 	private:
-		// ______________ members
+		// ________________________________ data
 		const int startLevel = 19;
 
 		const size_t W = 15;
@@ -21,8 +48,7 @@ namespace sxg::boom {
 		vector<vector<GameObject*>> mapObjects;
 
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
 			if (instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
 			instance = this;
@@ -48,39 +74,9 @@ namespace sxg::boom {
 			instantiateLevelPrefabs(levelImage);
 
 		}
+		
 
-		static MapBuilder* instance;
-
-		// ________________ queries
-		bool isWalkable(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return isValid(pos) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
-		}
-
-		bool isValidExplosionPlace(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
-		}
-
-		// ______________ commands
-		void explosionAt(sf::Vector2i position) {
-			int r = position.y;
-			int c = position.x;
-			//destroy block
-			if (isValid(position) && mapObjects[r][c] != nullptr && mapObjects[r][c]->tag() == Tag::block) {
-				mapObjects[r][c]->getComponent<Block>()->breakBlock();
-				mapObjects[r][c] = nullptr;
-			}
-		}
-
-		void removeGo(sf::Vector2i position) {
-			mapObjects[position.y][position.x] = nullptr;
-		}
-
-
-
-	private:
-		// ______________ commands
+		// ________________________________ commands
 		void setupBackgroundAndBorder() {
 			//background
 			for (int r = 0; r < H; ++r) {
@@ -137,7 +133,7 @@ namespace sxg::boom {
 			}
 		}
 
-		// ______________ queries
+		// ________________________________ queries
 		sf::Image getLevelPixels(int level) {
 			//1.load image
 			const sf::Image levelsImage = Resources::Get<sf::Image>("levels");
@@ -176,9 +172,5 @@ namespace sxg::boom {
 		}
 
 
-		// ______________ cloning
-		CLONABLE(MapBuilder)
 	};
-
-
 }

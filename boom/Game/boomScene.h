@@ -5,7 +5,6 @@
 
 //SCRIPTS
 #include "Player.h"
-#include "Background.h"
 #include "MapBuilder.h"
 
 // provides the general game scene for boom
@@ -43,7 +42,7 @@ namespace sxg::boom {
 
 			//BACKGROUND
 			{
-				GameObject* background = new GameObject("background"); // temporary
+				GameObject* background = new GameObject("background");
 				scene.push_back(background);
 				background->addRenderable("panel", sf::IntRect(0, 0, 96, 480), Layer::background, 32, true);
 				background->renderable().sprite().move(-4, -1);

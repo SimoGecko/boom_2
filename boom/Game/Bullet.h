@@ -8,30 +8,31 @@
 namespace sxg::boom {
 
 	class Bullet : public Component {
+		CLONABLE(Bullet)
+	public:
+
+
 	private:
-		// ______________ members
+		// ________________________________ data
 		float speed = 3;
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
+
 		}
 
 		void update() override {
 			move();
 		}
-	private:
-		// ______________ commands
+
+		// ________________________________ commands
 		void move() {
 			sf::Vector2f moveDelta = sf::Vector2f(1, 0) * speed * Time::deltaTime();
 			transform().move(moveDelta);
 		}
 
-		// ______________ queries
+		// ________________________________ queries
 
 
-		// ______________ cloning
-		CLONABLE(Bullet)
 	};
-
 }

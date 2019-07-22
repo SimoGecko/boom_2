@@ -15,13 +15,16 @@ namespace sxg::boom {
 	};
 
 	class Ui : public Component {
+		CLONABLE(Ui)
+	public:
+	
+	
 	private:
-		// ______________ members
+		// ________________________________ data
 		playerInfo p1Info;
 		sf::Clock timer;
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
 
 		}
@@ -30,16 +33,13 @@ namespace sxg::boom {
 
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
  
 
-		// ______________ queries
+		// ________________________________ queries
 
 
 
-		// ______________ cloning
-		CLONABLE(Ui)
+		// ________________________________ cloning
 	};
-
 }

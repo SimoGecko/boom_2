@@ -11,20 +11,27 @@
 namespace sxg::boom {
 
 	class Player : public Component {
+		CLONABLE(Player)
+	public:
+		void teleport(sf::Vector2f to) {
+			//wait to stop
+		}
 	private:
-		// ______________ const
-		const float speed = 2.5f;
-		const int nMaxBombs = 3;
+		// ________________________________ const
+		const float speed = 5.f;
+		const float speedBoost = 2.f;
 
-		// ______________ variables
+		const int nMaxBombs = 3;
+		const int nMaxBombsPowerup = 6;
+
+		// ________________________________ variables
 		Animator* anim;
-		//sf::Vector2f moveDelta;
 		sf::Vector2i prevCell, nextCell;
 		float movePercent;
+
 		int availableBombs;
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
 			anim = gameobject().getComponent<Animator>();
 			prevCell = nextCell = { 0,0 };
@@ -36,65 +43,75 @@ namespace sxg::boom {
 			movement();
 			placeBomb();
 			setAnimation();
-			//shoot();
-			//Gizmos::drawCircle(transform().getPosition(), 0.5f);
 		}
 
-		void teleport(sf::Vector2f to) {
-			//wait to stop
-		}
-	private:
-		// ______________ commands
+		
+		// ________________________________ commands
 		void movement() {
-			//IMPROVE TO BE SNAPPIER!
-			bool moving = prevCell != nextCell;
-			if (!moving) {
-				sf::Vector2i input;
-				//look for input dir
-				if (Input::getKey(sf::Keyboard::A)) input.x -= 1;
-				if (Input::getKey(sf::Keyboard::D)) input.x += 1;
-				if (input.x == 0) {
-					if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
-					if (Input::getKey(sf::Keyboard::S)) input.y += 1;
-				}
-				if (input != sf::Vector2i(0,0)) {
-					bool freeCell = MapBuilder::instance->isWalkable(prevCell + input);
-					if (freeCell) {
-						moving = true;
-						nextCell = prevCell + input;
-						movePercent = 0;
-					}
-				}
-			}
-			if (moving) {
+			sf::Vector2i oldMoveDelta = moveDelta();
+
+			if (moving()) {
 				movePercent += speed * Time::deltaTime();
-				if (movePercent >= 1) {
-					moving = false;
-					prevCell = nextCell;
-					transform().setPosition(prevCell.x, prevCell.y);
-					//continue
-					movement();
-				}
-				else {
-					movePercent += speed * Time::deltaTime();
+				if (movePercent < 1) {
 					transform().setPosition(lerp(prevCell, nextCell, movePercent));
 				}
-				//take care change of dir
+				else {
+					prevCell = nextCell;
+					transform().setPosition(prevCell.x, prevCell.y);
+					movePercent = 0;
+				}
 			}
 
-			//moveDelta = input * speed * Time::deltaTime();
-			//transform().move(moveDelta);
+			sf::Vector2i input = getInput();
+			if (magnitude(input) == 0) return;
+
+			// (not moving + input) -> start/continue moving
+			// if continue moving, try first the previous direction axis
+			if (abs(oldMoveDelta.x) > 0) {
+				tryMove({ input.x, 0 });
+				tryMove({ 0, input.y });
+			} else {
+				tryMove({ 0, input.y });
+				tryMove({ input.x, 0 });
+			}
+
+			// (moving + input) -> change of dir
+			if (moving() && input == -moveDelta()) {
+				movePercent = 1 - movePercent;
+				swap(nextCell, prevCell);
+			}
 		}
 
+		void tryMove(sf::Vector2i delta) {
+			if (!moving()) {
+				bool freeCell = MapBuilder::instance->isWalkable(prevCell + delta);
+				if (freeCell) {
+					nextCell = prevCell + delta;
+				}
+			}
+		}
+
+		sf::Vector2i moveDelta() { return nextCell - prevCell; }
+		bool moving() { return nextCell != prevCell; }
+
+		sf::Vector2i getInput() {
+			sf::Vector2i input;
+			if (Input::getKey(sf::Keyboard::A)) input.x -= 1;
+			if (Input::getKey(sf::Keyboard::D)) input.x += 1;
+			if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
+			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
+			return input;
+		}
+
+		
+
 		void setAnimation() {
-			sf::Vector2f moveDelta = to_v2f(nextCell - prevCell);
-			bool moving = magnitude2(moveDelta) > 0;
 			string animName;
-			if (!moving) {
+			if (!moving()) {
 				animName = "idle_D";
 			}
 			else {
-				dir playerDir = dirFromVector(moveDelta);
+				dir playerDir = dirFromVector(to_v2f(moveDelta()));
 				char dirchar = charFromDir(playerDir);
 				animName = "walk_" + string(1, dirchar);
 			}
@@ -121,12 +138,9 @@ namespace sxg::boom {
 			}
 		}
 
-		// ______________ queries
+		// ________________________________ queries
 		sf::Vector2i currentCell() { return movePercent < 0.5f ? prevCell : nextCell; }
 
 
-		// ______________ cloning
-		CLONABLE(Player)
 	};
-
 }

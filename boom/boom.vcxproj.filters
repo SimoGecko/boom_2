@@ -119,9 +119,6 @@
     <ClInclude Include="Engine\Prefabs.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Background.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\BoomPrefabs.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
@@ -189,6 +186,9 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\ExtraPickup.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Character.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,13 +12,17 @@ namespace sxg::engine {
 
 	class Component {
 	public:
-		using memfct = void(Component::*)();
+		//using memfct = void(Component::*)();
 		//default ctor?
 		//Component(GameObject& go);
 		Component() = default; // ctor
 		Component(const Component& src) = default; // copy ctor
 		virtual ~Component() {};
 
+
+		const sf::Transformable& transform() const;
+
+	protected:
 		//main methods -> not abstract as they could be empty and fine
 		virtual void start() {};
 		virtual void update() {};
@@ -31,10 +35,7 @@ namespace sxg::engine {
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
-		const sf::Transformable& transform() const;
-
-		void invoke(void(Component::*memfun)(), float time);
-
+		//void invoke(void(Component::*memfun)(), float time);
 
 	private:
 		GameObject* _go; // must always have a reference

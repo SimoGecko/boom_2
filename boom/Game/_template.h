@@ -8,12 +8,16 @@
 namespace sxg::boom {
 
 	class __NAME__ : public Component {
-	private:
-		// ______________ members
-
-
+	CLONABLE(__NAME__)
 	public:
-		// ______________ base
+
+
+	private:
+		// ________________________________ data
+
+
+
+		// ________________________________ base
 		void start() override {
 
 		}
@@ -22,16 +26,13 @@ namespace sxg::boom {
 
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
  
 
-		// ______________ queries
+
+		// ________________________________ queries
 
 
 
-		// ______________ cloning
-		Component* clone() { return new __NAME__(*this); }
 	};
-
 }

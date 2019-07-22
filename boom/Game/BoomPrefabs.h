@@ -17,8 +17,6 @@
 namespace sxg::boom {
 
 
-
-
 	class BoomPrefabs : public Prefabs {
 	public:
 		BoomPrefabs() : Prefabs() {}
@@ -138,5 +136,4 @@ namespace sxg::boom {
 			return move(prefabs);
 		}
 	};
-
 }

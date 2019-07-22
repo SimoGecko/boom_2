@@ -1,101 +1,174 @@
-
-
-
- FEATURES TO TEST:
- ☐ Audio
- ☐ GameObject
-   ☐ can access member functions
-   ☐ can access queries
-   ✔ mouse works
-   ☐ change scene
-   ☐ can move view
-   ☐ queries work
-
+FEATURES TO TEST (ENGINE):
+	☐ change scene
+	☐ can move view
 
 BUGS:
-  ✔ start is not called on instantiated objects (bullet start)
-    ✔ class must be able to include gameobject
 
 
- TRICS:
-   include header of the class for which you need the implementation only in the .cpp
+TRICS:
+	include header of the class for which you need the implementation only in the .cpp
 
 IMPROVEMENTS:
- ☐ component in own class
+	✔ component in own class
 
 
 PROTOTYPE FEATUERS:
-  ☐ load other scene @low
-  ☐ audio effect
+	☐ load other scene @low
+	✔ audio effect
 
 GAME:
-  1. load map with prefabs
+	✔ 1. load map with prefabs
+	✔ 2. player can move around with collisions
+	✔ 3. drop bombs, break blocks
+	✔ 4. collect coin
+	☐ 5. health/UI
+	☐ 6. collectibles, powerups, score
+	☐ 7. game flow, load level, enemy respawn on death
+	☐ 5. enemies move, attack, die
 
-ITEMS:
-  border
-  bg
-  ui background
+TODO LIST:
+	BORDER / BG 
+		☐ load appropriate one
 
-  wall
-  block
-  coin
-  explosion
-  ui point
-  enemy
-    soldier
-    greenhair
-    fire
-  player
+	WALL
 
-UI
-  background
-  head icon
-  numlives
-  hearts
-  extra
-  powerups
-  powerupnum
-  score
-  time left
+	BLOCK
+		☐ spawn powerup on break
 
-  level upright
+	COIN
+		☐ start extra game when all collected
+
+	EXPLOSION
+		☐ fix explosion distance
+		
+	TELEPORTER
+		☐	teleport player
+
+	POWERUP
+		flash
+		☐ break all bricks
+		skull
+		☐ kill all enemies
+		two_bombs
+		☐ increase number bombs same time
+		one_bomb
+		☐ reduce explosion time
+		explosion
+		☐ increase explosion radius
+		heart
+		☐ +1 hearth
+		hearts
+		☐ full health restoration
+		shield 
+		☐ make player invincible
+		speed
+		☐ make player fast
 
 
-＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+	EXTRA
+		☐ change letter
+		☐ give extra life
+
+	IN-GAME UI
+		☐ points for kill/break/coin
+
+	ENEMY
+		☐ become amoeba
+		☐ drop extra
+		☐ move
+		☐ shoot
+		☐ damage player
+		TYPES
+			alien
+			ghost
+			giggler
+			gunner
+			lizzy
+			sarge
+			skully
+			smoulder
+			soldier
+			taur
+			thing
+	BOSS
+		☐ head
+		☐ final
+
+	PLAYER
+	SPAWN AT LOCATION
+
+	UI
+	☐ background
+	☐ time left
+	☐ level # upright
+	PLAYER
+		☐ head icon
+		☐ numlives
+		☐ hearts
+		☐ extra
+		✘ powerups
+		✘ powerupnum
+		☐ score
+
+
+	☐ MAIN MENU
+	TITLE, info
+		☐ new game
+		☐ options
+		☐ scores
+		☐ info
+		☐ quit
+
+	GAME FLOW
+		☐ level transition between screens (Level #, Get Ready)
+		☐ hurry up timer (-30s)
+		☐ end level score (Time Bonus)
+
+
+
+	＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
- ✔ Animation
- ✔ Component
- ✔ code in scripts works @project(FEATURES TO TEST)
- ✔ duplication of component @project(FEATURES TO TEST)
- ✔ Game
- ✔ gameloop works @project(FEATURES TO TEST)
- ✔ can instantiate new objects @high @project(FEATURES TO TEST)
- ✔ Input
- ✔ keyboard works @project(FEATURES TO TEST)
- ✔ Loader
- ✔ can load textures and audio @project(FEATURES TO TEST)
- ✔ Prefabs
- ✔ can access and instantiate prefabs @project(FEATURES TO TEST)
- ✔ Renderable
- ✔ correctly drawn with layerorder, @project(FEATURES TO TEST)
- ✔ transform, @project(FEATURES TO TEST)
- ✔ animation @project(FEATURES TO TEST)
- ✔ Scene
- ✔ load initial scene @project(FEATURES TO TEST)
- ✔ Screen
- ✔ startup correctly @project(FEATURES TO TEST)
- ✔ Time
- ✔ slowup/slowdown @project(FEATURES TO TEST)
- ✘ Transform
- ✘ Vector
- ✔ Utility
- ✔ Includes
- ✔ templates for Resources cause error @project(BUGS)
- ✔ prefabs passes incorrect object @project(BUGS)
- ✔ objects aren't instantiated correctly @project(BUGS)
- ✔ renderable is set as null @project(BUGS)
- ✔ bullet is accelerating and not showiwng multiple instsances @project(BUGS)
- ✔ character moving around (ARROWS) @project(PROTOTYPE FEATUERS)
- ✔ background drawn behind it @project(PROTOTYPE FEATUERS)
- ✔ animation @project(PROTOTYPE FEATUERS)
- ✔ space to shoot bullet (instantiation) @project(PROTOTYPE FEATUERS)
+	 ✔ queries work @project(FEATURES TO TEST)
+	 ✔ Audio
+	 ✔ GameObject
+	 ✔ can access member functions @project(FEATURES TO TEST)
+	 ✔ can access queries @project(FEATURES TO TEST)
+	 ✔ mouse works @project(FEATURES TO TEST)
+	 ✔ start is not called on instantiated objects (bullet start) @project(BUGS)
+	 ✔ class must be able to include gameobject @project(BUGS)
+	 ✔ Animation
+	 ✔ Component
+	 ✔ code in scripts works @project(FEATURES TO TEST)
+	 ✔ duplication of component @project(FEATURES TO TEST)
+	 ✔ Game
+	 ✔ gameloop works @project(FEATURES TO TEST)
+	 ✔ can instantiate new objects @high @project(FEATURES TO TEST)
+	 ✔ Input
+	 ✔ keyboard works @project(FEATURES TO TEST)
+	 ✔ Loader
+	 ✔ can load textures and audio @project(FEATURES TO TEST)
+	 ✔ Prefabs
+	 ✔ can access and instantiate prefabs @project(FEATURES TO TEST)
+	 ✔ Renderable
+	 ✔ correctly drawn with layerorder, @project(FEATURES TO TEST)
+	 ✔ transform, @project(FEATURES TO TEST)
+	 ✔ animation @project(FEATURES TO TEST)
+	 ✔ Scene
+	 ✔ load initial scene @project(FEATURES TO TEST)
+	 ✔ Screen
+	 ✔ startup correctly @project(FEATURES TO TEST)
+	 ✔ Time
+	 ✔ slowup/slowdown @project(FEATURES TO TEST)
+	 ✘ Transform
+	 ✘ Vector
+	 ✔ Utility
+	 ✔ Includes
+	 ✔ templates for Resources cause error @project(BUGS)
+	 ✔ prefabs passes incorrect object @project(BUGS)
+	 ✔ objects aren't instantiated correctly @project(BUGS)
+	 ✔ renderable is set as null @project(BUGS)
+	 ✔ bullet is accelerating and not showiwng multiple instsances @project(BUGS)
+	 ✔ character moving around (ARROWS) @project(PROTOTYPE FEATUERS)
+	 ✔ background drawn behind it @project(PROTOTYPE FEATUERS)
+	 ✔ animation @project(PROTOTYPE FEATUERS)
+	 ✔ space to shoot bullet (instantiation) @project(PROTOTYPE FEATUERS)

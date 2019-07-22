@@ -10,20 +10,20 @@
 namespace sxg::boom {
 
 	class Bomb : public Component {
+		CLONABLE(Bomb)
 	public:
 		Event onExplode;
 
 	private:
-		// ______________ const
+		// ________________________________ const
 		const float bombTimer = 3.f;
 		const float tickingOffset = 1.f;
 		const int distance = 2;
 
-		// ______________ variables
+		// ________________________________ variables
 
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
 			Time::callback([this]() {this->startTicking(); }, bombTimer - tickingOffset);
 			Time::callback([this]() {this->explode(); }, bombTimer);
@@ -45,13 +45,9 @@ namespace sxg::boom {
 		}
 
 		
-
-		
-	private:
-		// ______________ commands
+		// ________________________________ commands
 		void startTicking() {
 			gameobject().getComponent<Animator>()->playAnimation("ticking");
-
 		}
 
 		void explode() {
@@ -83,6 +79,7 @@ namespace sxg::boom {
 				}
 			}
 		}
+
 		void instantiateExplosionPiece(sf::Vector2i position, orientation orient) {
 			//instantiate it there
 			GameObject* explosionGo = GameObject::Instantiate("explosion", to_v2f(position));
@@ -92,12 +89,8 @@ namespace sxg::boom {
 		}
 
 
-		// ______________ queries
+		// ________________________________ queries
 
 
-
-		// ______________ cloning
-		CLONABLE(Bomb)
 	};
-
 }

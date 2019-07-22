@@ -8,30 +8,30 @@
 namespace sxg::boom {
 
 	class Enemy : public Component {
-	private:
-		// ______________ members
-
-
+		CLONABLE(Enemy)
 	public:
-		// ______________ base
-		void start() override {
+	
+	private:
+		// ________________________________ data
 
+
+
+		// ________________________________ base
+		void start() override {
+		
 		}
 
 		void update() override {
-
+		
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
  
 
-		// ______________ queries
+
+		// ________________________________ queries
 
 
 
-		// ______________ cloning
-		CLONABLE(Enemy)
 	};
-
 }

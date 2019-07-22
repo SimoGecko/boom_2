@@ -66,7 +66,7 @@ namespace sxg::engine {
 
 
 
-		// ______________ cloning
+		// ________________________________ cloning
 		CLONABLE(Animator)
 	};
 

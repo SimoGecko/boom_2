@@ -8,18 +8,21 @@
 namespace sxg::boom {
 
 	class Coin : public Component {
+		CLONABLE(Coin)
+	public:
+
+
 	private:
-		// ______________ members
+		// ________________________________ data
 		const float rotationTime = 2.f;
 
-	public:
-		// ______________ base
+		// ________________________________ base
 		void start() override {
-
+		
 		}
 
 		void update() override {
-
+		
 		}
 
 		void onCollisionEnter(const GameObject& other) override {
@@ -28,8 +31,7 @@ namespace sxg::boom {
 			}
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
 		void collectCoin() {
 			Animator* anim = gameobject().getComponent<Animator>();
 			anim->playAnimation("rotate");
@@ -38,12 +40,9 @@ namespace sxg::boom {
 			gameobject().destroy(rotationTime);
 		}
 
-		// ______________ queries
+		// ________________________________ queries
 
 
 
-		// ______________ cloning
-		CLONABLE(Coin)
 	};
-
 }

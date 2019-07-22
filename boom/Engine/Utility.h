@@ -73,6 +73,9 @@ namespace sxg::engine {
 		static inline float magnitude (const sf::Vector2f& v) { return sqrt(v.x*v.x + v.y*v.y); }
 		static inline float magnitude2(const sf::Vector2f& v) { return      v.x*v.x + v.y*v.y; }
 
+		static inline int magnitude (const sf::Vector2i& v) { return	abs(v.x) + abs(v.y); }
+		static inline int magnitude2(const sf::Vector2i& v) { return		v.x*v.x + v.y*v.y; }
+
 		static inline float dot(const sf::Vector2f& a, const sf::Vector2f& b) { return a.x*b.x + a.y*b.y; }
 
 		static inline sf::Vector2f lerp(const sf::Vector2f& a, const sf::Vector2f& b, float t) {
@@ -122,6 +125,12 @@ namespace sxg::engine {
 				else return 180.f + atan(-v.y / -v.x) * rad2deg;
 			}
 		}
+		/*
+		static inline float angle(const sf::Vector2i& v) {
+			return angle(sf::Vector2f(v.x, v.y));
+		}
+		*/
+
 	}
 
 	namespace { // UTILITY

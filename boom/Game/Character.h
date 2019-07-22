@@ -3,12 +3,12 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// collectible powerup that gives special powers to the player when collected
+// base class for characters (player + enemies) that move, have health
 
 namespace sxg::boom {
 
-	class Powerup : public Component {
-		CLONABLE(Powerup)
+	class Character : public Component {
+		CLONABLE(Character)
 	public:
 
 	private:
@@ -23,16 +23,12 @@ namespace sxg::boom {
 		void update() override {
 
 		}
-
-		enum PowerupType {
-
-		};
 		
 		// ________________________________ commands
  
 
-		// ________________________________ queries
 
+		// ________________________________ queries
 
 
 	};

@@ -8,12 +8,20 @@
 namespace sxg::boom {
 
 	class Block : public Component {
-	private:
-		// ______________ members
-
-
+		CLONABLE(Block)
 	public:
-		// ______________ base
+		void breakBlock() {
+			Animator* anim = gameobject().getComponent<Animator>();
+			anim->playAnimation("break");
+			anim->onAnimationFinish += [this]() { gameobject().destroy(); };
+		}
+
+	private:
+		// ________________________________ data
+
+
+
+		// ________________________________ base
 		void start() override {
 
 		}
@@ -22,22 +30,13 @@ namespace sxg::boom {
 
 		}
 		
-		void breakBlock() {
-			Animator* anim = gameobject().getComponent<Animator>();
-			anim->playAnimation("break");
-			anim->onAnimationFinish += [this]() { gameobject().destroy(); };
-		}
-
-	private:
-		// ______________ commands
-
-
-		// ______________ queries
+		// ________________________________ commands
+		
 
 
 
-		// ______________ cloning
-		CLONABLE(Block)
+		// ________________________________ queries
+
+
 	};
-
 }

@@ -10,22 +10,24 @@
 namespace sxg::boom {
 
 	class Explosion : public Component {
-	private:
-		// ______________ members
-
+		CLONABLE(Explosion)
 	public:
-		// ______________ base
+
+	private:
+		// ________________________________ data
+
+
+		// ________________________________ base
 		void start() override {
 			damageComponents();
 			deleteOnAnimationFinish();
 		}
 
 		void update() override {
-			
+		
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
 		void damageComponents() {
 			MapBuilder::instance->explosionAt(to_v2i(transform().getPosition()));
 		}
@@ -34,12 +36,9 @@ namespace sxg::boom {
 			gameobject().getComponent<Animator>()->onAnimationFinish += [this]() { gameobject().destroy(); };
 		}
 
-		// ______________ queries
+		// ________________________________ queries
 
 
 
-		// ______________ cloning
-		CLONABLE(Explosion)
 	};
-
 }

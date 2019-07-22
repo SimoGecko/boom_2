@@ -176,12 +176,12 @@
     <ClInclude Include="Engine\Specific.h" />
     <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Engine\Utility.h" />
-    <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Game\Block.h" />
     <ClInclude Include="Game\Bomb.h" />
     <ClInclude Include="Game\BoomPrefabs.h" />
     <ClInclude Include="Game\BoomScene.h" />
     <ClInclude Include="Game\Bullet.h" />
+    <ClInclude Include="Game\Character.h" />
     <ClInclude Include="Game\Coin.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />

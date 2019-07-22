@@ -10,12 +10,15 @@
 namespace sxg::boom {
 
 	class Teleporter : public Component {
-	private:
-		// ______________ members
-
-
+		CLONABLE(Teleporter)
 	public:
-		// ______________ base
+	
+	
+	private:
+		// ________________________________ data
+
+
+		// ________________________________ base
 		void start() override {
 
 		}
@@ -34,11 +37,11 @@ namespace sxg::boom {
 			}
 		}
 		
-	private:
-		// ______________ commands
+		// ________________________________ commands
 
 
-		// ______________ queries
+
+		// ________________________________ queries
 		Teleporter* getOtherRandomTeleporter() {
 			vector<GameObject*> teleporters = GameObject::FindGameObjectsWithTag(Tag::teleporter);
 			if (teleporters.size() <= 1) return nullptr;
@@ -49,9 +52,5 @@ namespace sxg::boom {
 			return teleporters[i]->getComponent<Teleporter>();
 		}
 
-
-		// ______________ cloning
-		CLONABLE(Teleporter)
 	};
-
 }
