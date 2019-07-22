@@ -4,9 +4,8 @@
 
 namespace sxg::engine {
 
-	void Animator::setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName) {
+	void Animator::setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName, bool startDefaultAnim) {
 		_spriteRef = sprite;
-
 		_fps = fps;
 		_rows = rowsCols.x;
 		_cols = rowsCols.y;
@@ -19,6 +18,7 @@ namespace sxg::engine {
 		_currentIndex = 0;
 		_timer = 0;
 		_stopped = true;
+		_playDefaultAnim = startDefaultAnim;
 
 		loadAnimationsFromFile(animationListFileName);
 	}
@@ -34,6 +34,8 @@ namespace sxg::engine {
 	}
 
 	void Animator::playAnimation(const string& animName) {
+		if(animName.size()<=2) Debug::log("\tanim: " + animName);
+
 		if (_animFrames->count(animName) == 0) {
 			Debug::logError("Animator doesn't have animation " + animName);
 			return;
@@ -43,6 +45,12 @@ namespace sxg::engine {
 		_currentIndex = 0;
 		_currentAnim = &(_animFrames->at(animName));
 		//set initial frame
+		if (animName.size() <= 2) {
+			Debug::log("\tsprite: " + to_string(_spriteRef));
+			sf::Vector2i bounds(_currentAnim->_frames[0].left, _currentAnim->_frames[0].top);
+			Debug::log("\trect  : " + to_string(bounds));
+		}
+
 		_spriteRef->setTextureRect(_currentAnim->_frames[0]);
 	}
 
@@ -155,6 +163,8 @@ namespace sxg::engine {
 	}
 
 	void Animator::startDefaultAnim() {
+		if (!_playDefaultAnim) return;
+
 		if (_animFrames == nullptr) {
 			Debug::logError("Animator has nullptr frames: " + gameobject().name());
 			return;

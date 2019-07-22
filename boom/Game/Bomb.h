@@ -16,7 +16,7 @@ namespace sxg::boom {
 
 	private:
 		// ________________________________ const
-		const float bombTimer = 3.f;
+		const float bombTimer = 1.f;
 		const float tickingOffset = 1.f;
 		const int distance = 2;
 

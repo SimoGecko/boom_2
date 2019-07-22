@@ -19,9 +19,9 @@ namespace sxg::boom {
 
 
 		// ________________________________ base
-		//void start() override { } // skipped
+		void start() override { } // skipped
 
-		//void update() override { }
+		void update() override { }
 
 		void onCollisionEnter (GameObject& other) override {
 			if (other.tag() == Tag::player) pickup(*other.getComponent<Player>());

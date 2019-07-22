@@ -12,18 +12,21 @@ namespace sxg::boom {
 		CLONABLE(Extra)
 	public:
 		enum class ExtraLetter{E,X,T,R,A};
-
+		
 		void switchToNextLetter() {
-			string animName = (letters + letters).substr(currentLetterIndex, 2);
+			string animName = /*(letters + letters)*/letters2.substr(currentLetterIndex, 2);
+			Debug::log("extra anim: " + animName);
 			currentLetterIndex = (currentLetterIndex+1)%letters.size();
 			anim->playAnimation(animName);
 			callbackLetterChange();
 		}
+		
 
 	private:
 		// ________________________________ data
 		const float timeForLetter = 3.f;
 		const string letters = "EXTRA";
+		const string letters2 = "EXTRAE";
 		int currentLetterIndex;
 		Animator* anim;
 
@@ -31,7 +34,9 @@ namespace sxg::boom {
 		void start() override {
 			anim = gameobject().getComponent<Animator>();
 			currentLetterIndex = Random::range(0, letters.size());
-			anim->playAnimation(letters.substr(currentLetterIndex, 1));
+			string animName = letters.substr(currentLetterIndex, 1);
+			Debug::log("extra anim: " + animName);
+			anim->playAnimation(animName); // THE ERROR IS HERE; PROBABLY DATA RACE
 			callbackLetterChange();
 		}
 
@@ -43,10 +48,12 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void pickup(Player& player) override {
+			
 			ExtraLetter currentLetter = (ExtraLetter)currentLetterIndex;
 			char currentLetterChar = letters[currentLetterIndex];
 			//notify player of pickup
 			gameobject().destroy();
+			
 		}
 
 		void callbackLetterChange() {

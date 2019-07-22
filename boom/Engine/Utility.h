@@ -40,19 +40,27 @@ namespace sxg::engine {
 
 	class Random {
 	public:
+
+		static void start() {
+			//set random seed
+			unsigned int seed = (unsigned int)time(NULL);
+			srand(seed);
+		}
+
 		static sf::Vector2f insideUnitCircle();
 		static sf::Vector2f onUnitCircle();
 		static sf::Vector2f insideUnitSquare();
 		static sf::Vector2f onUnitSquare();
 		static sf::Vector2f insideRectange(sf::FloatRect rect);
 
-		static inline float value() {
+		static float value() {
 			return (float)rand() / RAND_MAX;
 		}
-		static inline int   range(int min, int max){ // random in range [min, max[
-			return min + rand() % (max - min);
+		static int   range(int min, int max){ // random in range [min, max[
+			Debug::ensure(min < max, "Invalid parameters for Random::range");
+			return min + (rand() % (max - min));
 		}
-		static inline float range(float min, float max) {
+		static float range(float min, float max) {
 			return min + ((float)rand() / RAND_MAX)*(max - min);
 		}
 

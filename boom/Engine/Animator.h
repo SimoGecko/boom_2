@@ -13,15 +13,19 @@ namespace sxg::engine {
 	class Animator : public Component {
 
 	public:
-		void start() override {
+		void awake() override {
 			findSpriteReference();
 			startDefaultAnim();
+		}
+
+		void start() override {
+
 		}
 		void update() override {
 			updateFrame();
 		}
 
-		void setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName);
+		void setup(sf::Sprite* sprite, int fps, sf::Vector2i rowsCols, const string& animationListFileName, bool startDefaultAnim = true);
 		//Animator(const Animator& rhs);
 		virtual ~Animator();
 
@@ -63,11 +67,20 @@ namespace sxg::engine {
 		int _currentIndex;
 		float _timer;
 		bool _stopped;
+		bool _playDefaultAnim;
 
 
 
 		// ________________________________ cloning
-		CLONABLE(Animator)
+		/*
+		Component* clone() { // custom made // unuseful since go still points to old one
+			Animator* anim = new Animator(*this);
+			anim->findSpriteReference();
+			return anim;
+		}
+		*/
+		CLONABLE(Animator);
+
 	};
 
 

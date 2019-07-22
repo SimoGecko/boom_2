@@ -43,6 +43,7 @@ namespace sxg::engine {
 		Time   ::start();
 		Input  ::start();
 		Audio  ::start();
+		Random ::start();
 		Prefabs::start();
 		Scene  ::start(); // build scenes, load default one, call start on gameobjects
 	}

@@ -28,6 +28,7 @@ namespace sxg::boom {
 			vector<GameObject*> prefabs;
 			//build______________________________________
 
+
 			//BACKGROUND
 			{
 				GameObject* background = new GameObject("background", Tag::environment);
@@ -42,7 +43,7 @@ namespace sxg::boom {
 				block->addComponent<Block>();
 				block->addRenderable("block", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
-				blockAnim->setup(&(block->renderable().sprite()), 12, { 1, 4 }, "anim_block");
+				blockAnim->setup(&(block->renderable().sprite()), 8, { 1, 4 }, "anim_block");
 			}
 
 			//BOMB
@@ -109,7 +110,7 @@ namespace sxg::boom {
 				extra->addComponent<Extra>();
 				extra->addRenderable("extra", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* extraAnim = extra->addComponent<Animator>();
-				extraAnim->setup(&(extra->renderable().sprite()), 12, { 5, 4 }, "anim_extra");
+				extraAnim->setup(&(extra->renderable().sprite()), 12, { 5, 4 }, "anim_extra", false);
 				extra->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
@@ -120,7 +121,7 @@ namespace sxg::boom {
 				powerup->addComponent<Powerup>();
 				powerup->addRenderable("bonus", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* powerupAnim = powerup->addComponent<Animator>();
-				powerupAnim->setup(&(powerup->renderable().sprite()), 12, { 1, 9 }, "anim_bonus");
+				powerupAnim->setup(&(powerup->renderable().sprite()), 12, { 1, 9 }, "anim_bonus", false);
 				powerup->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 

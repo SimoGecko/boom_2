@@ -32,7 +32,6 @@ namespace sxg::boom {
 				Teleporter* toTeleport = getOtherRandomTeleporter();
 				if (toTeleport) {
 					other.getComponent<Player>()->teleport(toTeleport->transform().getPosition());
-					Debug::log("teleport to");
 				}
 			}
 		}
@@ -45,10 +44,10 @@ namespace sxg::boom {
 		Teleporter* getOtherRandomTeleporter() {
 			vector<GameObject*> teleporters = GameObject::FindGameObjectsWithTag(Tag::teleporter);
 			if (teleporters.size() <= 1) return nullptr;
-			size_t i;
+			int i;
 			do {
 				i = Random::range(0, teleporters.size());
-			} while (teleporters[i] = &gameobject());
+			} while (teleporters[i] == &gameobject()); // damn the == !!!!!!
 			return teleporters[i]->getComponent<Teleporter>();
 		}
 

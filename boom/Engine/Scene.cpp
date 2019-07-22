@@ -25,6 +25,7 @@ namespace sxg::engine {
 
 	void Scene::addGameObject(GameObject* go) {
 		_allGameObjects.push_back(go);
+		go->awake();
 		go->start();
 	}
 	void Scene::removeGameObject(GameObject* go) {
@@ -81,9 +82,13 @@ namespace sxg::engine {
 		auto startingGameObjects = _currentScene->build();
 		_currentScene->_allGameObjects = startingGameObjects;
 
-		//call start
-		for (size_t i = 0; i < startingGameObjects.size(); ++i) { // since the scene might grow dynamically, call start only on those generated statically by the scene
-			startingGameObjects[i]->start(); // scene calls start when newObject is inserted 
+		// since the scene might grow dynamically, call start only on those generated statically by the scene
+		// scene takes care of calling start when newObject is inserted 
+		for (size_t i = 0; i < startingGameObjects.size(); ++i) {
+			startingGameObjects[i]->awake(); 
+		}
+		for (size_t i = 0; i < startingGameObjects.size(); ++i) {
+			startingGameObjects[i]->start();
 		}
 	}
 

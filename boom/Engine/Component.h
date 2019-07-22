@@ -24,6 +24,7 @@ namespace sxg::engine {
 
 	protected:
 		//main methods -> not abstract as they could be empty and fine
+		virtual void awake() {};
 		virtual void start() {};
 		virtual void update() {};
 		//virtual void draw() {};

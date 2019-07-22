@@ -15,13 +15,6 @@ namespace sxg::engine {
 
 	GameObject* GameObject::clone() const{
 		GameObject* newGo = new GameObject(_name, _tag);
-		
-		//copy components
-		for (Component* component : _components) {
-			Component* newComponent = component->clone(); // *newGo
-			newComponent->_go = newGo;
-			newGo->_components.push_back(newComponent);
-		}
 
 		newGo->copyTransform(transform());
 		//copy other members
@@ -29,6 +22,14 @@ namespace sxg::engine {
 			newGo->_renderable = new Renderable(*_renderable);
 			newGo->_renderable->addToRenderables(); // in case it was prefab
 		}
+
+		//copy components (anim requires renderable already)
+		for (Component* component : _components) {
+			Component* newComponent = component->clone();
+			newComponent->_go = newGo;
+			newGo->_components.push_back(newComponent);
+		}
+
 		return newGo;
 	}
 
@@ -60,6 +61,10 @@ namespace sxg::engine {
 
 
 	//_________________________ normal
+	void GameObject::awake() {
+		for (Component* component : _components) component->awake();
+	}
+
 	void GameObject::start() {
 		for (Component* component : _components) component->start();
 	}

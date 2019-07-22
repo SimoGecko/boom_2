@@ -51,6 +51,7 @@ namespace sxg::engine {
 
 		//_________________________ normal methods
 
+		void awake();
 		void start();
 		void update();
 		//void draw();
