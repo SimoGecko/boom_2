@@ -140,6 +140,7 @@
     <ClCompile Include="Engine\Collider.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Engine\Event.cpp" />
+    <ClCompile Include="Engine\Font.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Gizmos.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Engine\Collider.h" />
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\Event.h" />
+    <ClInclude Include="Engine\Font.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\Gizmos.h" />
@@ -186,6 +188,7 @@
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />
     <ClInclude Include="Game\Extra.h" />
+    <ClInclude Include="Game\Living.h" />
     <ClInclude Include="Game\MapBuilder.h" />
     <ClInclude Include="Game\Pickup.h" />
     <ClInclude Include="Game\Player.h" />

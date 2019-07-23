@@ -10,14 +10,15 @@ namespace sxg::boom {
 	class Block : public Component {
 		CLONABLE(Block)
 	public:
-		void breakBlock() {
-			Animator* anim = gameobject().getComponent<Animator>();
-			anim->playAnimation("break");
-			
-			anim->onAnimationFinish += [this]() {
-				onDestroy();
-			};
-			
+		void breakBlock(float delay=0) {
+			if (delay > 0) {
+				invoke([this]() {this->breakBlock(0); }, delay);
+			}
+			else {
+				Animator* anim = gameobject().getComponent<Animator>();
+				anim->playAnimation("break");
+				anim->onAnimationFinish += [this]() { onDestroy(); };
+			}
 		}
 
 	private:
@@ -36,14 +37,16 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		
-		void trySpawnPowerup() {
-			if (Random::value() < 0.5f) GameObject::Instantiate("powerup", transform().getPosition());
-			else						GameObject::Instantiate("extra",   transform().getPosition());
-		}
+		
 
 		void onDestroy() {
 			trySpawnPowerup();
 			gameobject().destroy();
+		}
+
+		void trySpawnPowerup() {
+			if (Random::value() < 0.5f) GameObject::Instantiate("powerup", transform().getPosition());
+			else						GameObject::Instantiate("extra", transform().getPosition());
 		}
 
 

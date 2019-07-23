@@ -4,6 +4,7 @@ FEATURES TO TEST (ENGINE):
 
 BUGS:
 	✔ some bad freeze happening
+  ☐ read access violation on onCollisionExit (probably deleted go)
 
 TRICS:
 	include header of the class for which you need the implementation only in the .cpp
@@ -32,6 +33,16 @@ TODO LIST:
 
 	WALL
 
+    GAME FLOW
+        ☐ level transition between screens (Level #, Get Ready)
+        ☐ hurry up timer (-30s)
+        ☐ end level score (Time Bonus)
+        ☐ start extra game
+
+    MAP
+        ☐ refactor
+
+
 	BLOCK
 		✔ spawn powerup on break
 
@@ -47,26 +58,28 @@ TODO LIST:
 	POWERUP
 		✔ collect
 		✔ use
+        ☐ ensure multiple effect timers don't overlap
+        ☐ remove after given time
 
 		TYPES
 			flash
-			☐ break all bricks
+      ✔ break all bricks
 			skull
-			☐ kill all enemies
+      ✔ kill all enemies
 			two_bombs
-			☐ increase number bombs same time
+      ✔ increase number bombs same time
 			one_bomb
-			☐ reduce explosion time
+      ✔ reduce explosion time
 			explosion
-			☐ increase explosion radius
+      ✔ increase explosion radius
 			heart
-			☐ +1 hearth
+      ✔ +1 hearth
 			hearts
-			☐ full health restoration
+      ✔ full health restoration
 			shield 
-			☐ make player invincible
+      ✔ make player invincible
 			speed
-			☐ make player fast
+      ✔ make player fast
 
 
 	EXTRA
@@ -79,9 +92,9 @@ TODO LIST:
 	ENEMY
 		☐ become amoeba
 		☐ drop extra
-		☐ move
+        ✔ move
 		☐ shoot
-		☐ damage player
+        ✔ damage player
 		TYPES
 			alien
 			ghost
@@ -99,19 +112,19 @@ TODO LIST:
 		☐ final
 
 	PLAYER
-	☐ spawn at location
+    ✔ spawn at location
 
 	UI
 	✔ background
 	☐ time left
 	☐ level # upright
 	PLAYER
-		☐ head icon
+    ✔ head icon
 		☐ numlives
-		☐ hearts
-		☐ extra
-		✘ powerups
-		✘ powerupnum
+    ✔ hearts
+    ✔ extra
+    ✔ powerups
+    ☐ powerupnum
 		☐ score
 
 
@@ -123,10 +136,7 @@ TODO LIST:
 		☐ info
 		☐ quit
 
-	GAME FLOW
-		☐ level transition between screens (Level #, Get Ready)
-		☐ hurry up timer (-30s)
-		☐ end level score (Time Bonus)
+
 
 
 

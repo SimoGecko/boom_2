@@ -4,26 +4,23 @@
 #include "../Engine.h"
 
 #include "MapBuilder.h"
+#include "Living.h"
 
 // abstract base class for characters (player + enemies) that move, have health
 
 namespace sxg::boom {
 
-	class Character : public Component {
+	class Character : public Component, public Living {
 	public:
 
 	protected:
 		// ________________________________ data
-		float moveSpeed = 5.f;
-		float startingHealth = 3;
 
-
-		//variables
 		Animator* anim;
+		//movement
 		sf::Vector2i prevCell, nextCell;
 		float movePercent;
-
-		float health;
+		bool doMove;
 
 		// ________________________________ base
 	protected:
@@ -31,19 +28,20 @@ namespace sxg::boom {
 			anim = gameobject().getComponent<Animator>();
 			prevCell = nextCell = to_v2i(transform().getPosition());
 			movePercent = 0;
+			doMove = true;
 		}
 
 		void update() override {
-			movement();
+			if(doMove) movement();
 			setAnimation();
-
 		}
 
 		void onCollisionEnter(GameObject& other) {
-
+			/*
 			if (other.tag() == Tag::explosion) {
 				takeDamage(1);
 			}
+			*/
 		}
 
 	private:
@@ -52,7 +50,7 @@ namespace sxg::boom {
 			sf::Vector2i oldMoveDelta = moveDelta();
 
 			if (moving()) {
-				movePercent += speed() * Time::deltaTime();
+				movePercent += moveSpeed() * Time::deltaTime();
 				if (movePercent < 1) {
 					transform().setPosition(lerp(prevCell, nextCell, movePercent));
 				}
@@ -90,6 +88,7 @@ namespace sxg::boom {
 			}
 		}
 
+		// either player input or AI control
 		virtual sf::Vector2i getInput() = 0;
 
 		void setAnimation() {
@@ -103,15 +102,11 @@ namespace sxg::boom {
 				string prefix = attacking() ? "attack_" : "walk_";
 				animName = prefix + string(1, dirchar);
 			}
+			if (dead()) animName = "death";
 			if (animName != anim->currentAnimationName()) {
 				anim->playAnimation(animName);
 			}
 		}
-
-		void takeDamage(int damage) {
-			Debug::log(gameobject().name() + " took damage!");
-		}
-
 
 		// ________________________________ queries
 
@@ -123,8 +118,8 @@ namespace sxg::boom {
 		sf::Vector2i moveDelta() { return nextCell - prevCell; }
 		bool attacking() { return false; }
 		bool moving() { return nextCell != prevCell; }
-		virtual float speed() { return moveSpeed; };
-		sf::Vector2i currentCell() { return movePercent < 0.6f ? prevCell : nextCell; }
+		virtual float moveSpeed() = 0;
+		sf::Vector2i currentCell() { return movePercent < 0.5f ? prevCell : nextCell; }
 
 	};
 }

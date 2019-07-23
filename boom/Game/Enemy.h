@@ -17,13 +17,22 @@ namespace sxg::boom {
 		// ________________________________ data
 		//particular enemy stats here
 		sf::Vector2i previousMoveDelta;
-		bool mustChangeDir;
+		bool mustChangeDir, canChangeDir;
+		float changeDirTime = 0.2f;
+		int enemyMoveSpeed = 2;
+		const int explosionDamage = 1;
+		const int deathAnimationTime = 3.f;
+
+		const int enemyStartingHealth = 1;
+
+		bool isAmoeba = false;
 
 		// ________________________________ base
 		void start() override {
 			Character::start();
-			moveSpeed = 2;
-			startingHealth = 1;
+			restoreHealth(enemyStartingHealth);
+			canChangeDir = true;
+			onDeath += [this]() {enemyDie(); };
 		}
 
 		void update() override {
@@ -35,8 +44,15 @@ namespace sxg::boom {
 			Character::onCollisionEnter(other);
 
 			if (other.tag() == Tag::enemy) {
-				//change dir (hopefully just once)
-				mustChangeDir = true;
+				if (canChangeDir) {
+					canChangeDir = false; // cooldown effect (not too frequent)
+					invoke([this]() {this->canChangeDir = true; }, changeDirTime);
+					mustChangeDir = true;
+				}
+			}
+
+			if (other.tag() == Tag::explosion) {
+				takeDamage(explosionDamage);
 			}
 		}
 		
@@ -64,10 +80,23 @@ namespace sxg::boom {
 			return possibleDirs[Random::range(0, possibleDirs.size())];
 		}
 
+		void enemyDie() {
+			//add score
+			doMove = false;
+			gameobject().destroy(deathAnimationTime);
+		}
+
+		void shoot() {
+			if (Input::getMouseButtonDown(0)) {
+				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
+				Audio::play("Shot");
+			}
+		}
+
 
 		// ________________________________ queries
 
-
+		float moveSpeed() { return enemyMoveSpeed; }
 
 	};
 }

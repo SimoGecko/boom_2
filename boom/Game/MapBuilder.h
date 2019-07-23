@@ -28,6 +28,11 @@ namespace sxg::boom {
 			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
 		}
 
+		bool isStopExplosionPlace(sf::Vector2i pos) {
+			int r = pos.y, c = pos.x;
+			return isValid(pos) && (mapObjects[r][c] == nullptr || isStopExplosionTag(mapObjects[r][c]->tag()));
+		}
+
 		bool isWalkable(sf::Vector2i pos) {
 			int r = pos.y, c = pos.x;
 			return isValid(pos) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
@@ -182,6 +187,9 @@ namespace sxg::boom {
 		}
 		bool isExplodableTag(Tag objectTag) {
 			return objectTag == Tag::block || objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
+		}
+		bool isStopExplosionTag(Tag objectTag) {
+			return objectTag == Tag::block;
 		}
 
 

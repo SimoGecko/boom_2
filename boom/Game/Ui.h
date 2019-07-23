@@ -20,7 +20,7 @@ namespace sxg::boom {
 		const sf::Vector2i canvasOffset		= { -4, -1 };
 
 		const sf::Vector2i headOffset		= { 16, 60 };
-		const sf::Vector2i livesOffset		= { 52, 64 };
+		const sf::Vector2i livesTextOffset	= { 52, 64 };
 
 		const sf::Vector2i heartOffset		= { 16, 92 };
 		const sf::Vector2i heartDist		= { 16, 18 };
@@ -41,18 +41,25 @@ namespace sxg::boom {
 		const sf::Vector2i dropShadowDist	= { 2,2 };
 		const float ppu = 32.f;
 
+		const string defaultFontName = "Born2bSportyV2";
+
 	private:
 		// ________________________________ data
 		playerInfo p1Info;
 		sf::Clock timer;
 		vector<Animator*> hearts;
+		sf::Text *livesText, *scoreText;
 
 		// ________________________________ base
 		void start() override {
 			setupUI();
+			setupText();
+			
 		}
 
 		void update() override {
+			if (Input::getKeyDown(sf::Keyboard::Q)) livesText->setString("changed text: score x2 00987");
+			if (Input::getKeyDown(sf::Keyboard::E)) Font::removeText(livesText);
 
 		}
 		
@@ -77,6 +84,16 @@ namespace sxg::boom {
 				GameObject::Instantiate("bonusIcon", UIpos(bonusOffset, bonusDist, 0, c));
 			}
 
+		}
+
+		void setupText() {
+			livesText = Font::getText(defaultFontName, 32, 32);
+			livesText->setPosition(UIpos(livesTextOffset));
+			livesText->setString("X 3");
+
+			scoreText = Font::getText(defaultFontName, 32, 32);
+			scoreText->setString("score:\n00000");
+			scoreText->setPosition(UIpos(scoreTextOffset));
 		}
  
 

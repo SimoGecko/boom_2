@@ -18,27 +18,47 @@ namespace sxg::boom {
 		}
 	private:
 		// ________________________________ const
-		const float speedBoost = 2.f;
+		int playerStartingHealth = 100;
+		float normalMoveSpeed = 5.f;
 
-		const int nMaxBombs = 3;
-		const int nMaxBombsPowerup = 6;
+		//bombs data
+		int explosionDamage = 1;
 
+		int nAvailableBombs = 3;
+		int bombExplosionDistance = 2;
+		float bombExplosionDelay = 0.5f;
+
+
+
+		friend class Powerup;
 		// ________________________________ variables
 
 
-		int availableBombs;
+		int deployedBombs;
 
 		// ________________________________ base
 		void start() override {
 			Character::start();
-
-			availableBombs = nMaxBombs;
+			restoreHealth(playerStartingHealth);
+			deployedBombs = 0;
 		}
 
 		void update() override {
 			Character::update();
 
 			placeBomb();
+		}
+
+		void onCollisionEnter(GameObject& other) {
+			Character::onCollisionEnter(other);
+
+			if (other.tag() == Tag::enemy) {
+
+			}
+
+			if (other.tag() == Tag::explosion) {
+				takeDamage(explosionDamage);
+			}
 		}
 
 		
@@ -57,25 +77,23 @@ namespace sxg::boom {
 
 		
 
-		void shoot() {
-			if (Input::getMouseButtonDown(0)) {
-				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
-				Audio::play("Shot");
-			}
-		}
+		
 
 		void placeBomb() {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
-				if (availableBombs > 0) {
+				if (nAvailableBombs-deployedBombs > 0) {
 					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
-					availableBombs--;
+					deployedBombs++;
 					//call back on explosion
-					bombGo->getComponent<Bomb>()->onExplode += [this]() {availableBombs++; };
+					Bomb* bomb = bombGo->getComponent<Bomb>();
+					bomb->trigger(bombExplosionDelay, bombExplosionDistance);
+					bomb->onExplode += [this]() {deployedBombs--; };
 				}
 			}
 		}
 
 		// ________________________________ queries
+		float moveSpeed() { return normalMoveSpeed; }
 
 
 	};

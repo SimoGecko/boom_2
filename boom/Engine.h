@@ -6,6 +6,7 @@
 //#include "Engine\Collider.h"
 #include "Engine\Component.h"
 #include "Engine\Event.h"
+#include "Engine\Font.h"
 //#include "Engine\Game.h"
 #include "Engine\GameObject.h"
 #include "Engine\Gizmos.h"

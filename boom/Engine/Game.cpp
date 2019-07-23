@@ -38,6 +38,9 @@ namespace sxg::engine {
 		//create prefabs and scenes
 		BuildList::AddActiveScenesAndPrefabs();
 
+		//remove from build
+		sxg::boom::Tools::start();
+
 		//start up all components and gameobjects
 		Screen ::start();
 		Time   ::start();
@@ -66,6 +69,7 @@ namespace sxg::engine {
 		for (Renderable* renderable : Renderable::All()) {
 			renderable->draw();
 		}
+		Font  ::draw();
 		Gizmos::draw();
 	}
 

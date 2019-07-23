@@ -2,15 +2,15 @@
 # [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
 idle_D			S 	0 0 1	F
-idle_U			S 	1 0 1	F
-idle_R			S 	2 0 1	F
-idle_L			S 	3 0 1	F
+# idle_U		S 	1 0 1	F
+# idle_R		S 	2 0 1	F
+# idle_L		S 	3 0 1	F
 
 walk_D			S 	0 0 8	T
 walk_U			S 	1 0 8	T
 walk_R			S 	2 0 8	T
 walk_L			S 	3 0 8	T
 
-die				S 	4 0 3	T
+death			S 	4 0 3	T
 win				S 	4 3 1	F
 hurt			S 	4 4 1	F

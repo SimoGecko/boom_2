@@ -13,21 +13,24 @@ namespace sxg::boom {
 		CLONABLE(Bomb)
 	public:
 		Event onExplode;
+		void trigger(float timer, int distance) {
+			bombTimer = timer;
+			bombDistance = distance;
+			triggerBomb();
+		}
 
 	private:
 		// ________________________________ const
-		const float bombTimer = 1.f;
-		const float tickingOffset = 1.f;
-		const int distance = 2;
+		const float tickingOffset = 0.5f;
+
+		float bombTimer; // the player sets these
+		int bombDistance;
 
 		// ________________________________ variables
 
 
 		// ________________________________ base
 		void start() override {
-			invoke([this]() {this->startTicking(); }, bombTimer - tickingOffset);
-			invoke([this]() {this->explode(); }, bombTimer);
-
 			//test graveyard
 			//Time::callback(bind(&Bomb::startTicking, this), bombTimer - tickingOffset);
 			//Time::callback(&printTestBomb(), 1.f);
@@ -46,6 +49,11 @@ namespace sxg::boom {
 
 		
 		// ________________________________ commands
+		void triggerBomb() {
+			invoke([this]() {this->startTicking(); }, bombTimer - tickingOffset);
+			invoke([this]() {this->explode(); }, bombTimer);
+		}
+
 		void startTicking() {
 			gameobject().getComponent<Animator>()->playAnimation("ticking");
 		}
@@ -68,14 +76,15 @@ namespace sxg::boom {
 		}
 
 		void tryInstantiateExplosionPiece(sf::Vector2i origin, sf::Vector2i delta, orientation orient) {
-			for (int i = 1; i <= distance; ++i) {
+			for (int i = 1; i <= bombDistance; ++i) {
 				sf::Vector2i position = origin + i * delta;
 				bool valid = MapBuilder::instance->isValidExplosionPlace(position);
+				bool stopExplosion = MapBuilder::instance->isStopExplosionPlace(position);
 				if (valid) {
 					instantiateExplosionPiece(position, orient);
 				}
-				else {
-					break; // found something to block explosion
+				if(!valid || stopExplosion) {
+					break; // found something to block explosion (including brick)
 				}
 			}
 		}

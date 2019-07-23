@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "MapBuilder.h"
 #include "Ui.h"
-#include "Tools.h"
 
 // provides the general game scene for boom
 
