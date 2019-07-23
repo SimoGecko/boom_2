@@ -6,7 +6,7 @@
 
 namespace sxg::engine {
 
-	enum Tag {
+	enum class Tag {
 		defaultTag = 0,
 
 		block,
@@ -20,10 +20,11 @@ namespace sxg::engine {
 		player,
 		powerup,
 		teleporter,
+		ui,
 		wall,
 	};
 
-	enum Layer {
+	enum class Layer {
 		defaultLayer = 0,
 		background,
 		elements,

@@ -39,13 +39,15 @@ namespace sxg::boom {
 
 	private:
 		// ________________________________ data
-		const int startLevel = 19;
+		const int startLevel = 18;
 
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
 		unordered_map<int, string> prefabNamesMap;
 		vector<vector<GameObject*>> mapObjects;
+
+		bool instantiatedPlayer = false;
 
 
 		// ________________________________ base
@@ -111,7 +113,7 @@ namespace sxg::boom {
 		}
 
 		bool doInstantiate(const string& s) {
-			return s == "block" || s == "wall" || s == "coin" || s == "teleporter";
+			return s == "block" || s == "wall" || s == "coin" || s == "teleporter" || s == "player" || s == "enemy";
 		}
 
 		void instantiateLevelPrefabs(const sf::Image& levelImage) {
@@ -122,11 +124,22 @@ namespace sxg::boom {
 					sf::Color pxColor = levelImage.getPixel(c, r);
 					const string& prefabName = prefabNameFromColor(pxColor);
 					sf::Vector2f position((float)c, (float)r);
+
 					//instantiate prefab
 					if (doInstantiate(prefabName)) {
+
+						if (prefabName == "player") { // temporary hack
+							if (instantiatedPlayer) {
+								mapObjects[r][c] = nullptr;
+								continue;
+							}
+							instantiatedPlayer = true;
+						}
 						mapObjects[r][c] = GameObject::Instantiate(prefabName, position);
 					}
-					else {
+
+					if (!doInstantiate(prefabName) || prefabName == "player" || prefabName == "enemy") {
+						//or coin
 						mapObjects[r][c] = nullptr;
 					}
 				}
@@ -164,10 +177,10 @@ namespace sxg::boom {
 		}
 
 		//shouldn't have player or enemy
-		bool isWalkableTag(int objectTag) {
+		bool isWalkableTag(Tag objectTag) {
 			return objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
 		}
-		bool isExplodableTag(int objectTag) {
+		bool isExplodableTag(Tag objectTag) {
 			return objectTag == Tag::block || objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
 		}
 

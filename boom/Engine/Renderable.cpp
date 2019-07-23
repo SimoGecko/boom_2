@@ -4,8 +4,8 @@
 
 namespace sxg::engine {
 	
-	Renderable::Renderable(const string& spriteName, sf::IntRect spriteRect, int layer, int ppu, bool add) :
-		_sprite(Resources::Get<sf::Texture>(spriteName), spriteRect), _layerOrder(layer), _pxPerUnit(ppu) {
+	Renderable::Renderable(const string& spriteName, sf::IntRect spriteRect, Layer layer, int ppu, bool add) :
+		_sprite(Resources::Get<sf::Texture>(spriteName), spriteRect), _layerOrder((int)layer), _pxPerUnit(ppu) {
 
 		_sprite.setScale((1.0f / ppu), (1.0f/ppu));
 		//insertion to renderables is made by the scene

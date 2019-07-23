@@ -13,3 +13,4 @@ walk_L			S 	3 0 8	T
 
 die				S 	4 0 3	T
 win				S 	4 3 1	F
+hurt			S 	4 4 1	F

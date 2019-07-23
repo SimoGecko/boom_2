@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{df48e28a-bfdf-4b3a-b307-6e8d419ca370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Scripts">
+      <UniqueIdentifier>{48bb855f-1be6-4ec5-96c4-8a00d500977e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,9 +69,6 @@
     <ClCompile Include="Engine\Component.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Managers.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Event.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
@@ -80,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Physics.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Managers.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,44 +122,14 @@
     <ClInclude Include="Engine\Prefabs.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\BoomPrefabs.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Bullet.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Player.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Resources.h">
       <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\BoomScene.h">
-      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Animator.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio.h">
       <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\MapBuilder.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Block.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Bomb.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Coin.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Explosion.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Teleporter.h">
-      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Specific.h">
       <Filter>Header Files\Engine</Filter>
@@ -176,22 +149,55 @@
     <ClInclude Include="Engine\Physics.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Enemy.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="Game\Block.h">
+      <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Powerup.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="Game\Bomb.h">
+      <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Ui.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="Game\Bullet.h">
+      <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Game\Character.h">
-      <Filter>Source Files\Game</Filter>
+      <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Pickup.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="Game\Coin.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Explosion.h">
+      <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Game\Extra.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MapBuilder.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Pickup.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Powerup.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Teleporter.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Ui.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BoomPrefabs.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BoomScene.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tools.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

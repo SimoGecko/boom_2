@@ -3,7 +3,7 @@ FEATURES TO TEST (ENGINE):
 	☐ can move view
 
 BUGS:
-
+	✔ some bad freeze happening
 
 TRICS:
 	include header of the class for which you need the implementation only in the .cpp
@@ -33,40 +33,44 @@ TODO LIST:
 	WALL
 
 	BLOCK
-		☐ spawn powerup on break
+		✔ spawn powerup on break
 
 	COIN
 		☐ start extra game when all collected
 
 	EXPLOSION
 		☐ fix explosion distance
-		
+
 	TELEPORTER
 		☐	teleport player
 
 	POWERUP
-		flash
-		☐ break all bricks
-		skull
-		☐ kill all enemies
-		two_bombs
-		☐ increase number bombs same time
-		one_bomb
-		☐ reduce explosion time
-		explosion
-		☐ increase explosion radius
-		heart
-		☐ +1 hearth
-		hearts
-		☐ full health restoration
-		shield 
-		☐ make player invincible
-		speed
-		☐ make player fast
+		✔ collect
+		✔ use
+
+		TYPES
+			flash
+			☐ break all bricks
+			skull
+			☐ kill all enemies
+			two_bombs
+			☐ increase number bombs same time
+			one_bomb
+			☐ reduce explosion time
+			explosion
+			☐ increase explosion radius
+			heart
+			☐ +1 hearth
+			hearts
+			☐ full health restoration
+			shield 
+			☐ make player invincible
+			speed
+			☐ make player fast
 
 
 	EXTRA
-		☐ change letter
+		✔ change letter
 		☐ give extra life
 
 	IN-GAME UI
@@ -95,10 +99,10 @@ TODO LIST:
 		☐ final
 
 	PLAYER
-	SPAWN AT LOCATION
+	☐ spawn at location
 
 	UI
-	☐ background
+	✔ background
 	☐ time left
 	☐ level # upright
 	PLAYER

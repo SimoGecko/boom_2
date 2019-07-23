@@ -1,14 +1,14 @@
 # BONUS_ICONS animations
 # [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-two_bombs		S 	0 0 1	F
-one_bomb		S 	0 1 1	F
-explosion		S 	0 2 1	F
-shield			S 	0 3 1	F
-speed			S 	0 4 1	F
+moreBombs			S 	0 0 1	F
+fasterBombs			S 	0 1 1	F
+explosion			S 	0 2 1	F
+shield				S 	0 3 1	F
+speed				S 	0 4 1	F
 
-grey_two_bombs	S 	1 0 1	F
-grey_one_bomb	S 	1 1 1	F
-grey_explosion	S 	1 2 1	F
-grey_shield		S 	1 3 1	F
-grey_speed		S 	1 4 1	F
+grey_moreBombs		S 	1 0 1	F
+grey_fasterBombs	S 	1 1 1	F
+grey_explosion		S 	1 2 1	F
+grey_shield			S 	1 3 1	F
+grey_speed			S 	1 4 1	F

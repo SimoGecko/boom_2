@@ -11,6 +11,8 @@ namespace sxg::boom {
 	class Coin : public Pickup {
 		CLONABLE(Coin)
 	public:
+		static int numRemainingCoins() { return nCoins; }
+		Event onAllCoinsCollected;
 
 
 	private:
@@ -20,7 +22,7 @@ namespace sxg::boom {
 		// ________________________________ base
 		//the most derived virtual function is called, even if class in the middle didn't re-declare as virtual
 		void start() override {
-
+			nCoins++;
 		}
 		
 
@@ -35,12 +37,16 @@ namespace sxg::boom {
 			anim->playAnimation("rotate");
 			//add to score manager
 			MapBuilder::instance->removeGo(to_v2i(transform().getPosition()));
+			nCoins--;
+			if (nCoins == 0) onAllCoinsCollected();
 			gameobject().destroy(rotationTime);
 		}
 
+
+
 		// ________________________________ queries
 
-
+		static int nCoins;
 
 	};
 }

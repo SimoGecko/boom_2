@@ -17,7 +17,7 @@ namespace sxg::engine {
 	class GameObject {
 	public:
 		//_________________________ construction, components and destruction
-		GameObject(const string name, int tag = Tag::defaultTag);
+		GameObject(const string name, Tag tag = Tag::defaultTag);
 		virtual ~GameObject();
 		//ctor with renderable already
 		//ctor with transform
@@ -47,7 +47,7 @@ namespace sxg::engine {
 			return nullptr;
 		}
 
-		void addRenderable(const string& spriteName, sf::IntRect spriteRect, int layer = Layer::defaultLayer, int ppu = 100, bool add = true);
+		void addRenderable(const string& spriteName, sf::IntRect spriteRect, Layer layer = Layer::defaultLayer, int ppu = 100, bool add = true);
 
 		//_________________________ normal methods
 
@@ -61,7 +61,7 @@ namespace sxg::engine {
 
 		//_________________________ queries
 		const string& name() const;
-		int tag() const;
+		Tag tag() const;
 		bool active() const;
 
 		void setActive(bool active);
@@ -75,19 +75,19 @@ namespace sxg::engine {
 		static const vector<GameObject*>& All();
 
 		static GameObject* FindGameObjectWithName(const string& name);
-		static vector<GameObject*> FindGameObjectsWithTag(int tag);
+		static vector<GameObject*> FindGameObjectsWithTag(Tag tag);
 
 		static GameObject* Instantiate(const string& name, sf::Transformable* transf = nullptr, sf::Vector2f position = {0,0});
 		static GameObject* Instantiate(const string& name, sf::Vector2f position);
 
 	private:
-		string _name;
-		int _tag;
+		string _name; // make shared string and instance#
+		Tag _tag;
 		bool _active;
 
 		vector<Component*> _components;
 		Renderable* _renderable;
-		sf::Transformable _transform; // not really needed
+		sf::Transformable _transform; // not really needed, remove
 
 		//methods
 		static string getUniqueName(const string& name);

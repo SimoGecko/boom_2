@@ -191,6 +191,7 @@
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Powerup.h" />
     <ClInclude Include="Game\Teleporter.h" />
+    <ClInclude Include="Game\Tools.h" />
     <ClInclude Include="Game\Ui.h" />
     <ClInclude Include="Includes.h" />
   </ItemGroup>

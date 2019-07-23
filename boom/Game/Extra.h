@@ -14,8 +14,7 @@ namespace sxg::boom {
 		enum class ExtraLetter{E,X,T,R,A};
 		
 		void switchToNextLetter() {
-			string animName = /*(letters + letters)*/letters2.substr(currentLetterIndex, 2);
-			Debug::log("extra anim: " + animName);
+			string animName = (letters + letters).substr(currentLetterIndex, 2);
 			currentLetterIndex = (currentLetterIndex+1)%letters.size();
 			anim->playAnimation(animName);
 			callbackLetterChange();
@@ -35,8 +34,7 @@ namespace sxg::boom {
 			anim = gameobject().getComponent<Animator>();
 			currentLetterIndex = Random::range(0, letters.size());
 			string animName = letters.substr(currentLetterIndex, 1);
-			Debug::log("extra anim: " + animName);
-			anim->playAnimation(animName); // THE ERROR IS HERE; PROBABLY DATA RACE
+			anim->playAnimation(animName);
 			callbackLetterChange();
 		}
 

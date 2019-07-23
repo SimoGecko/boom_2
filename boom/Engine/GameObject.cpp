@@ -5,7 +5,7 @@
 namespace sxg::engine {
 
 	//_________________________ construction / destruction
-	GameObject::GameObject(const string name,  int tag) :
+	GameObject::GameObject(const string name,  Tag tag) :
 		_name(getUniqueName(name)), _tag(tag), _active(true), _renderable(nullptr) {
 		// add to list
 	}
@@ -54,7 +54,7 @@ namespace sxg::engine {
 
 	//_________________________ components
 
-	void GameObject::addRenderable(const string& spriteName, sf::IntRect spriteRect, int layer, int ppu, bool add) {
+	void GameObject::addRenderable(const string& spriteName, sf::IntRect spriteRect, Layer layer, int ppu, bool add) {
 		//copy transformation so far
 		_renderable = new Renderable(spriteName, spriteRect, layer, ppu, add);
 	}
@@ -83,7 +83,7 @@ namespace sxg::engine {
 
 	//_________________________ queries
 	const string& GameObject::name() const { return _name; }
-	int GameObject::tag() const { return _tag; }
+	Tag GameObject::tag() const { return _tag; }
 	bool GameObject::active() const { return _active; }
 	void GameObject::setActive(bool active) { _active = active; }
 
@@ -124,7 +124,7 @@ namespace sxg::engine {
 		return nullptr;
 	}
 
-	vector<GameObject*> GameObject::FindGameObjectsWithTag(int tag) {
+	vector<GameObject*> GameObject::FindGameObjectsWithTag(Tag tag) {
 		// TODO implement better DS to speed up queries
 		const vector<GameObject*>& all = All();
 		vector<GameObject*> ans;

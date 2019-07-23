@@ -34,8 +34,6 @@ namespace sxg::engine {
 	}
 
 	void Animator::playAnimation(const string& animName) {
-		if(animName.size()<=2) Debug::log("\tanim: " + animName);
-
 		if (_animFrames->count(animName) == 0) {
 			Debug::logError("Animator doesn't have animation " + animName);
 			return;
@@ -44,13 +42,8 @@ namespace sxg::engine {
 		_timer = 1.0f / _fps;
 		_currentIndex = 0;
 		_currentAnim = &(_animFrames->at(animName));
-		//set initial frame
-		if (animName.size() <= 2) {
-			Debug::log("\tsprite: " + to_string(_spriteRef));
-			sf::Vector2i bounds(_currentAnim->_frames[0].left, _currentAnim->_frames[0].top);
-			Debug::log("\trect  : " + to_string(bounds));
-		}
 
+		//set initial frame
 		_spriteRef->setTextureRect(_currentAnim->_frames[0]);
 	}
 

@@ -6,9 +6,10 @@ walk_U			S 	1 0 4	T
 walk_R			S 	2 0 4	T
 walk_L			S 	3 0 4	T
 
-shoot_D			S 	0 0 1	T
-shoot_U			S 	1 0 1	T
-shoot_R			S 	2 0 1	T
-shoot_L			S 	3 0 1	T
+attack_D		S 	0 0 1	T
+attack_U		S 	1 0 1	T
+attack_R		S 	2 0 1	T
+attack_L		S 	3 0 1	T
 
-die				S 	4 0 2	T
+die2			S 	4 0 2	T
+die4			S 	4 0 4	T
