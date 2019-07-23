@@ -18,6 +18,7 @@ namespace sxg::boom {
 	private:
 		// ________________________________ data
 		const float rotationTime = 2.f;
+		static int nCoins;
 
 		// ________________________________ base
 		//the most derived virtual function is called, even if class in the middle didn't re-declare as virtual
@@ -36,17 +37,13 @@ namespace sxg::boom {
 			Animator* anim = gameobject().getComponent<Animator>();
 			anim->playAnimation("rotate");
 			//add to score manager
-			MapBuilder::instance->removeGo(to_v2i(transform().getPosition()));
 			nCoins--;
 			if (nCoins == 0) onAllCoinsCollected();
 			gameobject().destroy(rotationTime);
 		}
 
 
-
 		// ________________________________ queries
-
-		static int nCoins;
 
 	};
 }

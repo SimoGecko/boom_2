@@ -9,6 +9,7 @@ namespace sxg::engine {
 	enum class Tag {
 		defaultTag = 0,
 
+		empty,
 		block,
 		bomb,
 		bullet,

@@ -29,10 +29,8 @@ namespace sxg::boom {
 		};
 
 	private:
+		using powerupEffect = void(Powerup::*)(Player&);
 		// ________________________________ data
-
-
-
 
 
 		Animator * anim;
@@ -53,23 +51,12 @@ namespace sxg::boom {
 		// ________________________________ commands
 		void pickup(Player& player) override {
 			//take effect on player
-			callRightEffect(player);
+			powerupEffect effect = getPowerupEffect(powerupType);
+			//effect(this, player);
 			gameobject().destroy();
 		}
 
-		void callRightEffect(Player& player) {
-			switch (powerupType) {
-				case Powerup::flash:		flashEffect(player); break;
-				case Powerup::skull:		skullEffect(player); break;
-				case Powerup::moreBombs:	moreBombsEffect(player); break;
-				case Powerup::fasterBombs:	fasterBomsEffect(player); break;
-				case Powerup::explosion:	biggerExplosionEffect(player); break;
-				case Powerup::heart:		oneHeartEffect(player); break;
-				case Powerup::hearts:		fullHeartsEffect(player); break;
-				case Powerup::shield:		shieldEffect(player); break;
-				case Powerup::speed:		speedEffect(player); break;
-			}
-		}
+		
 
 		// ________________________________ powerups
 
@@ -86,7 +73,7 @@ namespace sxg::boom {
 			vector<GameObject*> allBlocks = GameObject::FindGameObjectsWithTag(Tag::block);
 			for (GameObject* block : allBlocks) {
 				float delay = delayForOvation * block->transform().getPosition().x;
-				block->getComponent<Block>()->breakBlock(delay);
+				block->getComponent<Block>()->breakBlockDelay(delay);
 			}
 		}
 
@@ -174,6 +161,21 @@ namespace sxg::boom {
 				case Powerup::speed:		return "speed";
 			}
 			return "";
+		}
+
+
+		powerupEffect getPowerupEffect(PowerupType type) {
+			switch (type) {
+				case Powerup::flash:		return &Powerup::flashEffect;
+				case Powerup::skull:		return &Powerup::skullEffect;
+				case Powerup::moreBombs:	return &Powerup::moreBombsEffect;
+				case Powerup::fasterBombs:	return &Powerup::fasterBomsEffect;
+				case Powerup::explosion:	return &Powerup::biggerExplosionEffect;
+				case Powerup::heart:		return &Powerup::oneHeartEffect;
+				case Powerup::hearts:		return &Powerup::fullHeartsEffect;
+				case Powerup::shield:		return &Powerup::shieldEffect;
+				case Powerup::speed:		return &Powerup::speedEffect;
+			}
 		}
 
 	};

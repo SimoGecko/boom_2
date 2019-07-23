@@ -72,10 +72,9 @@ namespace sxg::boom {
 
 			//pick random available dir
 			vector<sf::Vector2i> possibleDirs;
-			if (freeCell(sf::Vector2i( 1, 0))) possibleDirs.push_back(sf::Vector2i( 1, 0));
-			if (freeCell(sf::Vector2i(-1, 0))) possibleDirs.push_back(sf::Vector2i(-1, 0));
-			if (freeCell(sf::Vector2i(0,  1))) possibleDirs.push_back(sf::Vector2i(0,  1));
-			if (freeCell(sf::Vector2i(0, -1))) possibleDirs.push_back(sf::Vector2i(0, -1));
+			for (sf::Vector2i d : Utility::dir4) {
+				if (freeCell(d)) possibleDirs.push_back(d);
+			}
 			if (possibleDirs.empty()) Debug::logError("Enemy should have at least one position to move to.");
 			return possibleDirs[Random::range(0, possibleDirs.size())];
 		}

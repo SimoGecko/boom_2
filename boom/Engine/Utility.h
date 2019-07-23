@@ -27,6 +27,7 @@ namespace sxg::engine {
 	
 	class Utility {
 	public:
+		static vector<sf::Vector2i> dir4;
 	private:
 	};
 
@@ -178,6 +179,16 @@ namespace sxg::engine {
 			if (a <= 225) return dir::left;
 			if (a <= 315) return dir::up;
 			return dir::right;
+		}
+
+		sf::Vector2i vectorFromDir(dir d) {
+			switch (d) {
+				case dir::down:		return { 0, 1};
+				case dir::up:		return { 0,-1};
+				case dir::right:	return { 1, 0};
+				case dir::left:		return {-1, 0};
+			}
+			return { 0,0 };
 		}
 
 		char charFromDir(dir d) {

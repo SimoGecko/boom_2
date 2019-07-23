@@ -26,7 +26,7 @@ namespace sxg::boom {
 
 		int nAvailableBombs = 3;
 		int bombExplosionDistance = 2;
-		float bombExplosionDelay = 0.5f;
+		float bombExplosionDelay = 2.5f;
 
 
 
@@ -73,11 +73,7 @@ namespace sxg::boom {
 			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
 			return input;
 		}
-		
 
-		
-
-		
 
 		void placeBomb() {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {

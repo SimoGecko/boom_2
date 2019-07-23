@@ -19,7 +19,6 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void start() override {
-			damageComponents();
 			deleteOnAnimationFinish();
 		}
 
@@ -28,9 +27,6 @@ namespace sxg::boom {
 		}
 		
 		// ________________________________ commands
-		void damageComponents() {
-			MapBuilder::instance->explosionAt(to_v2i(transform().getPosition()));
-		}
 
 		void deleteOnAnimationFinish() {
 			gameobject().getComponent<Animator>()->onAnimationFinish += [this]() { gameobject().destroy(); };

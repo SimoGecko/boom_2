@@ -56,6 +56,7 @@ namespace sxg::boom {
 				block->addRenderable("block", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
 				blockAnim->setup(&(block->renderable().sprite()), 8, { 1, 4 }, "anim_block");
+				block->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
 			//WALL
@@ -169,7 +170,7 @@ namespace sxg::boom {
 				GameObject* enemy = new GameObject("enemy", Tag::enemy);
 				prefabs.push_back(enemy);
 				enemy->addComponent<Enemy>();
-				enemy->addRenderable("amoeba", sf::IntRect(0, 0, 32, 32), Layer::characters, 32, false);
+				enemy->addRenderable("characters/taur", sf::IntRect(0, 0, 32, 32), Layer::characters, 32, false);
 				Animator* anim = enemy->addComponent<Animator>();
 				anim->setup(&(enemy->renderable().sprite()), 8, { 5,5 }, "anim_enemy");
 				enemy->addComponent<CircleCollider>()->setRadius(0.5f);

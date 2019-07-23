@@ -14,7 +14,7 @@ namespace sxg::boom {
 
 	private:
 		// ________________________________ data
-		float speed = 3;
+		float moveSpeed = 3.f;
 
 		// ________________________________ base
 		void start() override {
@@ -27,7 +27,7 @@ namespace sxg::boom {
 
 		// ________________________________ commands
 		void move() {
-			sf::Vector2f moveDelta = sf::Vector2f(1, 0) * speed * Time::deltaTime();
+			sf::Vector2f moveDelta = sf::Vector2f(1, 0) * moveSpeed * Time::deltaTime();
 			transform().move(moveDelta);
 		}
 

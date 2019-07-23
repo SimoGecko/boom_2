@@ -31,16 +31,7 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void start() override {
-			//test graveyard
-			//Time::callback(bind(&Bomb::startTicking, this), bombTimer - tickingOffset);
-			//Time::callback(&printTestBomb(), 1.f);
-			//Time::callback(explode(), bombTimer);
 
-			//Time::callback([]() {cout << "test" << endl; }, 1.f); // THIS WORKS
-			//Time::callback([]() {Bomb::printTestBomb(); }, 1.f); // THIS WORKS
-			//invoke()
-			//Time::callback(bind(&Bomb::startTicking, this), 1.f);
-			//invoke(&Bomb::startTicking, 1);
 		}
 
 		void update() override {
@@ -69,30 +60,21 @@ namespace sxg::boom {
 			sf::Vector2i pos = to_v2i(transform().getPosition());
 			instantiateExplosionPiece(pos, orientation::center);
 
-			tryInstantiateExplosionPiece(pos, {  1, 0 }, orientation::horizontal);
-			tryInstantiateExplosionPiece(pos, { -1, 0 }, orientation::horizontal);
-			tryInstantiateExplosionPiece(pos, { 0,  1 }, orientation::vertical);
-			tryInstantiateExplosionPiece(pos, { 0, -1 }, orientation::vertical);
+			instantiateExplosionDirection(pos, {  1, 0 }, orientation::horizontal);
+			instantiateExplosionDirection(pos, { -1, 0 }, orientation::horizontal);
+			instantiateExplosionDirection(pos, { 0,  1 }, orientation::vertical);
+			instantiateExplosionDirection(pos, { 0, -1 }, orientation::vertical);
 		}
 
-		void tryInstantiateExplosionPiece(sf::Vector2i origin, sf::Vector2i delta, orientation orient) {
-			for (int i = 1; i <= bombDistance; ++i) {
-				sf::Vector2i position = origin + i * delta;
-				bool valid = MapBuilder::instance->isValidExplosionPlace(position);
-				bool stopExplosion = MapBuilder::instance->isStopExplosionPlace(position);
-				if (valid) {
-					instantiateExplosionPiece(position, orient);
-				}
-				if(!valid || stopExplosion) {
-					break; // found something to block explosion (including brick)
-				}
+		void instantiateExplosionDirection(sf::Vector2i origin, sf::Vector2i delta, orientation orient) {
+			int mapDistance = MapBuilder::instance->getExplosionDist(origin, delta);
+			for (int i = 1; i <= min(bombDistance, mapDistance); ++i) {
+				instantiateExplosionPiece(origin + i * delta, orient);
 			}
 		}
 
 		void instantiateExplosionPiece(sf::Vector2i position, orientation orient) {
-			//instantiate it there
 			GameObject* explosionGo = GameObject::Instantiate("explosion", to_v2f(position));
-			//Explosion* explosion = explosionGo->getComponent<Explosion>();
 			const string& animName = stringFromOrientation(orient);
 			explosionGo->getComponent<Animator>()->playAnimation(animName);
 		}

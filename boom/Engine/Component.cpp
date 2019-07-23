@@ -13,6 +13,19 @@ namespace sxg::engine {
 		//memfun(*this);
 	}
 	*/
+
+	//test graveyard
+	/*
+	Time::callback(bind(&Bomb::startTicking, this), bombTimer - tickingOffset);
+	Time::callback(&printTestBomb(), 1.f);
+	Time::callback(explode(), bombTimer);
+	
+	Time::callback([]() {cout << "test" << endl; }, 1.f); // THIS WORKS
+	Time::callback([]() {Bomb::printTestBomb(); }, 1.f); // THIS WORKS
+	Time::callback(bind(&Bomb::startTicking, this), 1.f);
+	invoke(&Bomb::startTicking, 1);
+	*/
+
 	void Component::invoke(function<void(void)> func, float delay) {
 		Time::invoke(func, delay, &gameobject());
 	}

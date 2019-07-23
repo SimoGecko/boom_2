@@ -16,4 +16,7 @@ namespace sxg::engine {
 	int   Random::range(int min, int max);
 	float Random::range(float min, float max);
 	*/
+
+	vector<sf::Vector2i> Utility::dir4 = { { 1, 0},{-1, 0},{0,  1},{0, -1} };
+
 }

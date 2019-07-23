@@ -3,7 +3,6 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Block.h"
 // reads the appropriate pixel subsection representing a map and instantiates the prefabs in the correct position.
 
 namespace sxg::boom {
@@ -13,33 +12,30 @@ namespace sxg::boom {
 		CLONABLE(MapBuilder)
 	public:
 		static MapBuilder* instance;
-		void explosionAt(sf::Vector2i position) {
-			int r = position.y;
-			int c = position.x;
-			//destroy block
-			if (isValid(position) && mapObjects[r][c] != nullptr && mapObjects[r][c]->tag() == Tag::block) {
-				mapObjects[r][c]->getComponent<Block>()->breakBlock();
-				mapObjects[r][c] = nullptr;
-			}
-		}
-
-		bool isValidExplosionPlace(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return isValid(pos) && (mapObjects[r][c] == nullptr || isExplodableTag(mapObjects[r][c]->tag()));
-		}
-
-		bool isStopExplosionPlace(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return isValid(pos) && (mapObjects[r][c] == nullptr || isStopExplosionTag(mapObjects[r][c]->tag()));
-		}
 
 		bool isWalkable(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return isValid(pos) && (mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
+			return isValid(pos) && tagsMap[pos.y][pos.x] == Tag::empty;//(mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
 		}
 
-		void removeGo(sf::Vector2i position) {
-			mapObjects[position.y][position.x] = nullptr;
+		int getExplosionDist(sf::Vector2i center, sf::Vector2i delta) { // int maxDist
+			int ans = 0;
+			//sf::Vector2i delta = vectorFromDir(direction);
+			sf::Vector2i pos = center;
+
+			while (isValid(pos)) {
+				Tag tag = tagsMap[pos.y][pos.x];
+				if (tag == Tag::block) return ans;
+				if (tag == Tag::wall)  return ans-1;
+
+				pos += delta;
+				ans++;
+			}
+			return ans-1;
+		}
+
+		void blockBroke(sf::Vector2i pos) {
+			if (tagsMap[pos.y][pos.x] != Tag::block) Debug::logError("Block is not breakable in MapBuilder.");
+			tagsMap[pos.y][pos.x] = Tag::empty;
 		}
 
 	private:
@@ -49,10 +45,11 @@ namespace sxg::boom {
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
-		unordered_map<int, string> prefabNamesMap;
-		vector<vector<GameObject*>> mapObjects;
+		const int numPlayers = 1;
 
-		bool instantiatedPlayer = false;
+		//unordered_map<int, string> prefabNamesMap;
+		vector<vector<Tag>> tagsMap; // only need to know for stuff that doesn't move
+		vector<sf::Vector2i> playerStartPos;
 
 
 		// ________________________________ base
@@ -60,7 +57,6 @@ namespace sxg::boom {
 			if (instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
 			instance = this;
 
-			buildPrefabMap();
 			loadLevel(startLevel);
 		}
 
@@ -71,15 +67,10 @@ namespace sxg::boom {
 		void loadLevel(int level) {
 			Debug::ensure(1 <= level && level <= maxLevel, "Invalid level index: " + to_string(level));
 
-			//0. create background and border
 			setupBackgroundAndBorder();
-
-			//1. get pixel subsection
 			sf::Image levelImage = getLevelPixels(level);
-
-			//2. iterate instantiating right prefabs
 			instantiateLevelPrefabs(levelImage);
-
+			instantiatePlayers();
 		}
 		
 
@@ -93,105 +84,101 @@ namespace sxg::boom {
 			}
 			//border
 			for (int r = 0; r < H; ++r) {
-				GameObject::Instantiate("border", sf::Vector2f(-1,r ))->getComponent<Animator>()->playAnimation("L");
-				GameObject::Instantiate("border", sf::Vector2f(W, r ))->getComponent<Animator>()->playAnimation("R");
+				addBorder(r, -1, "L");
+				addBorder(r, W, "R");
 			}
 			for (int c = 0; c < W; ++c) {
-				GameObject::Instantiate("border", sf::Vector2f(c, -1 ))->getComponent<Animator>()->playAnimation("U");
-				GameObject::Instantiate("border", sf::Vector2f(c,  H ))->getComponent<Animator>()->playAnimation("D");
+				addBorder(-1, c, "U");
+				addBorder(H, c, "D");
 			}
-			GameObject::Instantiate("border", sf::Vector2f(-1, -1))->getComponent<Animator>()->playAnimation("UL");
-			GameObject::Instantiate("border", sf::Vector2f(-1, H))->getComponent<Animator>()->playAnimation("DL");
-			GameObject::Instantiate("border", sf::Vector2f(W, -1))->getComponent<Animator>()->playAnimation("UR");
-			GameObject::Instantiate("border", sf::Vector2f(W, H ))->getComponent<Animator>()->playAnimation("DR");
+			addBorder(-1, -1, "UL");
+			addBorder(H, -1, "DL");
+			addBorder(-1, W, "UR");
+			addBorder(H, W, "DR");
 		}
 
-		void buildPrefabMap() {
-			prefabNamesMap[sf::Color(255, 255, 255).toInteger()] = "empty";		// white
-			prefabNamesMap[sf::Color(172, 172, 172).toInteger()] = "block";		// light grey
-			prefabNamesMap[sf::Color( 68,  68,  68).toInteger()] = "wall";		// dark grey
-			prefabNamesMap[sf::Color(  0,   0,   0).toInteger()] = "border";	// black
-			prefabNamesMap[sf::Color(207,  61,  61).toInteger()] = "enemy";		// red
-			prefabNamesMap[sf::Color( 69, 141, 208).toInteger()] = "player";	// blue
-			prefabNamesMap[sf::Color( 61, 207, 126).toInteger()] = "teleporter";// green
-			prefabNamesMap[sf::Color(214, 202,  73).toInteger()] = "coin";		// yellow
+		void addBorder(int r, int c, const string& anim) {
+			GameObject* borderPiece = GameObject::Instantiate("border", sf::Vector2f(c, r));
+			borderPiece->getComponent<Animator>()->playAnimation(anim);
 		}
 
-		bool doInstantiate(const string& s) {
-			return s == "block" || s == "wall" || s == "coin" || s == "teleporter" || s == "player" || s == "enemy";
-		}
 
 		void instantiateLevelPrefabs(const sf::Image& levelImage) {
-			mapObjects.resize(H);
+			tagsMap.resize(H);
 			for (size_t r = 0; r < H; ++r) {
-				mapObjects[r].resize(W);
+				tagsMap[r].resize(W);
 				for (size_t c = 0; c < W; ++c) {
+
 					sf::Color pxColor = levelImage.getPixel(c, r);
 					const string& prefabName = prefabNameFromColor(pxColor);
-					sf::Vector2f position((float)c, (float)r);
+					sf::Vector2i position(c, r);
+
+					tagsMap[r][c] = Tag::empty; // default
 
 					//instantiate prefab
 					if (doInstantiate(prefabName)) {
 
-						if (prefabName == "player") { // temporary hack
-							if (instantiatedPlayer) {
-								mapObjects[r][c] = nullptr;
-								continue;
-							}
-							instantiatedPlayer = true;
-						}
-						mapObjects[r][c] = GameObject::Instantiate(prefabName, position);
-					}
+						GameObject* newGO = GameObject::Instantiate(prefabName, to_v2f(position));
 
-					if (!doInstantiate(prefabName) || prefabName == "player" || prefabName == "enemy") {
-						//or coin
-						mapObjects[r][c] = nullptr;
+						//setup tag
+						if (setupTag(prefabName)) {
+							tagsMap[r][c] = newGO->tag();
+						}
+					}
+					else if (prefabName == "player") {
+						playerStartPos.push_back(position);
 					}
 				}
 			}
 		}
 
+
+
+		void instantiatePlayers() {
+			Debug::ensure(playerStartPos.size() >= numPlayers, "Not enough player starting positions");
+			for (int i = 0; i < numPlayers; ++i) {
+				GameObject::Instantiate("player", to_v2f(playerStartPos[i]));
+			}
+		}
+
 		// ________________________________ queries
 		sf::Image getLevelPixels(int level) {
-			//1.load image
 			const sf::Image levelsImage = Resources::Get<sf::Image>("levels");
 
-			//2. cutout right portion
 			sf::Image levelImage;
 			levelImage.create(W, H);
-			int startPxLeft = ((level - 1) % 10) * 32 + 9;
-			int startPxUp = ((level - 1) / 10) * 32 + 10;
+			int startX = ((level - 1) % 10) * 32 + 9;
+			int startY = ((level - 1) / 10) * 32 + 10;
 
-			levelImage.copy(levelsImage, 0, 0, sf::IntRect(startPxLeft, startPxUp, W, H));
+			levelImage.copy(levelsImage, 0, 0, sf::IntRect(startX, startY, W, H));
 			return move(levelImage);
 		}
 
 
+		const string prefabNameFromColor(const sf::Color color) {
+			if (color == sf::Color(255, 255, 255)) return "empty";		// white
+			if (color == sf::Color(172, 172, 172)) return "block";		// light grey
+			if (color == sf::Color( 68,  68,  68)) return "wall";		// dark grey
+			if (color == sf::Color(  0,   0,   0)) return "border";		// black
+			if (color == sf::Color(207,  61,  61)) return "enemy";		// red
+			if (color == sf::Color( 69, 141, 208)) return "player";		// blue
+			if (color == sf::Color( 61, 207, 126)) return "teleporter";	// green
+			if (color == sf::Color(214, 202,  73)) return "coin";		// yellow
 
-		const string& prefabNameFromColor(const sf::Color color) {
-			if (prefabNamesMap.count(color.toInteger()) == 0) {
-				Debug::logError("MapBuilder queried prefab name with incorrect color");
-				return emptyString;
-			}
-			return prefabNamesMap[color.toInteger()];
+			Debug::logError("MapBuilder queried prefab name with incorrect color");
+			return "";
 		}
 
 		bool isValid(sf::Vector2i pos) {
-			int r = pos.y, c = pos.x;
-			return (0 <= c && c < W && 0 <= r && r < H);
+			return (0 <= pos.x && pos.x < W && 0 <= pos.y && pos.y < H);
 		}
 
-		//shouldn't have player or enemy
-		bool isWalkableTag(Tag objectTag) {
-			return objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
+		bool doInstantiate(const string& s) {
+			return s == "block" || s == "wall" || s == "coin" || s == "teleporter" || s == "enemy"; // || s == "player"
+			// not: empty, border
 		}
-		bool isExplodableTag(Tag objectTag) {
-			return objectTag == Tag::block || objectTag == Tag::teleporter || objectTag == Tag::coin || objectTag == Tag::enemy;
+		bool setupTag(const string& s) { // static elements that don't move
+			return s == "block" || s == "wall";// || s == "coin" || s == "teleporter";
 		}
-		bool isStopExplosionTag(Tag objectTag) {
-			return objectTag == Tag::block;
-		}
-
-
 	};
 }
