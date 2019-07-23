@@ -40,7 +40,7 @@ namespace sxg::boom {
 
 	private:
 		// ________________________________ data
-		const int startLevel = 18;
+		const int startLevel = 25;
 
 		const size_t W = 15;
 		const size_t H = 13;

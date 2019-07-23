@@ -52,7 +52,7 @@ namespace sxg::boom {
 		void pickup(Player& player) override {
 			//take effect on player
 			powerupEffect effect = getPowerupEffect(powerupType);
-			//effect(this, player);
+			(this->*effect)(player);
 			gameobject().destroy();
 		}
 

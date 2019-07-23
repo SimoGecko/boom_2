@@ -36,7 +36,7 @@ namespace sxg::boom {
 			{
 				GameObject* background = new GameObject("background");
 				scene.push_back(background);
-				background->addRenderable("panel", sf::IntRect(0, 0, 96, 480), Layer::background, 32, true);
+				background->addRenderable("background/panel", sf::IntRect(0, 0, 96, 480), Layer::background, 32, true);
 				background->renderable().sprite().move(-4, -1);
 			}
 

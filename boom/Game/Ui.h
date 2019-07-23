@@ -30,10 +30,10 @@ namespace sxg::boom {
 		const sf::Vector2i extraDist		= { 14, 0 };
 		int nExtra = 5;
 
-		const sf::Vector2i bonusOffset		= { 12, 149 };
-		const sf::Vector2i bonusDist		= { 14, 0 };
-		const sf::Vector2i bonusTextDist	= { 3, 15 };
-		int nBonus = 5;
+		const sf::Vector2i powerupOffset	= { 12, 149 };
+		const sf::Vector2i powerupDist		= { 14, 0 };
+		const sf::Vector2i powerupTextDist	= { 3, 15 };
+		int nPowerup = 5;
 
 		const sf::Vector2i scoreTextOffset	= { 16,173 };
 		//const sf::Vector2i scoreNumberOffset= { 13, 197 };
@@ -49,7 +49,7 @@ namespace sxg::boom {
 		playerInfo p1Info;
 		sf::Clock timer;
 		vector<Animator*> hearts;
-		sf::Text *livesText, *scoreText, *bonusText;
+		sf::Text *livesText, *scoreText, *powerupText;
 
 		// ________________________________ base
 		void start() override {
@@ -79,9 +79,9 @@ namespace sxg::boom {
 				GameObject::Instantiate("extraIcon", UIpos(extraOffset, extraDist, 0, c));
 			}
 
-			//bonus
-			for (size_t c = 0; c < nBonus; ++c) {
-				GameObject::Instantiate("bonusIcon", UIpos(bonusOffset, bonusDist, 0, c));
+			//powerup
+			for (size_t c = 0; c < nPowerup; ++c) {
+				GameObject::Instantiate("powerupIcon", UIpos(powerupOffset, powerupDist, 0, c));
 			}
 
 		}
@@ -92,10 +92,10 @@ namespace sxg::boom {
 			livesText->setString("*2");
 			livesText->setLetterSpacing(1.6f);
 
-			bonusText = Font::getText(defaultFontName, 8, 32);
-			bonusText->setString("*5");
-			bonusText->setPosition(UIpos(bonusOffset, bonusTextDist, 1, 0));
-			bonusText->setLetterSpacing(1.6f);
+			powerupText = Font::getText(defaultFontName, 8, 32);
+			powerupText->setString("*5");
+			powerupText->setPosition(UIpos(powerupOffset, powerupTextDist, 1, 0));
+			powerupText->setLetterSpacing(1.6f);
 
 			scoreText = Font::getText(defaultFontName, 16, 32);
 			scoreText->setString("score\n002980");
