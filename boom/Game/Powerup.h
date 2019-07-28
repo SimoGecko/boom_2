@@ -64,7 +64,6 @@ namespace sxg::boom {
 
 		//what if you take multiple powerups?
 		// -> MAKE SURE NO OVERLAP
-		//would be better to have the player hold powerups that have effect on ctor/dtor
 
 		void flashEffect(Player& player) {
 			//destroy all blocks in the level left from right
@@ -85,6 +84,19 @@ namespace sxg::boom {
 				e->takeDamage(100); // to ensure death
 			}
 		}
+
+		void oneHeartEffect(Player& player) {
+			//restore one heart (2 halves) of health
+			const int healAmount = 2;
+
+			player.increaseHealth(healAmount);
+		}
+		void fullHeartsEffect(Player& player) {
+			//restore all health
+			player.restoreHealth();
+		}
+
+		//-------------------- timed
 
 		void moreBombsEffect(Player& player) {
 			//increase the number of simultaneous bombs
@@ -115,18 +127,6 @@ namespace sxg::boom {
 		}
 
 
-		void oneHeartEffect(Player& player) {
-			//restore one heart (2 halves) of health
-			const int healAmount = 2;
-
-			player.increaseHealth(healAmount);
-		}
-		void fullHeartsEffect(Player& player) {
-			//restore all health
-			player.restoreHealth();
-		}
-
-
 		void shieldEffect(Player& player) {
 			//provide temporary shield effect
 			const float effectDuration = 10.f;
@@ -141,9 +141,48 @@ namespace sxg::boom {
 			const float boostSpeed = 10.f;
 
 			float currentVal = player.normalMoveSpeed;
-			player.normalMoveSpeed = boostSpeed;
-			invoke([&]() {player.normalMoveSpeed = currentVal; }, effectDuration);
+			player.moveSpeed = boostSpeed;
+			invoke([&]() {player.moveSpeed = currentVal; }, effectDuration);
 		}
+
+		/*
+		void moreBombsEffect(Player& player) {
+			//increase the number of simultaneous bombs
+			const float effectDuration = 10.f;
+			const int nMaxBombsIncreased = 6;
+
+			player.moreBombsEffect(nMaxBombsIncreased, effectDuration);
+		}
+		void fasterBomsEffect(Player& player) {
+			//decrease the bomb explosion delay
+			const float effectDuration = 10.f;
+			const float bombExplosionDelayShort = 1.f;
+
+			player.fasterBomsEffect(bombExplosionDelayShort, effectDuration);
+		}
+		void biggerExplosionEffect(Player& player) {
+			//increase the explosion radius
+			const float effectDuration = 10.f;
+			const int explosionRadiusNew = 5;
+
+			player.biggerExplosionEffect(explosionRadiusNew, effectDuration);
+		}
+
+
+		void shieldEffect(Player& player) {
+			//provide temporary shield effect
+			const float effectDuration = 10.f;
+
+			player.shieldEffect(effectDuration);
+		}
+		void speedEffect(Player& player) {
+			//provide temporary speed boost
+			const float effectDuration = 10.f;
+			const float boostSpeed = 10.f;
+
+			player.speedEffect(boostSpeed, effectDuration);
+		}
+		*/
 
 
 		// ________________________________ queries

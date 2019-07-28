@@ -18,17 +18,20 @@ namespace sxg::boom {
 		}
 	private:
 		// ________________________________ const
-		int playerStartingHealth = 100;
-		float normalMoveSpeed = 5.f;
+		const int playerStartingHealth = 100;
+		const float normalMoveSpeed = 5.f;
 
 		//bombs data
-		int explosionDamage = 1;
+		const int explosionDamage = 1;
 
-		int nAvailableBombs = 3;
-		int bombExplosionDistance = 2;
-		float bombExplosionDelay = 2.5f;
+		const int nAvailableBombsDefault = 3;
+		const int bombExplosionDistanceDefault = 2;
+		const float bombExplosionDelayDefault = 2.5f;
 
-
+		int nAvailableBombs;
+		int bombExplosionDistance;
+		float bombExplosionDelay;
+		float moveSpeed;
 
 		friend class Powerup;
 		// ________________________________ variables
@@ -40,7 +43,12 @@ namespace sxg::boom {
 		void start() override {
 			Character::start();
 			restoreHealth(playerStartingHealth);
+
 			deployedBombs = 0;
+			moveSpeed = normalMoveSpeed;
+			nAvailableBombs = nAvailableBombsDefault;
+			bombExplosionDistance = bombExplosionDistanceDefault;
+			bombExplosionDelay = bombExplosionDelayDefault;
 		}
 
 		void update() override {
@@ -92,5 +100,30 @@ namespace sxg::boom {
 		float moveSpeed() { return normalMoveSpeed; }
 
 
+		// ________________________________ timed powerups
+		/*
+		void moreBombsEffect(int newVal, float effectDuration) {
+			nAvailableBombs = newVal;
+			invoke([&]() {nAvailableBombs = nAvailableBombsDefault; }, effectDuration);
+		}
+		void fasterBomsEffect(float newVal, float effectDuration) {
+			bombExplosionDelay = newVal;
+			invoke([&]() {bombExplosionDelay = bombExplosionDelayDefault; }, effectDuration);
+		}
+		void biggerExplosionEffect(int newVal, float effectDuration) {
+			bombExplosionDistance = newVal;
+			invoke([&]() {bombExplosionDistance = bombExplosionDistanceDefault; }, effectDuration);
+		}
+
+		void shieldEffect(float effectDuration) {
+			setInvincible(true);
+			//visual effect
+			invoke([&]() {setInvincible(false); }, effectDuration);
+		}
+		void speedEffect(float newVal, float effectDuration) {
+			moveSpeed = newVal;
+			invoke([&]() {moveSpeed = normalMoveSpeed; }, effectDuration);
+		}
+		*/
 	};
 }
