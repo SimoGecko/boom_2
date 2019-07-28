@@ -1,5 +1,6 @@
-# SHOT animation
+# FLAME animation
 # [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-default			S 	0 0 1	F
-collide			S 	0 1 4	F
+
+throw			S 	0 0 5	F
+collide			S 	1 0 5	F
