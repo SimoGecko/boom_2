@@ -3,26 +3,31 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Pickup.h"
+#include "Collectible.h"
 // collectable element that provides score
 
 namespace sxg::boom {
 
-	class Coin : public Pickup {
+	class Coin : public Collectible {
 		CLONABLE(Coin)
 	public:
-		static int numRemainingCoins() { return nCoins; }
-		Event onAllCoinsCollected;
+		//static int numRemainingCoins() { return nCoins; }
+		static Event onAllCoinsCollected;
 
 
 	private:
 		// ________________________________ data
 		const float rotationTime = 2.f;
+		const PointAmount myPointsOnPickup = PointAmount::p150;
+
 		static int nCoins;
 
 		// ________________________________ base
 		//the most derived virtual function is called, even if class in the middle didn't re-declare as virtual
 		void start() override {
+			Collectible::start();
+			pointsOnPickup = myPointsOnPickup;
+
 			nCoins++;
 		}
 		
@@ -34,11 +39,11 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void pickup(Player& player) override {
-			Animator* anim = gameobject().getComponent<Animator>();
 			anim->playAnimation("rotate");
-			//add to score manager
-			nCoins--;
-			if (nCoins == 0) onAllCoinsCollected();
+
+			//check if last, to trigger special stuff
+			if (--nCoins == 0) onAllCoinsCollected();
+
 			gameobject().destroy(rotationTime);
 		}
 

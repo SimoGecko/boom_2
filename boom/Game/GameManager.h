@@ -27,7 +27,25 @@ namespace sxg::boom {
 		}
 		
 		// ________________________________ commands
- 
+		void showHurryUp() {
+
+		}
+
+		void startExtraGame() {
+
+		}
+
+		void stopExtraGame() {
+
+		}
+
+		void levelComplete() {
+
+		}
+
+		void gameover() {
+
+		}
 
 
 		// ________________________________ queries

@@ -18,46 +18,64 @@ namespace sxg::boom {
 		CLONABLE(Bomb)
 	public:
 		Event onExplode;
-		void trigger(float timer, int distance, Player* player) {
+		void dropBomb(float timer, int distance, Player* player) {
 			bombTimer = timer;
 			bombDistance = distance;
 			owner = player;
 
-			triggerBomb();
+			setTriggers();
 		}
 
 	private:
 		// ________________________________ const
 		const float tickingOffset = 0.5f;
+		const float triggerExplosionDelayPerUnit = 0.2f;
 
 		float bombTimer; // the player sets these
 		int bombDistance;
 		Player* owner;
-
+		bool exploded;
 		// ________________________________ variables
 
 
 		// ________________________________ base
 		void start() override {
-
+			exploded = false;
 		}
 
 		void update() override {
 
 		}
 
+		void onCollisionEnter(GameObject& other) override {
+			if (other.tag() == Tag::explosion) {
+				triggerFromExplosion(other.getComponent<Explosion>());
+			}
+		}
+
 		
 		// ________________________________ commands
-		void triggerBomb() {
+		void triggerFromExplosion(Explosion* explosion) {
+			//explode immediately due to triggering
+			sf::Vector2f delta = transform().getPosition() - explosion->getOrigin();
+			int distanceFromOgirin = magnitude1(to_v2i(delta));
+			invoke([this]() {this->explode(); }, triggerExplosionDelayPerUnit * distanceFromOgirin);
+		}
+
+		void setTriggers() {
 			invoke([this]() {this->startTicking(); }, bombTimer - tickingOffset);
 			invoke([this]() {this->explode(); }, bombTimer);
 		}
 
 		void startTicking() {
+			if (exploded) return;
 			gameobject().getComponent<Animator>()->playAnimation("ticking");
 		}
 
 		void explode() {
+			if (exploded) return; // avoid repeated calls
+			exploded = true;
+
 			onExplode();
 			instantiateExplosion();
 
@@ -83,9 +101,11 @@ namespace sxg::boom {
 
 		void instantiateExplosionPiece(sf::Vector2i position, orientation orient) {
 			GameObject* explosionGo = GameObject::Instantiate("explosion", to_v2f(position));
+			Explosion* explosion = explosionGo->getComponent<Explosion>();
+			explosion->setup(owner, transform().getPosition());
+
 			const string& animName = stringFromOrientation(orient);
 			explosionGo->getComponent<Animator>()->playAnimation(animName);
-			explosionGo->getComponent<Explosion>()->setPlayer(owner);
 		}
 
 

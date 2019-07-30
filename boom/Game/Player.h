@@ -19,13 +19,18 @@ namespace sxg::boom {
 		}
 		void setPlayerIdx(int index) { playerIndex = index; }
 		void addScore(int score) { info->score += score; }
+
+		void collectLetter(int letter) {
+			info->extra[letter] = true;
+			checkIfAllExtraLetters();
+		}
+
 	private:
 		// ________________________________ const
 		int playerStartingHealth = 16;
 		float normalMoveSpeed = 5.f;
 
 		//bombs data
-		int explosionDamage = 1;
 
 		int nAvailableBombs = 3;
 		int bombExplosionDistance = 2;
@@ -45,7 +50,7 @@ namespace sxg::boom {
 			restoreHealth(playerStartingHealth);
 			deployedBombs = 0;
 			
-			onDamage += [this]() {onPlayerDamage(); };
+			onHealthChange += [this]() {onPlayerDamage(); };
 			
 			//setup player-index specifics
 			playerIndex = 0;
@@ -59,17 +64,14 @@ namespace sxg::boom {
 			placeBomb();
 		}
 
-		void onCollisionEnter(GameObject& other) {
+		void onCollisionEnter(GameObject& other) override {
 			Character::onCollisionEnter(other);
 
 			if (other.tag() == Tag::enemy) {
 
 			}
 
-			if (other.tag() == Tag::explosion) {
-				takeDamage(explosionDamage);
-				Debug::log("take dam");
-			}
+			
 		}
 
 		
@@ -89,11 +91,11 @@ namespace sxg::boom {
 		void placeBomb() {
 			if (Input::getKeyDown(sf::Keyboard::Space)) {
 				if (nAvailableBombs-deployedBombs > 0) {
-					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
 					deployedBombs++;
+					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
 					//call back on explosion
 					Bomb* bomb = bombGo->getComponent<Bomb>();
-					bomb->trigger(bombExplosionDelay, bombExplosionDistance, this);
+					bomb->dropBomb(bombExplosionDelay, bombExplosionDistance, this);
 					bomb->onExplode += [this]() {deployedBombs--; };
 				}
 			}
@@ -101,6 +103,17 @@ namespace sxg::boom {
 
 		void onPlayerDamage() {
 			info->halfHearts = health();
+		}
+
+		void checkIfAllExtraLetters() {
+			bool hasAll = true;
+			for (bool b : info->extra) hasAll = hasAll && b;
+			if (hasAll) {
+				for (size_t i = 0; i < info->extra.size(); ++i) info->extra[i]=false;
+				//add life
+
+				//instantiate stuff
+			}
 		}
 
 		// ________________________________ queries

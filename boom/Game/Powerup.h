@@ -3,7 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Pickup.h"
+#include "Collectible.h"
 #include "Enemy.h"
 
 
@@ -11,7 +11,7 @@
 
 namespace sxg::boom {
 
-	class Powerup : public Pickup {
+	class Powerup : public Collectible {
 		CLONABLE(Powerup)
 	public:
 		enum PowerupType {
@@ -31,19 +31,23 @@ namespace sxg::boom {
 	private:
 		using powerupEffect = void(Powerup::*)(Player&);
 		// ________________________________ data
+		const float lifetime = 10.0f;
+		const PointAmount myPointsOnPickup = PointAmount::p50;
 
-
-		Animator * anim;
 		PowerupType powerupType;
 		// ________________________________ base
 		void start() override {
-			//setup powerup
+			Collectible::start();
+			pointsOnPickup = myPointsOnPickup;
+
 			powerupType = (PowerupType)Random::range(0, PowerupType::SIZE);
-			anim = gameobject().getComponent<Animator>();
 			anim->playAnimation(stringFromPowerupType(powerupType));
+
+			gameobject().destroy(lifetime);
 		}
 
 		void update() override {
+
 		}
 
 		
@@ -53,6 +57,7 @@ namespace sxg::boom {
 			//take effect on player
 			powerupEffect effect = getPowerupEffect(powerupType);
 			(this->*effect)(player);
+
 			gameobject().destroy();
 		}
 
@@ -73,7 +78,7 @@ namespace sxg::boom {
 			vector<GameObject*> allBlocks = GameObject::FindGameObjectsWithTag(Tag::block);
 			for (GameObject* block : allBlocks) {
 				float delay = delayForOvation * block->transform().getPosition().x;
-				block->getComponent<Block>()->breakBlockDelay(delay);
+				block->getComponent<Block>()->breakBlockDelay(delay, &player);
 			}
 		}
 
@@ -82,6 +87,7 @@ namespace sxg::boom {
 			vector<GameObject*> allEnemies = GameObject::FindGameObjectsWithTag(Tag::enemy);
 			for (GameObject* enemy : allEnemies) {
 				Enemy* e = enemy->getComponent<Enemy>();
+				e->setPlayerResponsible(&player);
 				e->takeDamage(100); // to ensure death
 			}
 		}

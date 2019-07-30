@@ -10,33 +10,50 @@
 
 namespace sxg::boom {
 
-	class Pickup : public Component {
+	class Collectible : public Component {
 	public:
 
 	protected:
+		bool collected;
+		Animator* anim;
 		PointAmount pointsOnPickup;
 
-	private:
+
 		// ________________________________ data
 
 
-
 		// ________________________________ base
-		void start() override { } // skipped
+		void start() override {
+			collected = false;
+			anim = gameobject().getComponent<Animator>();
+		}
 
-		void update() override { }
+	private:
+		void update() override {
+		
+		}
 
 		void onCollisionEnter (GameObject& other) override {
-			if (other.tag() == Tag::player) pickup(*other.getComponent<Player>());
+			if (other.tag() == Tag::player) {
+				if (!collected) {
+					collected = true;
+					Player* player = other.getComponent<Player>();
+					pickup(*player);
+					Points::addPoints(pointsOnPickup, transform().getPosition(), player);
+				}
+			}
 		}
 		
 		// ________________________________ commands
 		virtual void pickup(Player& player) = 0;
 
-		void addPoints(Player& player) {
+	/*
+	protected:
+		void addPoints(PointAmount pointsOnPickup, Player& player) { // manually call
 			GameObject* pointsGo = GameObject::Instantiate("points", transform().getPosition());
 			pointsGo->getComponent<Points>()->setup(pointsOnPickup, &player);
 		}
+		*/
 
 
 		// ________________________________ queries

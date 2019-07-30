@@ -5,38 +5,55 @@
 namespace sxg::engine {
 
 	void Physics::update() {
-		set<pair<GameObject*, GameObject*>> frameCollisions;
+		set<pair<Collider*, Collider*>> frameCollisions;
 
 		for (size_t i = 0; i < _allColliders.size(); ++i) {
 			for (size_t j = i + 1; j < _allColliders.size(); ++j) {
 				//if collision, call back on both
 				if (_allColliders[i]->intersects(*_allColliders[j])) {
-					GameObject* goA = &_allColliders[i]->gameobject();
-					GameObject* goB = &_allColliders[j]->gameobject();
-					frameCollisions.insert({ goA, goB });
+					frameCollisions.insert({ _allColliders[i], _allColliders[j] });
 				}
 			}
 		}
 		
 		//check diff between previous and current collisions
-		set<pair<GameObject*, GameObject*>> collisionEnter, collisionExit;
+		set<pair<Collider*, Collider*>> collisionEnter, collisionExit;
 		set_difference(frameCollisions.begin(), frameCollisions.end(), _collisions.begin(), _collisions.end(), inserter(collisionEnter, collisionEnter.begin()));
 		set_difference(_collisions.begin(), _collisions.end(), frameCollisions.begin(), frameCollisions.end(), inserter(collisionExit, collisionExit.begin()));
 		
-		for (const pair<GameObject*, GameObject*>& p : collisionEnter) {
-			p.first ->onCollisionEnter(*p.second);
-			p.second->onCollisionEnter(*p.first);
-			//Debug::log("collision enter: " + p.first->name() + " " + p.second->name());
+		//collision ENTER
+		for (const pair<Collider*, Collider*>& p : collisionEnter) {
+			if (p.first == nullptr || p.second == nullptr) {
+				Debug::logError("Found nullptr gameobject while checking collisionEnter");
+				continue;
+			}
+			GameObject& goA = p.first ->gameobject();
+			GameObject& goB = p.second->gameobject();
+			goA.onCollisionEnter(goB);
+			goB.onCollisionEnter(goA);
 		}
-		//collision exit
-		for (const pair<GameObject*, GameObject*>& p : collisionExit) {
-			p.first ->onCollisionExit(*p.second);
-			p.second->onCollisionExit(*p.first);
+		//collision EXIT
+		/*
+		//for when it's gonna be needed
+		for (const pair<Collider*, Collider*>& p : collisionExit) {
+			if (p.first == nullptr || p.second == nullptr) {
+				Debug::logError("Found nullptr gameobject while checking collisionExit");
+				continue;
+			}
+			if (_collidersRemovedLastFrame.count(p.first) || _collidersRemovedLastFrame.count(p.second)) {
+				continue;
+			}
+			GameObject& goA = p.first->gameobject();
+			GameObject& goB = p.second->gameobject();
+			goA.onCollisionExit(goB);
+			goB.onCollisionExit(goA);
 		}
+		*/
 
 		//setit
 		_collisions = frameCollisions;
 		
+		_collidersRemovedLastFrame.clear();
 	}
 
 	void Physics::addCollider(Collider* collider) {
@@ -57,8 +74,13 @@ namespace sxg::engine {
 			return;
 		}
 		_allColliders.erase(it);
+
+		//TODO ensure it's not inside active collisions
+		_collidersRemovedLastFrame.insert(collider);
 	}
 
+
 	vector<Collider*> Physics::_allColliders;
-	set<pair<GameObject*, GameObject*>> Physics::_collisions;
+	set<pair<Collider*, Collider*>> Physics::_collisions; // use weak pointers (solves the problem of checking if valid)
+	set<Collider*> Physics::_collidersRemovedLastFrame;
 }

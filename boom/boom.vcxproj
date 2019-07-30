@@ -185,13 +185,13 @@
     <ClInclude Include="Game\Bullet.h" />
     <ClInclude Include="Game\Character.h" />
     <ClInclude Include="Game\Coin.h" />
+    <ClInclude Include="Game\Collectible.h" />
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />
     <ClInclude Include="Game\Extra.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\Living.h" />
     <ClInclude Include="Game\MapBuilder.h" />
-    <ClInclude Include="Game\Pickup.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Points.h" />
     <ClInclude Include="Game\Powerup.h" />

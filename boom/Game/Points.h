@@ -19,18 +19,25 @@ namespace sxg::boom {
 	public:
 		
 
-		void setup(PointAmount pointAmount, Player* player) {
-			amount = pointAmount;
-			Animator* anim = gameobject().getComponent<Animator>();
-			anim->playAnimation(pointAmount2String(amount));
-			player->addScore(pointAmount2Int(amount));
+		static void addPoints(PointAmount pointAmount, sf::Vector2f position, Player* player) {
+			//takes care of scoremanager aswell
+			GameObject* pointsGo = GameObject::Instantiate("points", position);
+			Points* points = pointsGo->getComponent<Points>();
+
+			points->amount = pointAmount;
+
+			Animator* anim = pointsGo->getComponent<Animator>();
+			anim->playAnimation(pointAmount2String(points->amount));
+
+			
+			player->addScore(pointAmount2Int(points->amount));
 		}
 
 	private:
 		// ________________________________ data
 		const float lifeTime = 1.0f;
 		const float moveupSpeed = 1.0f;
-		PointAmount amount;
+		PointAmount amount; // not really used
 
 
 		// ________________________________ base
@@ -52,10 +59,10 @@ namespace sxg::boom {
 
 		// ________________________________ queries
 
-		int pointAmount2Int(PointAmount amount) {
+		static int pointAmount2Int(PointAmount amount) {
 			return (int)amount * 10;
 		}
-		const string pointAmount2String(PointAmount amount) {
+		static const string pointAmount2String(PointAmount amount) {
 			return "points_" + to_string((int)amount * 10);
 		}
 

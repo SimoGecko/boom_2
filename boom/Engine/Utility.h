@@ -97,7 +97,7 @@ namespace sxg::engine {
 		static inline float magnitude (const sf::Vector2f& v) { return sqrt(v.x*v.x + v.y*v.y); }
 		static inline float magnitude2(const sf::Vector2f& v) { return      v.x*v.x + v.y*v.y; }
 
-		static inline int magnitude (const sf::Vector2i& v) { return	abs(v.x) + abs(v.y); }
+		static inline int magnitude1(const sf::Vector2i& v) { return	abs(v.x) + abs(v.y); } // manhattan distance
 		static inline int magnitude2(const sf::Vector2i& v) { return		v.x*v.x + v.y*v.y; }
 
 		static inline float dot(const sf::Vector2f& a, const sf::Vector2f& b) { return a.x*b.x + a.y*b.y; }

@@ -78,6 +78,7 @@ namespace sxg::engine {
 		for (Component* component : _components) component->onCollisionEnter(other);
 	}
 	void GameObject::onCollisionExit(GameObject& other) {
+		//gameobject (read access violation) thrown from here, likely for gameobject deleted
 		for (Component* component : _components) component->onCollisionExit(other);
 	}
 

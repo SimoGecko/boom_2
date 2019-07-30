@@ -14,12 +14,23 @@ namespace sxg::boom {
 	class Explosion : public Component {
 		CLONABLE(Explosion)
 	public:
-		Player* player() const { return owner; }
-		void setPlayer(Player* player) { owner = player; }
+		void setup(Player* p, sf::Vector2f origin) {
+			
+
+			player = p;
+			bombOrigin = origin;
+		}
+
+		Player* getPlayer() {
+			
+			return player;
+		}
+		sf::Vector2f getOrigin() { return bombOrigin; }
 
 	private:
 		// ________________________________ data
-		Player* owner;
+		Player* player;
+		sf::Vector2f bombOrigin;
 
 		// ________________________________ base
 		void start() override {

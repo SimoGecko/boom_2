@@ -12,24 +12,44 @@ namespace sxg::boom {
 	class Enemy : public Character {
 		CLONABLE(Enemy)
 	public:
-	
+		void setPlayerResponsible(Player* player) { damageResponsiblePlayer = player; }
+
+		static int numRemainingEnemies() { return nEnemies; }
+		static Event onAllEnemiesDefeated;
+
+		void setAmeba(bool active) {
+			isAmoeba = active;
+		}
+
 	private:
 		// ________________________________ data
 		//particular enemy stats here
-		sf::Vector2i previousMoveDelta;
-		bool mustChangeDir, canChangeDir;
-		float changeDirTime = 0.2f;
-		int enemyMoveSpeed = 2;
-		const int explosionDamage = 1;
+		const float changeDirTime = 0.2f;
+		const float enemyMoveSpeed = 2;
+
+		const float raycastQueryDelay = 0.5f;
+		const float shootCooldown = 3.0f;
+
 		const int deathAnimationTime = 3.f;
-
 		const int enemyStartingHealth = 1;
+		const PointAmount myPointsOnDeath = PointAmount::p200;
 
-		bool isAmoeba = false;
+		static int nEnemies;
+
+		sf::Vector2i previousMoveDelta;
+		bool canChangeDir;
+		bool mustChangeDir;
+
+		bool canShoot;
+		bool playerInFront;
+
+		bool isAmoeba;
 
 		// ________________________________ base
 		void start() override {
 			Character::start();
+			nEnemies++;
+			
 			restoreHealth(enemyStartingHealth);
 			canChangeDir = true;
 			onDeath += [this]() {enemyDie(); };
@@ -38,6 +58,9 @@ namespace sxg::boom {
 		void update() override {
 			Character::update();
 
+			if (wantsToShoot()) {
+				shoot();
+			}
 		}
 
 		void onCollisionEnter(GameObject& other) {
@@ -50,10 +73,6 @@ namespace sxg::boom {
 					mustChangeDir = true;
 				}
 			}
-
-			if (other.tag() == Tag::explosion) {
-				takeDamage(explosionDamage);
-			}
 		}
 		
 		// ________________________________ commands
@@ -63,12 +82,12 @@ namespace sxg::boom {
 				return -previousMoveDelta;
 			}
 
-			if (magnitude(moveDelta()) > 0) {
+			if (magnitude1(moveDelta()) > 0) {
 				previousMoveDelta = moveDelta();
 				return { 0,0 }; // still moving, don't change dir
 			}
 			//stopped
-			if (magnitude(previousMoveDelta)>0 && freeCell(previousMoveDelta)) return previousMoveDelta;
+			if (magnitude1(previousMoveDelta)>0 && freeCell(previousMoveDelta)) return previousMoveDelta;
 
 			//pick random available dir
 			vector<sf::Vector2i> possibleDirs;
@@ -82,18 +101,34 @@ namespace sxg::boom {
 		void enemyDie() {
 			//add score
 			doMove = false;
+			Points::addPoints(myPointsOnDeath, transform().getPosition(), damageResponsiblePlayer);
+
+			//check if last
+			if (--nEnemies == 0) onAllEnemiesDefeated();
+
 			gameobject().destroy(deathAnimationTime);
 		}
 
 		void shoot() {
-			if (Input::getMouseButtonDown(0)) {
-				GameObject* bullet = GameObject::Instantiate("bullet", &transform());
-				Audio::play("Shot");
-			}
+			GameObject* bullet = GameObject::Instantiate("bullet", &transform());
+			Audio::play("Shot");
+		}
+
+		void queryPlayerInFront() {
+			playerInFront = playerInFrontRaycast();
+			invoke([this] {queryPlayerInFront(); }, raycastQueryDelay);
 		}
 
 
 		// ________________________________ queries
+		bool wantsToShoot() {
+			return canShoot && !isAmoeba && playerInFront;
+		}
+
+		bool playerInFrontRaycast() {
+			//primitive raycast
+
+		}
 
 		float moveSpeed() { return enemyMoveSpeed; }
 

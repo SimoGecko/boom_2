@@ -5,6 +5,8 @@
 
 #include "MapBuilder.h"
 #include "Living.h"
+#include "Explosion.h"
+#include "Player.h"
 
 // abstract base class for characters (player + enemies) that move, have health
 
@@ -15,8 +17,10 @@ namespace sxg::boom {
 
 	protected:
 		// ________________________________ data
+		int explosionDamage = 1;
 
 		Animator* anim;
+		Player* damageResponsiblePlayer;
 		//movement
 		sf::Vector2i prevCell, nextCell;
 		float movePercent;
@@ -36,13 +40,18 @@ namespace sxg::boom {
 			setAnimation();
 		}
 
-		/*
+		
 		void onCollisionEnter(GameObject& other) {
 			if (other.tag() == Tag::explosion) {
-				takeDamage(1);
+				damageResponsiblePlayer = other.getComponent<Explosion>()->getPlayer();
+
+				takeDamage(explosionDamage);
+			}
+			if (other.tag() == Tag::teleporter) {
+				//TELEPORT
 			}
 		}
-		*/
+		
 
 	private:
 		// ________________________________ commands
@@ -62,7 +71,7 @@ namespace sxg::boom {
 			}
 
 			sf::Vector2i input = getInput();
-			if (magnitude(input) == 0) return;
+			if (magnitude1(input) == 0) return;
 
 			// (not moving + input) -> start/continue moving
 			// if continue moving, try first the previous direction axis

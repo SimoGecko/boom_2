@@ -54,7 +54,7 @@ namespace sxg::boom {
 				GameObject* block = new GameObject("block", Tag::block);
 				prefabs.push_back(block);
 				block->addComponent<Block>();
-				block->addRenderable("blocks/block_1", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
+				block->addRenderable("blocks/block_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
 				blockAnim->setup(&(block->renderable().sprite()), 8, { 1, 4 }, "anim/block");
 				block->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -64,7 +64,7 @@ namespace sxg::boom {
 			{
 				GameObject* wall = new GameObject("wall", Tag::wall);
 				prefabs.push_back(wall);
-				wall->addRenderable("blocks/wall_1", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
+				wall->addRenderable("blocks/wall_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				//add collider -> or not
 			}
 
@@ -79,6 +79,7 @@ namespace sxg::boom {
 				bomb->addRenderable("elements/bomb", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* bombAnim = bomb->addComponent<Animator>();
 				bombAnim->setup(&(bomb->renderable().sprite()), 12, { 1, 3 }, "anim/bomb");
+				bomb->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
 

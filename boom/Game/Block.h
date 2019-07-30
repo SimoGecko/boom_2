@@ -14,7 +14,8 @@ namespace sxg::boom {
 	class Block : public Component {
 		CLONABLE(Block)
 	public:
-		void breakBlockDelay(float delay = 0) {
+		void breakBlockDelay(float delay, Player* player) {
+			playerWhoDestroyed = player;
 			invoke([this]() {this->breakBlock(); }, delay);
 		}
 
@@ -39,7 +40,7 @@ namespace sxg::boom {
 
 		void onCollisionEnter (GameObject& other) override {
 			if (other.tag() == Tag::explosion) {
-				playerWhoDestroyed = other.getComponent<Explosion>()->player();//other.getComponent<Explosion>().player();
+				playerWhoDestroyed = other.getComponent<Explosion>()->getPlayer();//other.getComponent<Explosion>().player();
 				breakBlock();
 			}
 		}
@@ -51,24 +52,22 @@ namespace sxg::boom {
 
 			Animator* anim = gameobject().getComponent<Animator>();
 			anim->playAnimation("break");
-			anim->onAnimationFinish += [this]() { gameobject().destroy(); };
+			anim->onAnimationFinish += [this]() { destroy(); };
 
 			MapBuilder::instance->blockBroke(to_v2i(transform().getPosition()));
 
-			addPoints();
+			Points::addPoints(pointsOnBreak, transform().getPosition(), playerWhoDestroyed);
+		}
+
+		void destroy() {
 			trySpawnPowerup();
+			gameobject().destroy();
 		}
 
 
 		void trySpawnPowerup() {
 			if      (Random::value() < probOfPowerup) GameObject::Instantiate("powerup", transform().getPosition());
 			else if (Random::value() < probOfExtra  ) GameObject::Instantiate("extra", transform().getPosition());
-		}
-
-		//repeated from
-		void addPoints() {
-			GameObject* pointsGo = GameObject::Instantiate("points", transform().getPosition());
-			pointsGo->getComponent<Points>()->setup(pointsOnBreak, playerWhoDestroyed);
 		}
 
 

@@ -22,10 +22,19 @@ GAME:
 	✔ 2. player can move around with collisions
 	✔ 3. drop bombs, break blocks
 	✔ 4. collect coin
-	☐ 5. health/UI
-	☐ 6. collectibles, powerups, score
+	✔ 5. health/UI
+	✔ 6. collectibles, powerups, score
 	☐ 7. game flow, load level, enemy selection, respawn on death
-	☐ 5. enemies move, attack, die
+	☐ 5. enemies move, attack, die, shoot
+
+
+SHORT TODO:
+	✔	powerups/extra expire
+	✔	bomd delay bigger
+	✔	collectible/enemies add score
+	✔	ensure block has same addpoints
+	✔	EXTRA letters in UI
+
 
 TODO LIST:
 	BORDER / BG 
@@ -90,7 +99,7 @@ TODO LIST:
 	IN-GAME UI
 		☐ points for kill/break/coin
 		distribution
-		
+
 		10	break block/each unused second
 		50	get powerup
 		100 EXTRA letter
