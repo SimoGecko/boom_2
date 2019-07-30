@@ -209,5 +209,14 @@
     <ClInclude Include="Game\Living.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Score.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameManager.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Points.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,13 +36,13 @@ namespace sxg::boom {
 			setAnimation();
 		}
 
+		/*
 		void onCollisionEnter(GameObject& other) {
-			/*
 			if (other.tag() == Tag::explosion) {
 				takeDamage(1);
 			}
-			*/
 		}
+		*/
 
 	private:
 		// ________________________________ commands

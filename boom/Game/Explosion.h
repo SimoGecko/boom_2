@@ -9,13 +9,17 @@
 
 namespace sxg::boom {
 
+	class Player;
+
 	class Explosion : public Component {
 		CLONABLE(Explosion)
 	public:
+		Player* player() const { return owner; }
+		void setPlayer(Player* player) { owner = player; }
 
 	private:
 		// ________________________________ data
-
+		Player* owner;
 
 		// ________________________________ base
 		void start() override {

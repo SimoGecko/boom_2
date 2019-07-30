@@ -1,0 +1,16 @@
+# POINTS animations
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
+
+points_10			S 	0 0  1	F
+points_50			S 	0 1  1	F
+points_100			S 	0 2  1	F
+points_150			S 	0 3  1	F
+points_200			S 	0 4  1	F
+points_300			S 	0 5  1	F
+points_400			S 	0 6  1	F
+points_500			S 	0 7  1	F
+points_600			S 	0 8  1	F
+points_700			S 	0 9  1	F
+points_800			S 	0 10 1	F
+points_900			S 	0 11 1	F
+points_1000			S 	0 12 1	F

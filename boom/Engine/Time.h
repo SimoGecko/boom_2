@@ -20,6 +20,9 @@ namespace sxg::engine {
 		static float time();
 		static float& timescale();
 
+		//static void pause();
+
+
 		static void invoke(function<void(void)> func, float delay, GameObject* go);
 
 	private:

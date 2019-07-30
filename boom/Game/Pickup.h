@@ -4,6 +4,7 @@
 #include "../Engine.h"
 
 #include "Player.h"
+#include "Points.h"
 
 // base class for things that players can collect
 
@@ -12,6 +13,8 @@ namespace sxg::boom {
 	class Pickup : public Component {
 	public:
 
+	protected:
+		PointAmount pointsOnPickup;
 
 	private:
 		// ________________________________ data
@@ -29,6 +32,11 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		virtual void pickup(Player& player) = 0;
+
+		void addPoints(Player& player) {
+			GameObject* pointsGo = GameObject::Instantiate("points", transform().getPosition());
+			pointsGo->getComponent<Points>()->setup(pointsOnPickup, &player);
+		}
 
 
 		// ________________________________ queries

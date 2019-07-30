@@ -5,17 +5,24 @@
 
 //#include "Explosion.h"
 #include "MapBuilder.h"
+#include "Explosion.h"
+
+//#include "Player.h"
 // placeable bomb that explodes after some time and destroys blocks/kills enemies
 
 namespace sxg::boom {
+
+	class Player;
 
 	class Bomb : public Component {
 		CLONABLE(Bomb)
 	public:
 		Event onExplode;
-		void trigger(float timer, int distance) {
+		void trigger(float timer, int distance, Player* player) {
 			bombTimer = timer;
 			bombDistance = distance;
+			owner = player;
+
 			triggerBomb();
 		}
 
@@ -25,6 +32,7 @@ namespace sxg::boom {
 
 		float bombTimer; // the player sets these
 		int bombDistance;
+		Player* owner;
 
 		// ________________________________ variables
 
@@ -51,8 +59,8 @@ namespace sxg::boom {
 
 		void explode() {
 			onExplode();
-
 			instantiateExplosion();
+
 			gameobject().destroy();
 		}
 
@@ -77,6 +85,7 @@ namespace sxg::boom {
 			GameObject* explosionGo = GameObject::Instantiate("explosion", to_v2f(position));
 			const string& animName = stringFromOrientation(orient);
 			explosionGo->getComponent<Animator>()->playAnimation(animName);
+			explosionGo->getComponent<Explosion>()->setPlayer(owner);
 		}
 
 

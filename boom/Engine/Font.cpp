@@ -5,19 +5,20 @@
 namespace sxg::engine {
 
 	sf::Text* Font::getText(const string& fontName, unsigned int characterSize, unsigned int ppu, const sf::Color& color, sf::Text::Style style) {
-		sf::Text newText("", Resources::Get<sf::Font>(fontName), characterSize);
-		newText.setStyle(style);
-		newText.setFillColor(color);
-		newText.setScale(1.f / ppu, 1.f / ppu);
+		sf::Text* newText = new sf::Text("", Resources::Get<sf::Font>(fontName), characterSize);
+		newText->setStyle(style);
+		newText->setFillColor(color);
+		newText->setScale(1.f / ppu, 1.f / ppu);
 
-		_textToDraw.push_back(move(newText));
-		return &_textToDraw.back();
+		_textToDraw.push_back(newText);
+		return newText;
 	}
 
 	void Font::removeText(sf::Text* text) {
 		//TODO ensure it's destructed properly, no mem-leak
-		auto it = find_if(_textToDraw.begin(), _textToDraw.end(), [text](const sf::Text& elem) {return &elem == text; });
+		auto it = find(_textToDraw.begin(), _textToDraw.end(), text); //[text](const sf::Text& elem) {return &elem == text; }
 		if (it != _textToDraw.end()) {
+			delete text;
 			_textToDraw.erase(it);
 		}
 		else {
@@ -26,12 +27,12 @@ namespace sxg::engine {
 	}
 
 	void Font::draw() {
-		for (const sf::Text text : _textToDraw) {
-			Screen::window().draw(text);
+		for (const sf::Text* text : _textToDraw) {
+			Screen::window().draw(*text);
 		}
 	}
 
 	//static def
-	vector<sf::Text> Font::_textToDraw;
+	vector<sf::Text*> Font::_textToDraw;
 
 }

@@ -8,12 +8,13 @@
 #include "Bomb.h"
 #include "Bullet.h"
 #include "Coin.h"
+#include "Enemy.h"
 #include "Explosion.h"
-#include "Teleporter.h"
-#include "Powerup.h"
 #include "Extra.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "Points.h"
+#include "Powerup.h"
+#include "Teleporter.h"
 
 // provides the instantiatables prefabs for boom
 
@@ -88,7 +89,7 @@ namespace sxg::boom {
 				bullet->addComponent<Bullet>();
 				bullet->addRenderable("effects/shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false); // don't add the renderable to the drawlist
 				bullet->addComponent<CircleCollider>()->setRadius(0.1f);
-				//effect
+				//effect = animator
 			}
 
 
@@ -186,7 +187,7 @@ namespace sxg::boom {
 				powerup->addComponent<Powerup>();
 				powerup->addRenderable("elements/powerup", sf::IntRect(0, 0, 32, 32), Layer::elements, 32, false);
 				Animator* powerupAnim = powerup->addComponent<Animator>();
-				powerupAnim->setup(&(powerup->renderable().sprite()), 12, { 1, 9 }, "anim/powerup", false);
+				powerupAnim->setup(&(powerup->renderable().sprite()), 1, { 1, 9 }, "anim/powerup", false);
 				powerup->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
@@ -210,6 +211,16 @@ namespace sxg::boom {
 				Animator* coinAnim = coin->addComponent<Animator>();
 				coinAnim->setup(&(coin->renderable().sprite()), 24, { 1, 10 }, "anim/coin");
 				coin->addComponent<CircleCollider>()->setRadius(0.5f);
+			}
+
+			// POINTS
+			{
+				GameObject* points = new GameObject("points", Tag::points);
+				prefabs.push_back(points);
+				points->addComponent<Points>();
+				points->addRenderable("text/points_all", sf::IntRect(0, 0, 32, 16), Layer::effects, 32, false);
+				Animator* pointsAnim = points->addComponent<Animator>();
+				pointsAnim->setup(&(points->renderable().sprite()), 1, { 1, 13 }, "anim/points");
 			}
 
 

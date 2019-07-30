@@ -25,7 +25,6 @@ namespace sxg::boom {
 		// ________________________________ data
 		const float timeForLetter = 3.f;
 		const string letters = "EXTRA";
-		const string letters2 = "EXTRAE";
 		int currentLetterIndex;
 		Animator* anim;
 
@@ -61,8 +60,12 @@ namespace sxg::boom {
 
 
 		// ________________________________ queries
-
-
+		/*
+		const string extraLetter(int i) {
+			Debug::ensure(0 <= i && i < letters.size());
+			return string(1, letters[i]);
+		}
+		*/
 
 	};
 }

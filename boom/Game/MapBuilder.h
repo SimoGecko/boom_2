@@ -53,9 +53,13 @@ namespace sxg::boom {
 
 
 		// ________________________________ base
-		void start() override {
+		void awake() override {
 			if (instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
 			instance = this;
+		}
+
+		void start() override {
+
 
 			loadLevel(startLevel);
 		}

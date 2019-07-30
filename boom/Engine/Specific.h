@@ -14,6 +14,7 @@ namespace sxg::engine {
 		bomb,
 		bullet,
 		coin,
+		points,
 		enemy,
 		environment,
 		explosion,
@@ -30,6 +31,7 @@ namespace sxg::engine {
 		background,
 		elements,
 		characters,
+		foreground,
 		effects,
 		ui,
 	};

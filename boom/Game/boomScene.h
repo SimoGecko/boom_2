@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "MapBuilder.h"
 #include "Ui.h"
+#include "Score.h"
 
 // provides the general game scene for boom
 
@@ -28,6 +29,7 @@ namespace sxg::boom {
 				scene.push_back(manager);
 				manager->addComponent<MapBuilder>();
 				manager->addComponent<Ui>();
+				manager->addComponent<Score>();
 			}
 
 			

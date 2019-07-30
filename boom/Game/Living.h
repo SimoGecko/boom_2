@@ -11,6 +11,7 @@ namespace sxg::boom {
 	public:
 		int health() const { return _health; }
 		bool dead() const { return _dead; }
+		Event onDamage;
 		Event onDeath;
 
 		void restoreHealth(int newStartingHealth = 0) {
@@ -23,6 +24,7 @@ namespace sxg::boom {
 			if (_invincible) return;
 			_health -= amount;
 			if (_health <= 0) die();
+			else onDamage();
 		}
 		void increaseHealth(int amount) {
 			_health = clamp(_health + amount, 0, _startingHealth);

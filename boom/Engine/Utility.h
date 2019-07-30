@@ -167,6 +167,14 @@ namespace sxg::engine {
 			return "0x" + std::to_string((int)pointer);
 		}
 
+		const string to_string_pad0(int x, int num0) {
+			stringstream ss;
+			ss << setfill('0') << setw(num0) << x;
+			return ss.str();
+		}
+
+
+		// DIRECTIONS
 		enum dir {none, right, up, left, down};
 		enum orientation {center, horizontal, vertical};
 
