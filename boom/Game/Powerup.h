@@ -101,6 +101,7 @@ namespace sxg::boom {
 			player.nAvailableBombs = nMaxBombsIncreased;
 			invoke([&]() {player.nAvailableBombs = currentVal; }, effectDuration);
 		}
+		//test
 		void fasterBomsEffect(Player& player) {
 			//decrease the bomb explosion delay
 			const float effectDuration = 10.f;
