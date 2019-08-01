@@ -24,9 +24,17 @@ namespace sxg::engine {
 	}
 
 	void Scene::addGameObject(GameObject* go) {
+		if (go == nullptr) return;
+		_toAdd.push_back(go);
+
+		//this causes error
+		go->awake();
+		go->start();
+		/*
 		_allGameObjects.push_back(go);
 		go->awake();
 		go->start();
+		*/
 	}
 	void Scene::removeGameObject(GameObject* go) {
 		if (go == nullptr) return;
@@ -48,23 +56,22 @@ namespace sxg::engine {
 
 	//static
 	void Scene::start() {
-		//build here all the scenes
-		//TODO move out of engine
-
 		//load default
 		Scene::actualLoad(_loadSceneName);
 	}
 	
 	void Scene::update() {
-		finalDelete();
-		if (_doLoadScene) {
-			_doLoadScene = false;
+		actualAdd();
+		actualDelete();
+
+		if (_mustLoadScene) {
+			_mustLoadScene = false;
 			actualLoad(_loadSceneName);
 		}
 	}
 
 	void Scene::load(const string& sceneName) {
-		_doLoadScene = true;
+		_mustLoadScene = true;
 		_loadSceneName = sceneName;
 	}
 
@@ -90,13 +97,13 @@ namespace sxg::engine {
 			startingGameObjects[i]->awake(); 
 		}
 		for (size_t i = 0; i < startingGameObjects.size(); ++i) {
-			startingGameObjects[i]->start();
+			startingGameObjects[i]->start(); // what if something is instantiated here
 		}
 	}
 
 	Scene& Scene::current() { return *_currentScene; }
 
-	void Scene::finalDelete() {
+	void Scene::actualDelete() {
 		if (_toDelete.empty() || _currentScene==nullptr) return;
 		vector<GameObject*>& allGo = _currentScene->_allGameObjects;
 
@@ -112,11 +119,23 @@ namespace sxg::engine {
 		_toDelete.clear();
 	}
 
+	void Scene::actualAdd() {
+		if (_toAdd.empty() || _currentScene == nullptr) return;
+		vector<GameObject*>& allGo = _currentScene->_allGameObjects;
+
+		for (GameObject* go : _toAdd) {
+			allGo.push_back(go);
+		}
+
+		_toAdd.clear();
+	}
+
 	//static decl
 	string Scene::_loadSceneName;
 	unordered_map<string, Scene*> Scene::_allScenes;
 	Scene* Scene::_currentScene = nullptr;
+	vector<GameObject*> Scene::_toAdd;
 	vector<GameObject*> Scene::_toDelete;
-	bool Scene::_doLoadScene;
+	bool Scene::_mustLoadScene;
 	 
 }

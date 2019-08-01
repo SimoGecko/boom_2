@@ -143,9 +143,9 @@ namespace sxg::boom {
 
 		void shieldEffect(Player& player) {
 			//provide temporary shield effect
-			player.setInvincible(true);
+			player.activateShield(true);
 			//visual effect
-			Time::invoke([&]() {player.setInvincible(false); }, effectDuration, &player.gameobject());
+			Time::invoke([&]() {player.activateShield(false); }, effectDuration, &player.gameobject());
 		}
 		void speedEffect(Player& player) {
 			//provide temporary speed boost

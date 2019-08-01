@@ -125,10 +125,8 @@ namespace sxg::boom {
 				animName = "idle_D";
 			}
 			else {
-				dir playerDir = dirFromVector(to_v2f(moveDelta()));
-				char dirchar = charFromDir(playerDir);
 				string prefix = attacking() ? "attack_" : "walk_";
-				animName = prefix + string(1, dirchar);
+				animName = prefix + string(1, charFromDir(moveDir()));
 			}
 			if (dead()) animName = "death";
 			if (animName != anim->currentAnimationName()) {
@@ -143,6 +141,10 @@ namespace sxg::boom {
 		bool freeCell(sf::Vector2i delta) {
 			return Map::instance()->isWalkable(prevCell + delta);
 		}
+		dir moveDir() {
+			return dirFromVector(to_v2f(moveDelta()));
+		}
+
 		sf::Vector2i moveDelta() { return nextCell - prevCell; }
 		bool moving() { return nextCell != prevCell; }
 		sf::Vector2i currentCell() { return movePercent < 0.5f ? prevCell : nextCell; }

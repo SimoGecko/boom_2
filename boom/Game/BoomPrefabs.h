@@ -35,18 +35,20 @@ namespace sxg::boom {
 
 			// ___________________________________ ENVIRONMENT
 
+			const string environment = "_2";
+
 			//BACKGROUND
 			{
 				GameObject* background = new GameObject("background", Tag::environment);
 				prefabs.push_back(background);
-				background->addRenderable("background/background_1", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
+				background->addRenderable("background/background" + environment, sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 			}
 
 			//BORDER
 			{
 				GameObject* border = new GameObject("border", Tag::environment);
 				prefabs.push_back(border);
-				border->addRenderable("background/border_1", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
+				border->addRenderable("background/border" + environment, sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 				Animator* borderAnim = border->addComponent<Animator>();
 				borderAnim->setup(&(border->renderable().sprite()), 1, { 1,8 }, "anim/border");
 			}
@@ -56,7 +58,7 @@ namespace sxg::boom {
 				GameObject* block = new GameObject("block", Tag::block);
 				prefabs.push_back(block);
 				block->addComponent<Block>();
-				block->addRenderable("blocks/block_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
+				block->addRenderable("blocks/block" + environment, sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
 				blockAnim->setup(&(block->renderable().sprite()), 8, { 1, 4 }, "anim/block");
 				block->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -66,7 +68,7 @@ namespace sxg::boom {
 			{
 				GameObject* wall = new GameObject("wall", Tag::wall);
 				prefabs.push_back(wall);
-				wall->addRenderable("blocks/wall_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
+				wall->addRenderable("blocks/wall" + environment, sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				//add collider -> or not
 			}
 
@@ -267,6 +269,15 @@ namespace sxg::boom {
 				flash->addComponent<Flash>();
 				Animator* anim = flash->addComponent<Animator>();
 				anim->setup(&(flash->renderable().sprite()), 12, { 1, 4 }, "anim/flash");
+			}
+			// SHIELD
+			{
+				GameObject* shield = new GameObject("shield", Tag::effect);
+				prefabs.push_back(shield);
+				shield->addRenderable("player/shield", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false);
+				shield->addComponent<Shield>();
+				Animator* anim = shield->addComponent<Animator>();
+				anim->setup(&(shield->renderable().sprite()), 1, { 1, 4 }, "anim/shield");
 			}
 
 			//BULLET

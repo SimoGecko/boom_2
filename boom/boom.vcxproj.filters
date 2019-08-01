@@ -233,5 +233,8 @@
     <ClInclude Include="Game\Flash.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Shield.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

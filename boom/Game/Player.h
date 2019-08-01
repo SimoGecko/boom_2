@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Bomb.h"
 #include "GameData.h"
+#include "Shield.h"
 
 // prototypical class to move player around
 
@@ -37,6 +38,11 @@ namespace sxg::boom {
 			Audio::play("player/p" + to_string(playerIndex + 1) + "_complete");
 		}
 
+		void activateShield(bool b) {
+			setInvincible(b);
+			shield->turnOn(b);
+		}
+
 	private:
 		// ________________________________ const
 		int playerStartingHealth = 16;
@@ -54,6 +60,7 @@ namespace sxg::boom {
 
 		int playerIndex = 0;
 		playerInfo* info;
+		Shield* shield;
 		int deployedBombs;
 
 		// ________________________________ base
@@ -65,12 +72,16 @@ namespace sxg::boom {
 			onDamage	   += [this]() {onPlayerDamage(); };
 			onHealthChange += [this]() {onPlayerChangeHealth(); };
 			onDeath		   += [this]() {onPlayerDeath(); };
+
+			GameObject* shieldGo = GameObject::Instantiate("shield");
+			//shield = shieldGo->getComponent<Shield>();
 		}
 
 		void update() override {
 			Character::update();
 
 			if(bombInput() && canPlaceBomb()) placeBomb();
+			//updateShield();
 		}
 
 		void onCollisionEnter(GameObject& other) override {
@@ -81,6 +92,10 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		
+		void updateShield() {
+			shield->setDir(moveDir());
+			shield->transform().setPosition(transform().getPosition());
+		}
 
 		sf::Vector2i getInput() {
 			sf::Vector2i input;
@@ -112,6 +127,7 @@ namespace sxg::boom {
 
 		void onPlayerDamage() {
 			Audio::play("player/p" + to_string(playerIndex+1) + "_ouch");
+			shield->blink();
 		}
 
 		void onPlayerChangeHealth() {
@@ -135,6 +151,8 @@ namespace sxg::boom {
 				//instantiate stuff
 			}
 		}
+
+
 
 		// ________________________________ queries
 		float moveSpeed() { return normalMoveSpeed; }

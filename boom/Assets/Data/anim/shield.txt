@@ -1,0 +1,8 @@
+# SHIELD animations
+# [anim_name type startrow startcol (numframes)|(frames offset) loop]
+
+empty				S 	0 0 	F
+shield_D			S 	0 1 	F
+shield_U			S 	0 1 	F
+shield_R			S 	0 2 	F
+shield_L			S 	0 3 	F

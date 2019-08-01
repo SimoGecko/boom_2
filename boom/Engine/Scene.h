@@ -31,7 +31,8 @@ namespace sxg::engine {
 	private:
 		//normal
 		void unload();
-		static void finalDelete();
+		static void actualAdd();
+		static void actualDelete();
 		static void actualLoad(const string& sceneName);
 
 		string _name;
@@ -39,9 +40,11 @@ namespace sxg::engine {
 
 		//static
 		static string _loadSceneName;
-		static bool _doLoadScene;
+		static bool _mustLoadScene;
 		static Scene* _currentScene;
 		static unordered_map<string, Scene*> _allScenes;
+		
+		static vector<GameObject*> _toAdd;
 		static vector<GameObject*> _toDelete; // used to avoid deleting something while updating
 	};
 

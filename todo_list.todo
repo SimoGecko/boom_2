@@ -1,10 +1,11 @@
 FEATURES TO TEST (ENGINE):
-	☐ change scene
+	☐ change scene @high
 	☐ can move view
 
 BUGS:
 	✔ some bad freeze happening
-  ☐ read access violation on onCollisionExit (probably deleted go)
+  ✔ read access violation on onCollisionExit (probably deleted go)
+  ☐	loading scene bugs (static?)
 
 TRICS:
 	include header of the class for which you need the implementation only in the .cpp
@@ -14,7 +15,7 @@ IMPROVEMENTS:
 
 
 PROTOTYPE FEATUERS:
-	☐ load other scene @low
+	✔ load other scene
 	✔ audio effect
 
 GAME:
@@ -97,7 +98,7 @@ TODO LIST:
 		☐ give extra life
 
 	IN-GAME UI
-		☐ points for kill/break/coin
+		✔ points for kill/break/coin
 		distribution
 
 		10	break block/each unused second
