@@ -6,11 +6,12 @@
 #include "Map.h"
 #include "Living.h"
 #include "Explosion.h"
-#include "Player.h"
 
 // abstract base class for characters (player + enemies) that move, have health
 
 namespace sxg::boom {
+
+	class Player;
 
 	class Character : public Component, public Living {
 	public:

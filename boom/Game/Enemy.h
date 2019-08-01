@@ -4,6 +4,7 @@
 #include "../Engine.h"
 
 #include "Character.h"
+#include "Points.h"
 
 // AI enemy that moves around, potentially shoots and damages the player
 

@@ -17,7 +17,11 @@ namespace sxg::boom {
 		void teleport(sf::Vector2f to) {
 			//wait to stop
 		}
-		void setPlayerIdx(int index) { playerIndex = index; }
+		void setPlayerIdx(int index) {
+			//setup player-index specifics
+			playerIndex = index;
+			info = &GameData::instance()->playerInfos[playerIndex];
+		}
 		void addScore(int score) { info->score += score; }
 
 		void collectLetter(int letter) {
@@ -51,11 +55,6 @@ namespace sxg::boom {
 			deployedBombs = 0;
 			
 			onHealthChange += [this]() {onPlayerDamage(); };
-			
-			//setup player-index specifics
-			playerIndex = 0;
-			info = &GameData::instance()->playerInfos[playerIndex];
-
 		}
 
 		void update() override {
@@ -68,10 +67,8 @@ namespace sxg::boom {
 			Character::onCollisionEnter(other);
 
 			if (other.tag() == Tag::enemy) {
-
+				//take damage
 			}
-
-			
 		}
 
 		
@@ -80,10 +77,19 @@ namespace sxg::boom {
 
 		sf::Vector2i getInput() {
 			sf::Vector2i input;
-			if (Input::getKey(sf::Keyboard::A)) input.x -= 1;
-			if (Input::getKey(sf::Keyboard::D)) input.x += 1;
-			if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
-			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
+			if (playerIndex == 0) {
+				if (Input::getKey(sf::Keyboard::A)) input.x -= 1;
+				if (Input::getKey(sf::Keyboard::D)) input.x += 1;
+				if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
+				if (Input::getKey(sf::Keyboard::S)) input.y += 1;
+			}
+			else if (playerIndex == 1) {
+				if (Input::getKey(sf::Keyboard::Left))  input.x -= 1;
+				if (Input::getKey(sf::Keyboard::Right)) input.x += 1;
+				if (Input::getKey(sf::Keyboard::Up))    input.y -= 1;
+				if (Input::getKey(sf::Keyboard::Down))  input.y += 1;
+			}
+
 			return input;
 		}
 

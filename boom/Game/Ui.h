@@ -45,6 +45,10 @@ namespace sxg::boom {
 
 		const string defaultFontName = "boomFont";
 
+		void setup() {
+
+		}
+
 	private:
 		// ________________________________ data
 
@@ -77,7 +81,6 @@ namespace sxg::boom {
 			setupIcons();
 			setupText();
 			createDropShadow();
-			
 		}
 
 		void update() override {

@@ -29,12 +29,12 @@ namespace sxg::boom {
 			{
 				GameObject* manager = new GameObject("manager");
 				scene.push_back(manager);
-				manager->addComponent<MapBuilder>();
-				manager->addComponent<Ui>();
 				manager->addComponent<GameManager>();
 				manager->addComponent<GameData>();
+				manager->addComponent<MapBuilder>();
 				manager->addComponent<Map>();
 				manager->addComponent<Spawner>();
+				manager->addComponent<Ui>();
 			}
 
 			

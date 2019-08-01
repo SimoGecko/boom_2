@@ -6,6 +6,10 @@
 #include "GameData.h"
 // manages the game state and flow (PERSISTENT)
 
+#include "Spawner.h"
+#include "MapBuilder.h"
+#include "Ui.h"
+
 namespace sxg::boom {
 
 	class GameManager : public Component {
@@ -20,10 +24,15 @@ namespace sxg::boom {
 
 
 		// ________________________________ base
+		void awake() override {
+			GameData* data = gameobject().getComponent<GameData>();
+			data->numPlayers = nPlayers;
+			data->playerInfos.resize(nPlayers);
+		}
+
 		void start() override {
-			int level = 1;
-			GameData::instance()->playerInfos.resize(nPlayers);
-			//setup #players, resize data
+			level = 1;
+
 			startLevel(level);
 		}
 
@@ -39,13 +48,15 @@ namespace sxg::boom {
 			//Level 01\nGET READY!
 
 			//wait....
+			invoke([=] {spawnLevel(level); }, 1.0f);
+		}
 
-			//instantiate map
+		void spawnLevel(int level) {
+			//disable ui text
+
 			MapBuilder::instance()->buildLevel(level);
-
-			//instantiate players
-
-			//instantiate enemies
+			Spawner::instance()->instantiatePlayers(GameData::instance()->numPlayers);
+			Spawner::instance()->instantiateEnemies();
 		}
 
 		void showHurryUp() {

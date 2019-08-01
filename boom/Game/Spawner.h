@@ -3,7 +3,11 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// __DESCRIPTION__
+
+#include "Player.h"
+#include "Enemy.h"
+
+// spawns the necessary stuff in the game
 
 namespace sxg::boom {
 
@@ -18,6 +22,7 @@ namespace sxg::boom {
 
 		unordered_map<string, vector<sf::Vector2i>> startPos;
 		friend class MapBuilder;
+		friend class GameManager;
 
 		// ________________________________ base
 		void awake() {
@@ -36,7 +41,15 @@ namespace sxg::boom {
 		void instantiatePlayers(int numPlayers) {
 			Debug::ensure(startPos["player"].size() >= numPlayers, "Not enough player starting positions");
 			for (int i = 0; i < numPlayers; ++i) {
-				GameObject::Instantiate("player", to_v2f(startPos["player"][i]));
+				//setup player
+				GameObject* playerGo = GameObject::Instantiate("player", to_v2f(startPos["player"][i]));
+				Player* player = playerGo->getComponent<Player>();
+				player->setPlayerIdx(i);
+			}
+		}
+		void instantiateEnemies() {
+			for (sf::Vector2i pos : startPos["enemy"]) {
+				GameObject::Instantiate("enemy", to_v2f(pos));
 			}
 		}
 
