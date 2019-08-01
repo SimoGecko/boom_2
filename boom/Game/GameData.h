@@ -24,6 +24,9 @@ namespace sxg::boom {
 		
 		vector<playerInfo> playerInfos; // live here but player and UI get access to it
 		int numPlayers;
+		int level;
+		float levelTimer;
+
 		
 	private:
 		// ________________________________ data

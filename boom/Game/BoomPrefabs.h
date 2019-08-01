@@ -15,6 +15,7 @@
 #include "Points.h"
 #include "Powerup.h"
 #include "Teleporter.h"
+#include "Title.h"
 
 // provides the instantiatables prefabs for boom
 
@@ -31,7 +32,7 @@ namespace sxg::boom {
 			vector<GameObject*> prefabs;
 			//build______________________________________
 
-			// _____________________________________________________________________________________________________________________ ENVIRONMENT
+			// ___________________________________ ENVIRONMENT
 
 			//BACKGROUND
 			{
@@ -68,7 +69,7 @@ namespace sxg::boom {
 				//add collider -> or not
 			}
 
-			// _____________________________________________________________________________________________________________________ ELEMENTS
+			// ___________________________________ ELEMENTS
 
 
 			//BOMB
@@ -117,7 +118,7 @@ namespace sxg::boom {
 			}
 			
 
-			// _____________________________________________________________________________________________________________________ UI
+			// ___________________________________ UI
 
 			//HEART
 			{
@@ -152,8 +153,38 @@ namespace sxg::boom {
 				Animator* powerupIconAnim = powerupIcon->addComponent<Animator>();
 				powerupIconAnim->setup(&(powerupIcon->renderable().sprite()), 1, { 2, 5 }, "anim/powerup_icons");
 			}
+			
+			//BLACK CORNER
+			{
+				GameObject* blackBg = new GameObject("level_blackbg", Tag::ui);
+				prefabs.push_back(blackBg);
+				blackBg->addRenderable("ui/corner_black", sf::IntRect(0, 0, 32, 32), Layer::ui, 32, false);
+			}
 
-			// _____________________________________________________________________________________________________________________ CHARACTERS
+			//TITLES
+			{
+				{ // hurry up
+					GameObject* hurryUp = new GameObject("writing_hurryUp", Tag::ui);
+					prefabs.push_back(hurryUp);
+					hurryUp->addRenderable("text/writing_hurryup", sf::IntRect(0, 0, 160, 32), Layer::ui, 32, false);
+					hurryUp->addComponent<Title>();
+				}
+				{ // extra game
+					GameObject* extraGame = new GameObject("writing_extraGame", Tag::ui);
+					prefabs.push_back(extraGame);
+					extraGame->addRenderable("text/writing_extragame", sf::IntRect(0, 0, 224, 160), Layer::ui, 32, false);
+					extraGame->addComponent<Title>();
+				}
+				{ // game over
+					GameObject* gameOver = new GameObject("writing_gameOver", Tag::ui);
+					prefabs.push_back(gameOver);
+					gameOver->addRenderable("text/writing_gameover", sf::IntRect(0, 0, 320, 64), Layer::ui, 32, false);
+					gameOver->addComponent<Title>();
+				}
+				
+			}
+
+			// ___________________________________ CHARACTERS
 
 			//PlAYER
 			{
@@ -178,7 +209,7 @@ namespace sxg::boom {
 				enemy->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
-			// _____________________________________________________________________________________________________________________ COLLECTIBLES
+			// ___________________________________ COLLECTIBLES
 
 
 			// POWERUP
@@ -225,7 +256,7 @@ namespace sxg::boom {
 			}
 
 
-			// _____________________________________________________________________________________________________________________ EFFECTS
+			// ___________________________________ EFFECTS
 
 
 			

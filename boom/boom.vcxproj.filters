@@ -224,5 +224,8 @@
     <ClInclude Include="Game\Spawner.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Title.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

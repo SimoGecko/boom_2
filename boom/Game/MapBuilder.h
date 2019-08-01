@@ -77,6 +77,9 @@ namespace sxg::boom {
 			addBorder(H, -1, "DL");
 			addBorder(-1, W, "UR");
 			addBorder(H, W, "DR");
+
+			//add black sprite on topright
+			GameObject::Instantiate("level_blackbg", sf::Vector2f(-1, W));
 		}
 
 		void addBorder(int r, int c, const string& anim) {

@@ -199,6 +199,7 @@
     <ClInclude Include="Game\Powerup.h" />
     <ClInclude Include="Game\Spawner.h" />
     <ClInclude Include="Game\Teleporter.h" />
+    <ClInclude Include="Game\Title.h" />
     <ClInclude Include="Game\Tools.h" />
     <ClInclude Include="Game\Ui.h" />
     <ClInclude Include="Includes.h" />

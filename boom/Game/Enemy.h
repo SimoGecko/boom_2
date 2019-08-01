@@ -21,6 +21,23 @@ namespace sxg::boom {
 		void setAmeba(bool active) {
 			isAmoeba = active;
 		}
+		void speedUp() {
+			//TODO
+		}
+
+		enum class EnemyType {
+			amoeba,
+			soldier,
+			sarge,
+			lizzy,
+			taur,
+			gunner,
+			thing,
+			ghost,
+			smoulder,
+			skully,
+			giggler,
+		};
 
 	private:
 		// ________________________________ data

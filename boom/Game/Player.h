@@ -21,6 +21,9 @@ namespace sxg::boom {
 			//setup player-index specifics
 			playerIndex = index;
 			info = &GameData::instance()->playerInfos[playerIndex];
+			//set color
+			const sf::Texture& playerTexture = Resources::Get<sf::Texture>("player/player_" + to_string(index + 1));
+			gameobject().renderable().sprite().setTexture(playerTexture);
 		}
 		void addScore(int score) { info->score += score; }
 
@@ -60,7 +63,7 @@ namespace sxg::boom {
 		void update() override {
 			Character::update();
 
-			placeBomb();
+			if(bombInput() && canPlaceBomb()) placeBomb();
 		}
 
 		void onCollisionEnter(GameObject& other) override {
@@ -95,16 +98,12 @@ namespace sxg::boom {
 
 
 		void placeBomb() {
-			if (Input::getKeyDown(sf::Keyboard::Space)) {
-				if (nAvailableBombs-deployedBombs > 0) {
-					deployedBombs++;
-					GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
-					//call back on explosion
-					Bomb* bomb = bombGo->getComponent<Bomb>();
-					bomb->dropBomb(bombExplosionDelay, bombExplosionDistance, this);
-					bomb->onExplode += [this]() {deployedBombs--; };
-				}
-			}
+			deployedBombs++;
+			GameObject* bombGo = GameObject::Instantiate("bomb", to_v2f(currentCell()));
+			//call back on explosion
+			Bomb* bomb = bombGo->getComponent<Bomb>();
+			bomb->dropBomb(bombExplosionDelay, bombExplosionDistance, this);
+			bomb->onExplode += [this]() {deployedBombs--; };
 		}
 
 		void onPlayerDamage() {
@@ -124,6 +123,16 @@ namespace sxg::boom {
 
 		// ________________________________ queries
 		float moveSpeed() { return normalMoveSpeed; }
+
+		bool bombInput() {
+			if (playerIndex == 0) return Input::getKeyDown(sf::Keyboard::Space);
+			if (playerIndex == 1) return Input::getKeyDown(sf::Keyboard::Enter);
+			return false;
+		}
+
+		bool canPlaceBomb() {
+			return (nAvailableBombs - deployedBombs > 0) && true /*not bomb already there*/;
+		}
 
 
 	};

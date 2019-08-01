@@ -15,41 +15,62 @@ namespace sxg::boom {
 	class Ui : public Component {
 		CLONABLE(Ui)
 	public:
-		const sf::Vector2f canvasOffset		= { -4.0, -1.0 };
+		static Ui* instance() { return _instance; }
 
-		const sf::Vector2i headOffset		= { 16, 60 };
-		const sf::Vector2i livesTextOffset	= { 54, 59 };
+		void setMainText(const string& text) {
+			mainText->setString(text);
+		}
 
-		const sf::Vector2i heartOffset		= { 16, 91 };
-		const sf::Vector2i heartDist		= { 16, 18 };
+
+
+	private:
+		// ________________________________ const
+
+		static Ui* _instance;
+
+		// int are pixels
+		// float are units
+
+		//offset = in pixels from topleft
+		// dist = spacing between similar elements
+
+		const sf::Vector2f canvasOffset = { -4.0f, -1.0f };
+		const sf::Vector2f playerCanvasOffset = { 0.0f, 6.5f };
+
+		const sf::Vector2i headOffset = { 16, 60 };
+		const sf::Vector2i livesTextOffset = { 54, 59 };
+
+		const sf::Vector2i heartOffset = { 16, 91 };
+		const sf::Vector2i heartDist = { 16, 18 };
 		const int nHeartsPerRow = 4;
 		const int nHearts = 8;
 
-		const sf::Vector2i extraOffset		= { 12, 130 };
-		const sf::Vector2i extraDist		= { 14, 0 };
+		const sf::Vector2i extraOffset = { 12, 130 };
+		const sf::Vector2i extraDist = { 14, 0 };
 		const int nExtra = 5;
 
-		const sf::Vector2i powerupOffset	= { 12, 149 };
-		const sf::Vector2i powerupDist		= { 14, 0 };
-		const sf::Vector2i powerupTextDist	= { 3, 15 };
+		const sf::Vector2i powerupOffset = { 12, 149 };
+		const sf::Vector2i powerupDist = { 14, 0 };
+		const sf::Vector2i powerupTextDist = { 3, 15 };
 		const int nPowerup = 5;
 
-		const sf::Vector2i scoreTextOffset	= { 16,173 };
+		const sf::Vector2i scoreTextOffset = { 16,173 };
 		//const sf::Vector2i scoreNumberOffset= { 13, 197 };
 
-		const sf::Vector2i dropShadowDist	= { 2,2 };
-		const sf::Color	   dropShadowColor  = { 24, 16, 74 }; // dark violet
+		const sf::Vector2i dropShadowDist = { 2,2 };
+		const sf::Color	   dropShadowColor = { 24, 16, 74 }; // dark violet
 
-		const sf::Vector2f playerCanvasOffset = { 6.5, 0.0 };
+		
+		const sf::Vector2i timerTextOffset = { 22, 233 };
+		const sf::Vector2i levelTextOffset = { 614, 4 };
+		const sf::Vector2i mainTextOffset  = { 370, 240 };
+
+
+
 		const float ppu = 32.f;
 
 		const string defaultFontName = "boomFont";
-
-		void setup() {
-
-		}
-
-	private:
+		
 		// ________________________________ data
 
 		struct playerUI {
@@ -66,26 +87,40 @@ namespace sxg::boom {
 		};
 
 		vector<playerUI> playerUIs;
-		sf::Text *timerText, *levelText;
+		sf::Text* timerText;
+		sf::Text* levelText;
+		sf::Text* mainText;
 
 
 		//refs
 		vector<playerInfo>* playerInfos;
+		GameData* data;
 
 
 		// ________________________________ base
+		void awake() {
+			_instance = this;
+			data = gameobject().getComponent<GameData>();
+
+			setupGeneralText();
+		}
+
 		void start() override {
 			playerUIs.resize(numPlayers());
-			playerInfos = &(GameData::instance()->playerInfos);
+			playerInfos = &(data->playerInfos);
 
 			setupIcons();
 			setupText();
 			createDropShadow();
+
+			setLevelText(data->level);
 		}
 
 		void update() override {
 			//todo event callbacks to improve performance
 			updatePlayerUI();
+			setTimerText(data->levelTimer);
+
 		}
 		
 		// ________________________________ commands
@@ -94,19 +129,19 @@ namespace sxg::boom {
 				playerUI& currentpUI = playerUIs[i];
 
 				//hearts
-				for (int i = 0; i < nHearts; ++i) {
-					GameObject* heartGo = GameObject::Instantiate("heart", UIpos(heartOffset, heartDist, i/nHeartsPerRow, i%nHeartsPerRow));
+				for (int h = 0; h < nHearts; ++h) {
+					GameObject* heartGo = GameObject::Instantiate("heart", UIpos(heartOffset, i, heartDist, h/nHeartsPerRow, h%nHeartsPerRow));
 					currentpUI.hearts.push_back(heartGo->getComponent<Animator>());
 				}
 				
 				//head
-				GameObject* headGo = GameObject::Instantiate("head", UIpos(headOffset));
+				GameObject* headGo = GameObject::Instantiate("head", UIpos(headOffset, i));
 				currentpUI.head = headGo->getComponent<Animator>();
-				//set head color
+				currentpUI.head->playAnimation("p" + to_string(i + 1) + "_head"); // head color
 
 				//extra
 				for (size_t c = 0; c < nExtra; ++c) {
-					GameObject* extraGo = GameObject::Instantiate("extraIcon", UIpos(extraOffset, extraDist, 0, c));
+					GameObject* extraGo = GameObject::Instantiate("extraIcon", UIpos(extraOffset, i, extraDist, 0, c));
 					currentpUI.extraIcons.push_back(extraGo->getComponent<Animator>());
 				}
 
@@ -121,22 +156,30 @@ namespace sxg::boom {
 		void setupText() {
 			for (size_t i = 0; i < numPlayers(); ++i) {
 				playerUI& currentpUI = playerUIs[i];
-
-				currentpUI.livesText = Font::getText(defaultFontName, 16, 32);
-				currentpUI.livesText->setPosition(UIpos(livesTextOffset));
-				currentpUI.livesText->setString("*0");
-				currentpUI.livesText->setLetterSpacing(1.6f);
-
-				//currentpUI.powerupText = Font::getText(defaultFontName, 8, 32);
-				//currentpUI.powerupText->setString("*5");
-				//currentpUI.powerupText->setPosition(UIpos(powerupOffset, powerupTextDist, 1, 0));
-				//currentpUI.powerupText->setLetterSpacing(1.6f);
-
-				currentpUI.scoreText = Font::getText(defaultFontName, 16, 32);
-				currentpUI.scoreText->setString("score\n000000");
-				currentpUI.scoreText->setPosition(UIpos(scoreTextOffset));
-				currentpUI.scoreText->setLetterSpacing(1.6f);
+				currentpUI.livesText = setupIndividualText(UIpos(livesTextOffset, i));
+				//currentpUI.powerupText = setupIndividualText(UIpos(powerupOffset, i, powerupTextDist, 1, 0));
+				currentpUI.scoreText = setupIndividualText(UIpos(scoreTextOffset, i));
 			}
+
+		}
+
+		void setupGeneralText() {
+			//main text
+			timerText = setupIndividualText(UIpos(timerTextOffset));
+			levelText = setupIndividualText(UIpos(levelTextOffset));
+			mainText  = setupIndividualText(UIpos(mainTextOffset));
+
+			sf::Rect rect = mainText->getLocalBounds();
+			mainText->setOrigin(rect.width / 2, rect.height / 2); // center
+		}
+
+		sf::Text* setupIndividualText(sf::Vector2f pos) {
+			sf::Text* text = Font::getText(defaultFontName, 16, 32);
+			text->setPosition(pos);
+			text->setString("");
+			text->setLetterSpacing(1.6f);
+			//create drop shadow
+			return text;
 		}
  
 		void createDropShadow() {
@@ -178,9 +221,16 @@ namespace sxg::boom {
 			}
 		}
 
+		void setTimerText(float seconds) {
+			timerText->setString(to_min_sec(seconds));
+		}
+		void setLevelText(int level) {
+			levelText->setString(to_string_pad0(level, 2));
+		}
+
 		// ________________________________ queries
-		sf::Vector2f UIpos(const sf::Vector2i offset, const sf::Vector2i dist = {0,0}, int r=0, int c=0) {
-			return sf::Vector2f(offset.x + c * dist.x, offset.y + r * dist.y) / ppu + (canvasOffset);
+		sf::Vector2f UIpos(const sf::Vector2i offset, int playerNo = 0, const sf::Vector2i dist = {0,0}, int r=0, int c=0) {
+			return sf::Vector2f(offset.x + c * dist.x, offset.y + r * dist.y) / ppu + (canvasOffset + playerCanvasOffset*(float)playerNo);
 		}
 
 		int numPlayers() { return GameData::instance()->numPlayers; }

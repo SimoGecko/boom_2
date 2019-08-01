@@ -173,6 +173,17 @@ namespace sxg::engine {
 			return ss.str();
 		}
 
+		const string to_min_sec(float timer) {
+			int t = static_cast<int>(roundf(timer));
+
+			int s = t % 60;
+			int m = t / 60;
+			char buffer[10];
+			sprintf_s(buffer, "%02d:%02d", m, s);
+			return buffer;
+			//return to_string_pad0(m, 2) + ":" + to_string_pad0(s, 2);
+		}
+
 
 		// DIRECTIONS
 		enum dir {none, right, up, left, down};
