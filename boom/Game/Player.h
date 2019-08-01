@@ -5,7 +5,7 @@
 
 #include "Character.h"
 #include "Bomb.h"
-#include "Score.h"
+#include "GameData.h"
 
 // prototypical class to move player around
 
@@ -54,7 +54,7 @@ namespace sxg::boom {
 			
 			//setup player-index specifics
 			playerIndex = 0;
-			info = &Score::instance->playerInfos[playerIndex];
+			info = &GameData::instance()->playerInfos[playerIndex];
 
 		}
 

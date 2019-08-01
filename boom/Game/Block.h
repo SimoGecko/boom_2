@@ -3,7 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "MapBuilder.h"
+#include "Map.h"
 #include "Points.h"
 #include "Explosion.h"
 
@@ -54,7 +54,7 @@ namespace sxg::boom {
 			anim->playAnimation("break");
 			anim->onAnimationFinish += [this]() { destroy(); };
 
-			MapBuilder::instance->blockBroke(to_v2i(transform().getPosition()));
+			Map::instance()->blockBroke(to_v2i(transform().getPosition()));
 
 			Points::addPoints(pointsOnBreak, transform().getPosition(), playerWhoDestroyed);
 		}

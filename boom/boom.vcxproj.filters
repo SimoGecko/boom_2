@@ -206,16 +206,22 @@
     <ClInclude Include="Game\Living.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Score.h">
+    <ClInclude Include="Game\Points.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Collectible.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameData.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameManager.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Points.h">
+    <ClInclude Include="Game\Map.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Collectible.h">
+    <ClInclude Include="Game\Spawner.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,10 +4,12 @@
 #include "../Engine.h"
 
 //SCRIPTS
-#include "Player.h"
 #include "MapBuilder.h"
+#include "Map.h"
 #include "Ui.h"
-#include "Score.h"
+#include "GameData.h"
+#include "GameManager.h"
+#include "Spawner.h"
 
 // provides the general game scene for boom
 
@@ -29,7 +31,10 @@ namespace sxg::boom {
 				scene.push_back(manager);
 				manager->addComponent<MapBuilder>();
 				manager->addComponent<Ui>();
-				manager->addComponent<Score>();
+				manager->addComponent<GameManager>();
+				manager->addComponent<GameData>();
+				manager->addComponent<Map>();
+				manager->addComponent<Spawner>();
 			}
 
 			

@@ -3,8 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Score.h"
-#include "GameManager.h"
+#include "GameData.h"
 #include "Extra.h"
 
 // draws information on screen, such as time, score, lives, powerup, levelInfo
@@ -72,8 +71,8 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void start() override {
-			playerUIs.resize(GameManager::nPlayers);
-			playerInfos = &(Score::instance->playerInfos);
+			playerUIs.resize(numPlayers());
+			playerInfos = &(GameData::instance()->playerInfos);
 
 			setupIcons();
 			setupText();
@@ -88,7 +87,7 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void setupIcons() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < numPlayers(); ++i) {
 				playerUI& currentpUI = playerUIs[i];
 
 				//hearts
@@ -117,7 +116,7 @@ namespace sxg::boom {
 		}
 
 		void setupText() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < numPlayers(); ++i) {
 				playerUI& currentpUI = playerUIs[i];
 
 				currentpUI.livesText = Font::getText(defaultFontName, 16, 32);
@@ -142,7 +141,7 @@ namespace sxg::boom {
 		}
 
 		void updatePlayerUI() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < numPlayers(); ++i) {
 				playerUI& currentpUI = playerUIs[i];
 				playerInfo& currentInfo = playerInfos->at(i);
 				
@@ -181,6 +180,7 @@ namespace sxg::boom {
 			return sf::Vector2f(offset.x + c * dist.x, offset.y + r * dist.y) / ppu + (canvasOffset);
 		}
 
+		int numPlayers() { return GameData::instance()->numPlayers; }
 
 
 	};
