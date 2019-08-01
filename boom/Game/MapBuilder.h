@@ -3,6 +3,8 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
+#include "Map.h"
+
 // reads the appropriate pixel subsection representing a map and instantiates the prefabs in the correct position.
 
 namespace sxg::boom {
@@ -11,74 +13,47 @@ namespace sxg::boom {
 	class MapBuilder : public Component {
 		CLONABLE(MapBuilder)
 	public:
-		static MapBuilder* instance;
-
-		bool isWalkable(sf::Vector2i pos) {
-			return isValid(pos) && tagsMap[pos.y][pos.x] == Tag::empty;//(mapObjects[r][c] == nullptr || isWalkableTag(mapObjects[r][c]->tag()));
-		}
-
-		int getExplosionDist(sf::Vector2i center, sf::Vector2i delta) { // int maxDist
-			int ans = 0;
-			//sf::Vector2i delta = vectorFromDir(direction);
-			sf::Vector2i pos = center;
-
-			while (isValid(pos)) {
-				Tag tag = tagsMap[pos.y][pos.x];
-				if (tag == Tag::block) return ans;
-				if (tag == Tag::wall)  return ans-1;
-
-				pos += delta;
-				ans++;
-			}
-			return ans-1;
-		}
-
-		void blockBroke(sf::Vector2i pos) {
-			if (tagsMap[pos.y][pos.x] != Tag::block) Debug::logError("Block is not breakable in MapBuilder.");
-			tagsMap[pos.y][pos.x] = Tag::empty;
-		}
+		void buildLevel(int level) { loadLevel(level); }
+		static MapBuilder* instance() { return _instance; }
 
 	private:
 		// ________________________________ data
-		const int startLevel = 25;
+		vector<sf::Vector2i> playerStartPos;
+		vector<sf::Vector2i> enemyStartPos;
 
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
-		const int numPlayers = 1;
 
-		//unordered_map<int, string> prefabNamesMap;
-		vector<vector<Tag>> tagsMap; // only need to know for stuff that doesn't move
-		vector<sf::Vector2i> playerStartPos;
+		friend class CharacterManager;
 
+		static MapBuilder* _instance;
 
 		// ________________________________ base
 		void awake() override {
-			if (instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
-			instance = this;
+			if (_instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
+			_instance = this;
+
 		}
 
 		void start() override {
 
-
-			loadLevel(startLevel);
 		}
 
 		void update() override {
 
 		}
+		
 
+		// ________________________________ commands
 		void loadLevel(int level) {
 			Debug::ensure(1 <= level && level <= maxLevel, "Invalid level index: " + to_string(level));
 
 			setupBackgroundAndBorder();
 			sf::Image levelImage = getLevelPixels(level);
 			instantiateLevelPrefabs(levelImage);
-			instantiatePlayers();
 		}
-		
 
-		// ________________________________ commands
 		void setupBackgroundAndBorder() {
 			//background
 			for (int r = 0; r < H; ++r) {
@@ -108,6 +83,11 @@ namespace sxg::boom {
 
 
 		void instantiateLevelPrefabs(const sf::Image& levelImage) {
+			// setup refs
+			auto& tagsMap = Map::instance()->tagsMap;
+			//auto& playerStartPos = Map::instance()->playerStartPos;
+			//auto& enemyStartPos  = Map::instance()->enemyStartPos;
+			
 			tagsMap.resize(H);
 			for (size_t r = 0; r < H; ++r) {
 				tagsMap[r].resize(W);
@@ -132,18 +112,14 @@ namespace sxg::boom {
 					else if (prefabName == "player") {
 						playerStartPos.push_back(position);
 					}
+					else if (prefabName == "enemy") {
+						enemyStartPos.push_back(position);
+					}
 				}
 			}
 		}
 
-
-
-		void instantiatePlayers() {
-			Debug::ensure(playerStartPos.size() >= numPlayers, "Not enough player starting positions");
-			for (int i = 0; i < numPlayers; ++i) {
-				GameObject::Instantiate("player", to_v2f(playerStartPos[i]));
-			}
-		}
+		
 
 		// ________________________________ queries
 		sf::Image getLevelPixels(int level) {
@@ -173,13 +149,13 @@ namespace sxg::boom {
 			return "";
 		}
 
-		bool isValid(sf::Vector2i pos) {
-			return (0 <= pos.x && pos.x < W && 0 <= pos.y && pos.y < H);
-		}
 
 		bool doInstantiate(const string& s) {
-			return s == "block" || s == "wall" || s == "coin" || s == "teleporter" || s == "enemy"; // || s == "player"
+			return s == "block" || s == "wall" || s == "coin" || s == "teleporter";
 			// not: empty, border
+		}
+		bool markStartingPosition(const string& s) {
+			return s == "player" || s == "enemy";
 		}
 		bool setupTag(const string& s) { // static elements that don't move
 			return s == "block" || s == "wall";// || s == "coin" || s == "teleporter";

@@ -76,9 +76,10 @@ namespace sxg::boom {
 			const float delayForOvation = 0.1f;
 
 			vector<GameObject*> allBlocks = GameObject::FindGameObjectsWithTag(Tag::block);
-			for (GameObject* block : allBlocks) {
-				float delay = delayForOvation * block->transform().getPosition().x;
-				block->getComponent<Block>()->breakBlockDelay(delay, &player);
+			for (GameObject* blockGo : allBlocks) {
+				float delay = delayForOvation * blockGo->transform().getPosition().x;
+				Block* block = blockGo->getComponent<Block>();
+				//block->invoke([block, player] {block->takeDamage(1, &player); }, delay);//breakBlockDelay(delay, &player);
 			}
 		}
 

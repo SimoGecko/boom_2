@@ -21,13 +21,14 @@ namespace sxg::boom {
 	class Score : public Component {
 	CLONABLE(Score)
 	public:
-		static Score* instance;
+		static Score* instance() { return _instance; };
 
 		vector<playerInfo> playerInfos; // live here but player and UI get access to it
 
 		
 	private:
 		// ________________________________ data
+		static Score* _instance;
 
 
 		sf::Clock timer;
@@ -37,10 +38,10 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void awake() override {
-			if (instance != nullptr) Debug::logError("Multiple copies of singleton: Score");
-			instance = this;
+			if (_instance != nullptr) Debug::logError("Multiple copies of singleton: Score");
+			_instance = this;
 
-			playerInfos.resize(GameManager::nPlayers);
+			playerInfos.resize(GameManager::instance()->nPlayers);
 		}
 		
 		void start() override {

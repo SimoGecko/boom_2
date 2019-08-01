@@ -29,6 +29,9 @@ namespace sxg::boom {
 			Animator* anim = pointsGo->getComponent<Animator>();
 			anim->playAnimation(pointAmount2String(points->amount));
 
+			if (player == nullptr) {
+				Debug::logError("player nullptr");
+			}
 			
 			player->addScore(pointAmount2Int(points->amount));
 		}

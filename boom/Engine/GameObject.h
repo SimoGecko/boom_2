@@ -43,9 +43,11 @@ namespace sxg::engine {
 				auto ans = dynamic_cast<C*>(component);
 				if (ans != nullptr) return ans;
 			}
-			Debug::logError("Gameobject " + _name + " doesn't have component of type " + typeid(C).name());
+			//Debug::logError("Gameobject " + _name + " doesn't have component of type " + typeid(C).name());
 			return nullptr;
 		}
+
+
 
 		void addRenderable(const string& spriteName, sf::IntRect spriteRect, Layer layer = Layer::defaultLayer, int ppu = 100, bool add = true);
 

@@ -14,6 +14,7 @@ namespace sxg::engine {
 		//add it to the list of all scenes
 		bool mustLoad = _allScenes.empty();
 		if (mustLoad) _loadSceneName = name;
+
 		_allScenes[_name] = this;
 
 		//if (mustLoad) load(_name); // avoid loading from withing ctor since not done yet
@@ -24,13 +25,14 @@ namespace sxg::engine {
 	}
 
 	void Scene::addGameObject(GameObject* go) {
-		_allGameObjects.push_back(go);
-		go->awake();
-		go->start();
+		if (_currentScene &&  go != nullptr) {
+			go->awake();
+			go->start();
+			_currentScene->_toAdd.push_back(go);
+		}
 	}
 	void Scene::removeGameObject(GameObject* go) {
-		if (go == nullptr) return;
-		_toDelete.push_back(go);
+		if (_currentScene && go != nullptr) _currentScene->_toDelete.push_back(go);
 	}
 
 	void Scene::unload() { // make sure it's called at the end of the update
@@ -41,29 +43,33 @@ namespace sxg::engine {
 		_allGameObjects.clear();
 	}
 
-	const vector<GameObject*>& Scene::AllGameObjects() const {
-		return _allGameObjects;
+	const vector<GameObject*>& Scene::AllGameObjects() {
+		if (_currentScene == nullptr) {
+			Debug::logError("Trying to access allgameobjects while currentscene is null");
+		}
+		return _currentScene->_allGameObjects;
 	}
 
 	//static
 	void Scene::start() {
-		//build here all the scenes
-		//TODO move out of engine
-
 		//load default
 		Scene::actualLoad(_loadSceneName);
 	}
 
 	void Scene::update() {
-		finalDelete();
-		if (_doLoadScene) {
-			_doLoadScene = false;
+		if (_currentScene != nullptr) {
+			_currentScene->finalAdd();
+			_currentScene->finalDelete();
+		}
+
+		if (_mustLoadScene) {
+			_mustLoadScene = false;
 			actualLoad(_loadSceneName);
 		}
 	}
 
 	void Scene::load(const string& sceneName) {
-		_doLoadScene = true;
+		_mustLoadScene = true;
 		_loadSceneName = sceneName;
 	}
 
@@ -79,42 +85,60 @@ namespace sxg::engine {
 		}
 		_currentScene = _allScenes[sceneName];
 
-		auto startingGameObjects = _currentScene->build();
-		_currentScene->_allGameObjects = startingGameObjects;
+		vector<GameObject*> startingGameObjects = _currentScene->build();
+
+
+		//_currentScene->_allGameObjects = startingGameObjects;
 
 		// since the scene might grow dynamically, call start only on those generated statically by the scene
-		// scene takes care of calling start when newObject is inserted 
-		for (size_t i = 0; i < startingGameObjects.size(); ++i) {
-			startingGameObjects[i]->awake(); 
+		// scene takes care of calling start when newObject is inserted
+		for (GameObject* go : startingGameObjects) {
+			go->awake();
 		}
-		for (size_t i = 0; i < startingGameObjects.size(); ++i) {
-			startingGameObjects[i]->start();
+		for (GameObject* go : startingGameObjects) {
+			go->start();
 		}
+
+		_currentScene->_toAdd.insert(_currentScene->_toAdd.end(), startingGameObjects.begin(), startingGameObjects.end());
+
 	}
 
-	Scene& Scene::current() { return *_currentScene; }
 
 	void Scene::finalDelete() {
-		if (_toDelete.empty() || _currentScene==nullptr) return;
-		vector<GameObject*>& allGo = _currentScene->_allGameObjects;
+		if (_toDelete.empty()) return;
 
 		for (GameObject* go : _toDelete) {
-			auto it = find(allGo.begin(), allGo.end(), go);
-			if (it != allGo.end()) {
+			auto it = find(_allGameObjects.begin(), _allGameObjects.end(), go);
+			if (it != _allGameObjects.end()) {
 				Time::eraseCallbacksOfDeletedObject(go);
-				allGo.erase(it);
+				_allGameObjects.erase(it);
 				delete go;
+			}
+			else {
+				Debug::logError("Scene trying to delete gameobject not found: " + go->name());
 			}
 		}
 
 		_toDelete.clear();
 	}
+	void Scene::finalAdd() {
+		if (_toAdd.empty()) return;
+
+		vector<GameObject*> toaddcopy = _toAdd;
+		_toAdd.clear();
+
+		for (GameObject* go : toaddcopy) {
+			_allGameObjects.push_back(go);
+			//awake & start already called
+		}
+
+		//_toAdd.clear();
+	}
 
 	//static decl
 	string Scene::_loadSceneName;
-	unordered_map<string, Scene*> Scene::_allScenes;
+	bool Scene::_mustLoadScene;
+
 	Scene* Scene::_currentScene = nullptr;
-	vector<GameObject*> Scene::_toDelete;
-	bool Scene::_doLoadScene;
-	 
+	unordered_map<string, Scene*> Scene::_allScenes;
 }

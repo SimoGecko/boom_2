@@ -4,7 +4,7 @@
 #include "../Engine.h"
 
 //#include "Explosion.h"
-#include "MapBuilder.h"
+#include "Map.h"
 #include "Explosion.h"
 
 //#include "Player.h"
@@ -93,7 +93,7 @@ namespace sxg::boom {
 		}
 
 		void instantiateExplosionDirection(sf::Vector2i origin, sf::Vector2i delta, orientation orient) {
-			int mapDistance = MapBuilder::instance->getExplosionDist(origin, delta);
+			int mapDistance = Map::instance()->getExplosionDist(origin, delta);
 			for (int i = 1; i <= min(bombDistance, mapDistance); ++i) {
 				instantiateExplosionPiece(origin + i * delta, orient);
 			}

@@ -72,8 +72,8 @@ namespace sxg::boom {
 
 		// ________________________________ base
 		void start() override {
-			playerUIs.resize(GameManager::nPlayers);
-			playerInfos = &(Score::instance->playerInfos);
+			playerUIs.resize(GameManager::instance()->nPlayers);
+			playerInfos = &(Score::instance()->playerInfos);
 
 			setupIcons();
 			setupText();
@@ -88,7 +88,7 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void setupIcons() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < GameManager::instance()->nPlayers; ++i) {
 				playerUI& currentpUI = playerUIs[i];
 
 				//hearts
@@ -117,7 +117,7 @@ namespace sxg::boom {
 		}
 
 		void setupText() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < GameManager::instance()->nPlayers; ++i) {
 				playerUI& currentpUI = playerUIs[i];
 
 				currentpUI.livesText = Font::getText(defaultFontName, 16, 32);
@@ -142,7 +142,7 @@ namespace sxg::boom {
 		}
 
 		void updatePlayerUI() {
-			for (size_t i = 0; i < GameManager::nPlayers; ++i) {
+			for (size_t i = 0; i < GameManager::instance()->nPlayers; ++i) {
 				playerUI& currentpUI = playerUIs[i];
 				playerInfo& currentInfo = playerInfos->at(i);
 				

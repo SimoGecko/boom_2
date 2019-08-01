@@ -3,10 +3,10 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "MapBuilder.h"
+#include "Map.h"
 #include "Living.h"
 #include "Explosion.h"
-#include "Player.h"
+//#include "Player.h"
 
 // abstract base class for characters (player + enemies) that move, have health
 
@@ -43,7 +43,7 @@ namespace sxg::boom {
 		
 		void onCollisionEnter(GameObject& other) {
 			if (other.tag() == Tag::explosion) {
-				damageResponsiblePlayer = other.getComponent<Explosion>()->getPlayer();
+				//damageResponsiblePlayer = other.getComponent<Explosion>()->getPlayer();
 
 				takeDamage(explosionDamage);
 			}
@@ -122,7 +122,7 @@ namespace sxg::boom {
 
 	protected:
 		bool freeCell(sf::Vector2i delta) {
-			return MapBuilder::instance->isWalkable(prevCell + delta);
+			return Map::instance()->isWalkable(prevCell + delta);
 		}
 		sf::Vector2i moveDelta() { return nextCell - prevCell; }
 		bool attacking() { return false; }

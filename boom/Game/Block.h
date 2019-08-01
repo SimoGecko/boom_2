@@ -3,21 +3,24 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "MapBuilder.h"
+#include "Map.h"
 #include "Points.h"
-#include "Explosion.h"
+//#include "Explosion.h"
+#include "Living.h"
 
 // destroyable block that blocks the passage until broken with a bomb
 
 namespace sxg::boom {
 
-	class Block : public Component {
+
+	class Block : public Component, public Living {
 		CLONABLE(Block)
 	public:
+		/*
 		void breakBlockDelay(float delay, Player* player) {
-			playerWhoDestroyed = player;
-			invoke([this]() {this->breakBlock(); }, delay);
+			invoke([this, player]() {this->breakBlock(player); }, delay);
 		}
+		*/
 
 	private:
 		// ________________________________ data
@@ -26,12 +29,11 @@ namespace sxg::boom {
 		const PointAmount pointsOnBreak = PointAmount::p10;
 
 		bool broken;
-		Player* playerWhoDestroyed;
 
 		// ________________________________ base
 		void start() override {
 			broken = false;
-			playerWhoDestroyed = nullptr;
+			onDeath += [this] {breakBlock(playerResponsible); };
 		}
 
 		void update() override {
@@ -39,14 +41,16 @@ namespace sxg::boom {
 		}
 
 		void onCollisionEnter (GameObject& other) override {
+			/*
 			if (other.tag() == Tag::explosion) {
 				playerWhoDestroyed = other.getComponent<Explosion>()->getPlayer();//other.getComponent<Explosion>().player();
 				breakBlock();
 			}
+			*/
 		}
 		
 		// ________________________________ commands
-		void breakBlock() {
+		void breakBlock(Player* playerWhoDestroyed) {
 			if (broken) return;
 			broken = true;
 
@@ -54,7 +58,7 @@ namespace sxg::boom {
 			anim->playAnimation("break");
 			anim->onAnimationFinish += [this]() { destroy(); };
 
-			MapBuilder::instance->blockBroke(to_v2i(transform().getPosition()));
+			Map::instance()->blockBroke(to_v2i(transform().getPosition()));
 
 			Points::addPoints(pointsOnBreak, transform().getPosition(), playerWhoDestroyed);
 		}

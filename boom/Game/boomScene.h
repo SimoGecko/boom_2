@@ -4,10 +4,12 @@
 #include "../Engine.h"
 
 //SCRIPTS
-#include "Player.h"
+#include "CharacterManager.h"
+#include "GameManager.h"
+#include "Map.h"
 #include "MapBuilder.h"
-#include "Ui.h"
 #include "Score.h"
+#include "Ui.h"
 
 // provides the general game scene for boom
 
@@ -27,9 +29,12 @@ namespace sxg::boom {
 			{
 				GameObject* manager = new GameObject("manager");
 				scene.push_back(manager);
+				manager->addComponent<CharacterManager>();
+				manager->addComponent<GameManager>();
+				manager->addComponent<Map>();
 				manager->addComponent<MapBuilder>();
-				manager->addComponent<Ui>();
 				manager->addComponent<Score>();
+				manager->addComponent<Ui>();
 			}
 
 			

@@ -45,10 +45,10 @@ namespace sxg::engine {
 
 	void GameObject::destroy(const float lifetime) {
 		if (lifetime > 0) {
-			Time::invoke([this]() {Scene::current().removeGameObject(this); }, lifetime, this);
+			Time::invoke([this]() {Scene::removeGameObject(this); }, lifetime, this);
 		}
 		else {
-			Scene::current().removeGameObject(this);
+			Scene::removeGameObject(this);
 		}
 	}
 
@@ -112,7 +112,7 @@ namespace sxg::engine {
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {
 		//return reference to those stored in the scene
-		return Scene::current().AllGameObjects();
+		return Scene::AllGameObjects();
 	}
 
 	GameObject* GameObject::FindGameObjectWithName(const string& name) {
@@ -157,7 +157,7 @@ namespace sxg::engine {
 		}
 
 		//add it to the scene
-		Scene::current().addGameObject(newGo); // start is called here!
+		Scene::addGameObject(newGo); // start is called here!
 		return newGo;
 	}
 

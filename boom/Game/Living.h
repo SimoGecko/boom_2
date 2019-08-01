@@ -7,6 +7,8 @@
 
 namespace sxg::boom {
 
+	class Player;
+
 	class Living {
 	public:
 		int health() const { return _health; }
@@ -20,9 +22,10 @@ namespace sxg::boom {
 			_health = _startingHealth;
 			_dead = false;
 		}
-		void takeDamage(int amount) {
+		void takeDamage(int amount, Player* player=nullptr) {
 			if (_invincible) return;
 			_health -= amount;
+			playerResponsible = player;
 			onHealthChange();
 
 			if (_health <= 0) die();
@@ -35,6 +38,7 @@ namespace sxg::boom {
 
 	protected:
 		int _startingHealth;
+		Player* playerResponsible;
 
 		int _health;
 		bool _dead;

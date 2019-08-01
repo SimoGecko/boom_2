@@ -6,6 +6,20 @@
 
 #define CLONABLE(Script) Component* clone() { return new Script(*this); }
 
+/*
+#define MANAGER (Script)							\
+public:												\
+	static Script* instance() { return _instance; } \
+private:											\
+	static Script* _instance;
+
+#define SETUP_MANAGER(Script)						\
+if(_instance!=nullptr)								\
+	Debug::logError("Manager duplicate: " #Script); \
+_instance = this;
+*/
+
+
 namespace sxg::engine {
 
 	class GameObject; // forward declaration
@@ -21,6 +35,7 @@ namespace sxg::engine {
 
 
 		const sf::Transformable& transform() const;
+		void invoke(function<void(void)> func, float delay);
 
 	protected:
 		//main methods -> not abstract as they could be empty and fine
@@ -36,7 +51,6 @@ namespace sxg::engine {
 
 		GameObject& gameobject();
 		sf::Transformable& transform();
-		void invoke(function<void(void)> func, float delay);
 
 	private:
 		GameObject* _go; // must always have a reference

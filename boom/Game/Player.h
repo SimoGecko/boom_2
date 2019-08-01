@@ -17,7 +17,10 @@ namespace sxg::boom {
 		void teleport(sf::Vector2f to) {
 			//wait to stop
 		}
-		void setPlayerIdx(int index) { playerIndex = index; }
+		void setPlayerIndex(int index) {
+			playerIndex = index;
+			setupPlayer();
+		}
 		void addScore(int score) { info->score += score; }
 
 		void collectLetter(int letter) {
@@ -27,20 +30,20 @@ namespace sxg::boom {
 
 	private:
 		// ________________________________ const
-		int playerStartingHealth = 16;
-		float normalMoveSpeed = 5.f;
+		const int playerStartingHealth = 16;
+		const float normalMoveSpeed = 5.f;
 
 		//bombs data
 
-		int nAvailableBombs = 3;
-		int bombExplosionDistance = 2;
-		float bombExplosionDelay = 2.5f;
+		const int nAvailableBombs = 3;
+		const int bombExplosionDistance = 2;
+		const float bombExplosionDelay = 2.5f;
 
 
 		friend class Powerup;
 		// ________________________________ variables
 
-		int playerIndex = 0;
+		int playerIndex;
 		playerInfo* info;
 		int deployedBombs;
 
@@ -52,9 +55,7 @@ namespace sxg::boom {
 			
 			onHealthChange += [this]() {onPlayerDamage(); };
 			
-			//setup player-index specifics
-			playerIndex = 0;
-			info = &Score::instance->playerInfos[playerIndex];
+			
 
 		}
 
@@ -85,6 +86,11 @@ namespace sxg::boom {
 			if (Input::getKey(sf::Keyboard::W)) input.y -= 1;
 			if (Input::getKey(sf::Keyboard::S)) input.y += 1;
 			return input;
+		}
+
+		void setupPlayer() {
+			//setup player-index specifics
+			info = &Score::instance()->playerInfos[playerIndex];
 		}
 
 
