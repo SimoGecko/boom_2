@@ -57,6 +57,10 @@ namespace sxg::engine {
 		_callbacks.erase(remove_if(_callbacks.begin(), _callbacks.end(), deleteCriterion), _callbacks.end());
 	}
 
+	void Time::eraseCallbacks() {
+		_callbacks.clear();
+	}
+
 
 	//queries
 	int   Time::frameNo() { return _frame; }

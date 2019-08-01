@@ -47,6 +47,7 @@ namespace sxg::engine {
 		_spriteRef->setTextureRect(_currentAnim->_frames[0]);
 	}
 
+
 	const string& Animator::currentAnimationName() const {
 		if (_currentAnim == nullptr) return emptyString;
 		return _currentAnim->_animName;

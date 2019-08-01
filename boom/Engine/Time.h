@@ -26,10 +26,10 @@ namespace sxg::engine {
 		static void invoke(function<void(void)> func, float delay, GameObject* go);
 
 	private:
-		//friend void Scene::finalDelete();
 		friend class Scene; // todo make only a single function
 
 		static void eraseCallbacksOfDeletedObject(GameObject* go);
+		static void eraseCallbacks();
 		static void processCallbacks();
 
 		struct callback {

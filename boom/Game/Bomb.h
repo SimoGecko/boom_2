@@ -57,7 +57,7 @@ namespace sxg::boom {
 		// ________________________________ commands
 		void triggerFromExplosion(Explosion* explosion) {
 			//explode immediately due to triggering
-			sf::Vector2f delta = transform().getPosition() - explosion->getOrigin();
+			sf::Vector2f delta = transform().getPosition() - explosion->getBombOrigin();
 			int distanceFromOgirin = magnitude1(to_v2i(delta));
 			invoke([this]() {this->explode(); }, triggerExplosionDelayPerUnit * distanceFromOgirin);
 		}

@@ -38,6 +38,7 @@ namespace sxg::engine {
 			delete go;
 			//go = nullptr; // its a copy
 		}
+		Time::eraseCallbacks();
 		_allGameObjects.clear();
 	}
 
@@ -53,7 +54,7 @@ namespace sxg::engine {
 		//load default
 		Scene::actualLoad(_loadSceneName);
 	}
-
+	
 	void Scene::update() {
 		finalDelete();
 		if (_doLoadScene) {
@@ -77,6 +78,7 @@ namespace sxg::engine {
 		if (_currentScene != nullptr) {
 			_currentScene->unload();
 		}
+		//clear timers
 		_currentScene = _allScenes[sceneName];
 
 		auto startingGameObjects = _currentScene->build();

@@ -189,8 +189,10 @@
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Explosion.h" />
     <ClInclude Include="Game\Extra.h" />
+    <ClInclude Include="Game\Flash.h" />
     <ClInclude Include="Game\GameData.h" />
     <ClInclude Include="Game\GameManager.h" />
+    <ClInclude Include="Game\HeadBoss.h" />
     <ClInclude Include="Game\Living.h" />
     <ClInclude Include="Game\Map.h" />
     <ClInclude Include="Game\MapBuilder.h" />

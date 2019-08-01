@@ -55,7 +55,7 @@ namespace sxg::engine {
 		template <> static void setPrefixAndExtension<sf::Texture>()	 { _prefix = "Images/", _extension = ".png"; }
 		template <> static void setPrefixAndExtension<sf::Image>()		 { _prefix = "Images/", _extension = ".png"; }
 		template <> static void setPrefixAndExtension<sf::Font>()        { _prefix = "Fonts/" , _extension = ".ttf"; }
-		template <> static void setPrefixAndExtension<sf::SoundBuffer>() { _prefix = "Audio/Sounds/" , _extension = ".wav"; }
+		template <> static void setPrefixAndExtension<sf::SoundBuffer>() { _prefix = "Audio/" , _extension = ".wav"; }
 		
 	};
 

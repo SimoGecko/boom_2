@@ -15,42 +15,54 @@ namespace sxg::boom {
 
 	class Character : public Component, public Living {
 	public:
+		bool canTeleport() {
+			return canTeleportBool;
+		}
+
+		void teleport(sf::Vector2f to) {
+			if (!canTeleportBool) return;
+			//wait to stop
+			teleportTo = to_v2i(to);
+			mustTeleport = true;
+			canTeleportBool = false;
+		}
 
 	protected:
 		// ________________________________ data
-		int explosionDamage = 1;
+		//int explosionDamage = 1;
 
 		Animator* anim;
-		Player* damageResponsiblePlayer;
+		//Player* damageResponsiblePlayer;
 		//movement
 		sf::Vector2i prevCell, nextCell;
 		float movePercent;
-		bool doMove;
+		bool canMove;
+
+		bool mustTeleport;
+		bool canTeleportBool;
+		sf::Vector2i teleportTo;
 
 		// ________________________________ base
 	protected:
 		void start() override {
 			anim = gameobject().getComponent<Animator>();
+
 			prevCell = nextCell = to_v2i(transform().getPosition());
 			movePercent = 0;
-			doMove = true;
+			canMove = true;
+
+			mustTeleport = false;
+			canTeleportBool = true;
 		}
 
 		void update() override {
-			if(doMove) movement();
+			if(canMove) movement();
 			setAnimation();
 		}
 
 		
 		void onCollisionEnter(GameObject& other) {
-			if (other.tag() == Tag::explosion) {
-				damageResponsiblePlayer = other.getComponent<Explosion>()->getPlayer();
 
-				takeDamage(explosionDamage);
-			}
-			if (other.tag() == Tag::teleporter) {
-				//TELEPORT
-			}
 		}
 		
 
@@ -65,6 +77,12 @@ namespace sxg::boom {
 					transform().setPosition(lerp(prevCell, nextCell, movePercent));
 				}
 				else {
+					if (mustTeleport) {
+						mustTeleport = false;
+						nextCell = teleportTo; // go there
+						invoke([this] {canTeleportBool = true; }, 0.1f);
+					}
+
 					prevCell = nextCell;
 					transform().setPosition(prevCell.x, prevCell.y);
 					movePercent = 0;
@@ -126,10 +144,10 @@ namespace sxg::boom {
 			return Map::instance()->isWalkable(prevCell + delta);
 		}
 		sf::Vector2i moveDelta() { return nextCell - prevCell; }
-		bool attacking() { return false; }
 		bool moving() { return nextCell != prevCell; }
-		virtual float moveSpeed() = 0;
 		sf::Vector2i currentCell() { return movePercent < 0.5f ? prevCell : nextCell; }
 
+		virtual float moveSpeed() = 0;
+		virtual bool attacking() { return false; }
 	};
 }

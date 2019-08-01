@@ -18,7 +18,7 @@ namespace sxg::boom {
 	private:
 		// ________________________________ data
 		const float rotationTime = 2.f;
-		const PointAmount myPointsOnPickup = PointAmount::p150;
+		const Points::Amount myPointsOnPickup = Points::Amount::p150;
 
 		static int nCoins;
 

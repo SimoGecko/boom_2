@@ -4,6 +4,7 @@
 #include "../Engine.h"
 
 //#include "Map.h"
+#include "Living.h"
 
 // the graphic effect of an explosion
 
@@ -14,21 +15,19 @@ namespace sxg::boom {
 	class Explosion : public Component {
 		CLONABLE(Explosion)
 	public:
-		void setup(Player* p, sf::Vector2f origin) {
-			
 
+		void setup(Player* p, sf::Vector2f origin) {
 			player = p;
 			bombOrigin = origin;
 		}
 
-		Player* getPlayer() {
-			
-			return player;
-		}
-		sf::Vector2f getOrigin() { return bombOrigin; }
+		//Player* getPlayer() { return player; }
+		sf::Vector2f getBombOrigin() { return bombOrigin; }
 
 	private:
 		// ________________________________ data
+		const int explosionDamage = 1;
+
 		Player* player;
 		sf::Vector2f bombOrigin;
 
@@ -39,6 +38,13 @@ namespace sxg::boom {
 
 		void update() override {
 		
+		}
+
+		void onCollisionEnter(GameObject& other) override {
+			Living* living = other.getComponent<Living>();
+			if (living!=nullptr) {
+				living->takeDamage(explosionDamage, player);
+			}
 		}
 		
 		// ________________________________ commands

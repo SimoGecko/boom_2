@@ -227,5 +227,11 @@
     <ClInclude Include="Game\Title.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Game\HeadBoss.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Flash.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

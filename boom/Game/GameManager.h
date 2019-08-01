@@ -6,6 +6,7 @@
 #include "GameData.h"
 // manages the game state and flow (PERSISTENT)
 
+#include "Player.h"
 #include "Spawner.h"
 #include "MapBuilder.h"
 #include "Ui.h"
@@ -40,7 +41,6 @@ namespace sxg::boom {
 		}
 
 		void start() override {
-			Debug::log("gamemanager::start()");
 			data->level = 1;
 			running = false;
 
@@ -109,13 +109,16 @@ namespace sxg::boom {
 		void levelComplete() {
 			running = false;
 			//wait some time
+			invoke([this] {notifyPlayers(); }, outroDuration/2);
+			invoke([this] {levelCompleteEnd(); }, outroDuration);
+		}
 
-			
+		void notifyPlayers() {
+			vector<GameObject*> players = GameObject::FindGameObjectsWithTag(Tag::player);
+			for (GameObject* go : players) go->getComponent<Player>()->notifyEnd();
 		}
 
 		void levelCompleteEnd() {
-			//notify players (thumbs up, block movement)
-
 			//delete map and players
 
 			//if timer>0, show timer screen

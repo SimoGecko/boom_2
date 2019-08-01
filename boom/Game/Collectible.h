@@ -16,7 +16,7 @@ namespace sxg::boom {
 	protected:
 		bool collected;
 		Animator* anim;
-		PointAmount pointsOnPickup;
+		Points::Amount pointsOnPickup;
 
 
 		// ________________________________ data

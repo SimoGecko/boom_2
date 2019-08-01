@@ -19,6 +19,7 @@ namespace sxg::boom {
 
 		void setMainText(const string& text) {
 			mainText->setString(text);
+			center(mainText);
 		}
 
 
@@ -120,7 +121,6 @@ namespace sxg::boom {
 			//todo event callbacks to improve performance
 			updatePlayerUI();
 			setTimerText(data->levelTimer);
-
 		}
 		
 		// ________________________________ commands
@@ -168,9 +168,6 @@ namespace sxg::boom {
 			timerText = setupIndividualText(UIpos(timerTextOffset));
 			levelText = setupIndividualText(UIpos(levelTextOffset));
 			mainText  = setupIndividualText(UIpos(mainTextOffset));
-
-			sf::Rect rect = mainText->getLocalBounds();
-			mainText->setOrigin(rect.width / 2, rect.height / 2); // center
 		}
 
 		sf::Text* setupIndividualText(sf::Vector2f pos) {
@@ -231,6 +228,12 @@ namespace sxg::boom {
 		// ________________________________ queries
 		sf::Vector2f UIpos(const sf::Vector2i offset, int playerNo = 0, const sf::Vector2i dist = {0,0}, int r=0, int c=0) {
 			return sf::Vector2f(offset.x + c * dist.x, offset.y + r * dist.y) / ppu + (canvasOffset + playerCanvasOffset*(float)playerNo);
+		}
+
+		void center(sf::Text* text) {
+			sf::Rect rect = text->getLocalBounds();
+			if (rect.width*rect.height == 0) return;
+			text->setOrigin(rect.width / 2, rect.height / 2);
 		}
 
 		int numPlayers() { return GameData::instance()->numPlayers; }

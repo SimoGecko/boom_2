@@ -14,9 +14,7 @@ namespace sxg::boom {
 	class Player : public Character {
 		CLONABLE(Player)
 	public:
-		void teleport(sf::Vector2f to) {
-			//wait to stop
-		}
+
 		void setPlayerIdx(int index) {
 			//setup player-index specifics
 			playerIndex = index;
@@ -30,6 +28,13 @@ namespace sxg::boom {
 		void collectLetter(int letter) {
 			info->extra[letter] = true;
 			checkIfAllExtraLetters();
+		}
+
+		void notifyEnd() {
+			canMove = false;
+			//play happy sound
+			anim->playAnimation("win");
+			Audio::play("player/p" + to_string(playerIndex + 1) + "_complete");
 		}
 
 	private:
@@ -57,7 +62,9 @@ namespace sxg::boom {
 			restoreHealth(playerStartingHealth);
 			deployedBombs = 0;
 			
-			onHealthChange += [this]() {onPlayerDamage(); };
+			onDamage	   += [this]() {onPlayerDamage(); };
+			onHealthChange += [this]() {onPlayerChangeHealth(); };
+			onDeath		   += [this]() {onPlayerDeath(); };
 		}
 
 		void update() override {
@@ -69,9 +76,6 @@ namespace sxg::boom {
 		void onCollisionEnter(GameObject& other) override {
 			Character::onCollisionEnter(other);
 
-			if (other.tag() == Tag::enemy) {
-				//take damage
-			}
 		}
 
 		
@@ -107,7 +111,18 @@ namespace sxg::boom {
 		}
 
 		void onPlayerDamage() {
+			Audio::play("player/p" + to_string(playerIndex+1) + "_ouch");
+		}
+
+		void onPlayerChangeHealth() {
 			info->halfHearts = health();
+
+		}
+
+		void onPlayerDeath() {
+			Audio::play("player/p" + to_string(playerIndex + 1) + "_death");
+			//reduce lives
+
 		}
 
 		void checkIfAllExtraLetters() {
