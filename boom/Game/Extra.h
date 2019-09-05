@@ -11,7 +11,7 @@ namespace sxg::boom {
 	class Extra : public Collectible {
 		CLONABLE(Extra)
 	public:
-		enum class Letter{E,X,T,R,A};
+		enum class ExtraLetter{E,X,T,R,A};
 		
 		void switchToNextLetter() {
 			string animName = (letters + letters).substr(currentLetterIndex, 2);
@@ -26,7 +26,7 @@ namespace sxg::boom {
 		const float timeForLetter = 3.f;
 		const string letters = "EXTRA";
 		const float lifetime = 15.0f;
-		const Points::Amount myPointsOnPickup = Points::Amount::p100;
+		const PointAmount myPointsOnPickup = PointAmount::p100;
 
 
 		int currentLetterIndex;
@@ -53,7 +53,7 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void pickup(Player& player) override {
-			Letter currentLetter = (Letter)currentLetterIndex;
+			ExtraLetter currentLetter = (ExtraLetter)currentLetterIndex;
 			char currentLetterChar = letters[currentLetterIndex];
 			//notify player of pickup
 			player.collectLetter((int)currentLetter);

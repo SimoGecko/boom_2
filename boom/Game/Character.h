@@ -6,63 +6,50 @@
 #include "Map.h"
 #include "Living.h"
 #include "Explosion.h"
+//#include "Player.h"
 
 // abstract base class for characters (player + enemies) that move, have health
 
 namespace sxg::boom {
 
-	class Player;
-
 	class Character : public Component, public Living {
 	public:
-		bool canTeleport() {
-			return canTeleportBool;
-		}
-
-		void teleport(sf::Vector2f to) {
-			if (!canTeleportBool) return;
-			//wait to stop
-			teleportTo = to_v2i(to);
-			mustTeleport = true;
-			canTeleportBool = false;
-		}
 
 	protected:
 		// ________________________________ data
-		//int explosionDamage = 1;
+		int explosionDamage = 1;
 
 		Animator* anim;
-		//Player* damageResponsiblePlayer;
+		Player* damageResponsiblePlayer;
 		//movement
 		sf::Vector2i prevCell, nextCell;
 		float movePercent;
-		bool canMove;
-
-		bool mustTeleport;
-		bool canTeleportBool;
-		sf::Vector2i teleportTo;
+		bool doMove;
 
 		// ________________________________ base
 	protected:
 		void start() override {
 			anim = gameobject().getComponent<Animator>();
-
 			prevCell = nextCell = to_v2i(transform().getPosition());
 			movePercent = 0;
-			canMove = true;
-
-			mustTeleport = false;
-			canTeleportBool = true;
+			doMove = true;
 		}
 
 		void update() override {
-			if(canMove) movement();
+			if(doMove) movement();
 			setAnimation();
 		}
 
 		
 		void onCollisionEnter(GameObject& other) {
+			if (other.tag() == Tag::explosion) {
+				//damageResponsiblePlayer = other.getComponent<Explosion>()->getPlayer();
 
+				takeDamage(explosionDamage);
+			}
+			if (other.tag() == Tag::teleporter) {
+				//TELEPORT
+			}
 		}
 		
 
@@ -77,12 +64,6 @@ namespace sxg::boom {
 					transform().setPosition(lerp(prevCell, nextCell, movePercent));
 				}
 				else {
-					if (mustTeleport) {
-						mustTeleport = false;
-						nextCell = teleportTo; // go there
-						invoke([this] {canTeleportBool = true; }, 0.1f);
-					}
-
 					prevCell = nextCell;
 					transform().setPosition(prevCell.x, prevCell.y);
 					movePercent = 0;
@@ -125,8 +106,10 @@ namespace sxg::boom {
 				animName = "idle_D";
 			}
 			else {
+				dir playerDir = dirFromVector(to_v2f(moveDelta()));
+				char dirchar = charFromDir(playerDir);
 				string prefix = attacking() ? "attack_" : "walk_";
-				animName = prefix + string(1, charFromDir(moveDir()));
+				animName = prefix + string(1, dirchar);
 			}
 			if (dead()) animName = "death";
 			if (animName != anim->currentAnimationName()) {
@@ -141,15 +124,11 @@ namespace sxg::boom {
 		bool freeCell(sf::Vector2i delta) {
 			return Map::instance()->isWalkable(prevCell + delta);
 		}
-		dir moveDir() {
-			return dirFromVector(to_v2f(moveDelta()));
-		}
-
 		sf::Vector2i moveDelta() { return nextCell - prevCell; }
+		bool attacking() { return false; }
 		bool moving() { return nextCell != prevCell; }
+		virtual float moveSpeed() = 0;
 		sf::Vector2i currentCell() { return movePercent < 0.5f ? prevCell : nextCell; }
 
-		virtual float moveSpeed() = 0;
-		virtual bool attacking() { return false; }
 	};
 }

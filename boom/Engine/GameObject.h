@@ -47,6 +47,8 @@ namespace sxg::engine {
 			return nullptr;
 		}
 
+
+
 		void addRenderable(const string& spriteName, sf::IntRect spriteRect, Layer layer = Layer::defaultLayer, int ppu = 100, bool add = true);
 
 		//_________________________ normal methods

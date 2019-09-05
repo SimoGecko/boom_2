@@ -4,9 +4,7 @@
 #include "../Engine.h"
 
 #include "Collectible.h"
-#include "Living.h"
-//#include "Enemy.h"
-//#include "Block.h"
+#include "Enemy.h"
 
 
 // collectible powerup that gives special powers to the player when collected
@@ -32,28 +30,9 @@ namespace sxg::boom {
 
 	private:
 		using powerupEffect = void(Powerup::*)(Player&);
-		// ________________________________ const
-		const float lifetime = 10.0f;
-		const Points::Amount myPointsOnPickup = Points::Amount::p50;
-
-		const float effectDuration = 10.f;
-
-		const float delayForOvation = 0.1f;
-		const float boostSpeed = 10.f;
-		const float skullDamage = 1;
-		const int nMaxBombsIncreased = 6;
-		const float bombExplosionDelayShort = 1.f;
-		const int healAmount = 2;
-		const int explosionRadiusNew = 5;
-
-
-
-
-
-
-
 		// ________________________________ data
-
+		const float lifetime = 10.0f;
+		const PointAmount myPointsOnPickup = PointAmount::p50;
 
 		PowerupType powerupType;
 		// ________________________________ base
@@ -94,12 +73,13 @@ namespace sxg::boom {
 
 		void flashEffect(Player& player) {
 			//destroy all blocks in the level left from right
+			const float delayForOvation = 0.1f;
+
 			vector<GameObject*> allBlocks = GameObject::FindGameObjectsWithTag(Tag::block);
 			for (GameObject* blockGo : allBlocks) {
 				float delay = delayForOvation * blockGo->transform().getPosition().x;
-				Living* block = blockGo->getComponent<Living>();
-				Player* pl = &player;
-				Time::invoke([=] {block->takeDamage(1, pl); }, delay, blockGo);
+				Block* block = blockGo->getComponent<Block>();
+				//block->invoke([block, player] {block->takeDamage(1, &player); }, delay);//breakBlockDelay(delay, &player);
 			}
 		}
 
@@ -107,32 +87,45 @@ namespace sxg::boom {
 			//kill all enemies instantly
 			vector<GameObject*> allEnemies = GameObject::FindGameObjectsWithTag(Tag::enemy);
 			for (GameObject* enemy : allEnemies) {
-				enemy->getComponent<Living>()->takeDamage(skullDamage, &player);
+				Enemy* e = enemy->getComponent<Enemy>();
+				e->setPlayerResponsible(&player);
+				e->takeDamage(100); // to ensure death
 			}
 		}
 
 		void moreBombsEffect(Player& player) {
 			//increase the number of simultaneous bombs
+			const float effectDuration = 10.f;
+			const int nMaxBombsIncreased = 6;
+
 			int currentVal = player.nAvailableBombs;
 			player.nAvailableBombs = nMaxBombsIncreased;
-			Time::invoke([&]() {player.nAvailableBombs = currentVal; }, effectDuration, &player.gameobject());
+			invoke([&]() {player.nAvailableBombs = currentVal; }, effectDuration);
 		}
 		void fasterBomsEffect(Player& player) {
 			//decrease the bomb explosion delay
+			const float effectDuration = 10.f;
+			const float bombExplosionDelayShort = 1.f;
+
 			float currentVal = player.bombExplosionDelay;
 			player.bombExplosionDelay = bombExplosionDelayShort;
-			Time::invoke([&]() {player.bombExplosionDelay = currentVal; }, effectDuration, &player.gameobject());
+			invoke([&]() {player.bombExplosionDelay = currentVal; }, effectDuration);
 		}
 		void biggerExplosionEffect(Player& player) {
 			//increase the explosion radius
+			const float effectDuration = 10.f;
+			const int explosionRadiusNew = 5;
+
 			int currentVal = player.bombExplosionDistance;
 			player.bombExplosionDistance = explosionRadiusNew;
-			Time::invoke([&]() {player.bombExplosionDistance = currentVal; }, effectDuration, &player.gameobject());
+			invoke([&]() {player.bombExplosionDistance = currentVal; }, effectDuration);
 		}
 
 
 		void oneHeartEffect(Player& player) {
 			//restore one heart (2 halves) of health
+			const int healAmount = 2;
+
 			player.increaseHealth(healAmount);
 		}
 		void fullHeartsEffect(Player& player) {
@@ -143,15 +136,20 @@ namespace sxg::boom {
 
 		void shieldEffect(Player& player) {
 			//provide temporary shield effect
-			player.activateShield(true);
+			const float effectDuration = 10.f;
+
+			player.setInvincible(true);
 			//visual effect
-			Time::invoke([&]() {player.activateShield(false); }, effectDuration, &player.gameobject());
+			invoke([&]() {player.setInvincible(false); }, effectDuration);
 		}
 		void speedEffect(Player& player) {
 			//provide temporary speed boost
+			const float effectDuration = 10.f;
+			const float boostSpeed = 10.f;
+
 			float currentVal = player.normalMoveSpeed;
 			player.normalMoveSpeed = boostSpeed;
-			Time::invoke([&]() {player.normalMoveSpeed = currentVal; }, effectDuration, &player.gameobject());
+			invoke([&]() {player.normalMoveSpeed = currentVal; }, effectDuration);
 		}
 
 

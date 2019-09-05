@@ -3,7 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-// provides access to the runtime status of the map
+// stores map data once it has been built by the MapBuilder
 
 namespace sxg::boom {
 
@@ -34,20 +34,23 @@ namespace sxg::boom {
 			if (tagsMap[pos.y][pos.x] != Tag::block) Debug::logError("Block is not breakable in MapBuilder.");
 			tagsMap[pos.y][pos.x] = Tag::empty;
 		}
+
 		static Map* instance() { return _instance; }
 
 	private:
 		// ________________________________ data
 		vector<vector<Tag>> tagsMap; // only need to know for stuff that doesn't move
-		static Map* _instance;
-		friend class MapBuilder;
 
+
+		friend class MapBuilder;
+		static Map* _instance;
 
 		// ________________________________ base
-		void awake() {
+		void awake() override {
+			if (_instance != nullptr) Debug::logError("Multiple copies of singleton: Map");
 			_instance = this;
-
 		}
+
 		void start() override {
 
 		}

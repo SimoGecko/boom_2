@@ -4,7 +4,6 @@
 #include "../Engine.h"
 
 #include "Character.h"
-#include "Points.h"
 
 // AI enemy that moves around, potentially shoots and damages the player
 
@@ -13,36 +12,14 @@ namespace sxg::boom {
 	class Enemy : public Character {
 		CLONABLE(Enemy)
 	public:
-		enum class Type {
-			amoeba = 20,
-			soldier = 0,
-			sarge,
-			lizzy,
-			taur,
-			gunner,
-			thing,
-			ghost,
-			smoulder,
-			skully,
-			giggler,
+		void setPlayerResponsible(Player* player) { damageResponsiblePlayer = player; }
 
-			SIZE
-		};
-
+		static int numRemainingEnemies() { return nEnemies; }
 		static Event onAllEnemiesDefeated;
 
 		void setAmeba(bool active) {
 			isAmoeba = active;
 		}
-		void speedUp() {
-			//TODO
-		}
-
-		void setup(Type type) {
-
-		}
-
-		
 
 	private:
 		// ________________________________ data
@@ -50,14 +27,12 @@ namespace sxg::boom {
 		const float changeDirTime = 0.2f;
 		const float enemyMoveSpeed = 2;
 
-		const int damage = 1; // if const is not initialized compiler prohibits instantiation
-
 		const float raycastQueryDelay = 0.5f;
 		const float shootCooldown = 3.0f;
 
 		const int deathAnimationTime = 3.f;
 		const int enemyStartingHealth = 1;
-		const Points::Amount myPointsOnDeath = Points::Amount::p200;
+		const PointAmount myPointsOnDeath = PointAmount::p200;
 
 		static int nEnemies;
 
@@ -69,7 +44,6 @@ namespace sxg::boom {
 		bool playerInFront;
 
 		bool isAmoeba;
-		Type enemyType;
 
 		// ________________________________ base
 		void start() override {
@@ -99,11 +73,6 @@ namespace sxg::boom {
 					mustChangeDir = true;
 				}
 			}
-
-			if (other.tag() == Tag::player) {
-				other.getComponent<Living>()->takeDamage(damage);
-			}
-
 		}
 		
 		// ________________________________ commands
@@ -131,14 +100,8 @@ namespace sxg::boom {
 
 		void enemyDie() {
 			//add score
-			canMove = false;
-			Points::addPoints(myPointsOnDeath, transform().getPosition(), _responsiblePlayer);
-
-			if (isAmoeba) {
-				GameObject::Instantiate("extra", transform().getPosition());
-			}
-
-			Audio::play("enemy/" + stringFromType(enemyType) + "_death");
+			doMove = false;
+			Points::addPoints(myPointsOnDeath, transform().getPosition(), damageResponsiblePlayer);
 
 			//check if last
 			if (--nEnemies == 0) onAllEnemiesDefeated();
@@ -168,23 +131,6 @@ namespace sxg::boom {
 		}
 
 		float moveSpeed() { return enemyMoveSpeed; }
-
-		const string stringFromType(Type type) {
-			switch (type) {
-				case Type::amoeba:		return "amoeba";
-				case Type::soldier:		return "soldier";
-				case Type::sarge:		return "sarge";
-				case Type::lizzy:		return "lizzy";
-				case Type::taur:		return "taur";
-				case Type::gunner:		return "gunner";
-				case Type::thing:		return "thing";
-				case Type::ghost:		return "ghost";
-				case Type::smoulder:	return "smoulder";
-				case Type::skully:		return "skully";
-				case Type::giggler:		return "giggler";
-			}
-			return "";
-		}
 
 	};
 }

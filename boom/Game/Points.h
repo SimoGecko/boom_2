@@ -9,17 +9,17 @@
 
 namespace sxg::boom {
 
-
+	enum class PointAmount {
+		p10 = 1, p50 = 5, p100 = 10, p150 = 15, p200 = 20, p300 = 30, p400 = 40, p500 = 50, p600 = 60, p700 = 70, p800 = 80, p900 = 90, p1000 = 100,
+		p5000, p100000, life_1up, life_2up,
+	};
 
 	class Points : public Component {
 	CLONABLE(Points)
 	public:
-		enum class Amount {
-			p10 = 1, p50 = 5, p100 = 10, p150 = 15, p200 = 20, p300 = 30, p400 = 40, p500 = 50, p600 = 60, p700 = 70, p800 = 80, p900 = 90, p1000 = 100,
-			p5000, p100000, life_1up, life_2up,
-		};
+		
 
-		static void addPoints(Amount pointAmount, sf::Vector2f position, Player* player) {
+		static void addPoints(PointAmount pointAmount, sf::Vector2f position, Player* player) {
 			//takes care of scoremanager aswell
 			GameObject* pointsGo = GameObject::Instantiate("points", position);
 			Points* points = pointsGo->getComponent<Points>();
@@ -29,6 +29,9 @@ namespace sxg::boom {
 			Animator* anim = pointsGo->getComponent<Animator>();
 			anim->playAnimation(pointAmount2String(points->amount));
 
+			if (player == nullptr) {
+				Debug::logError("player nullptr");
+			}
 			
 			player->addScore(pointAmount2Int(points->amount));
 		}
@@ -37,7 +40,7 @@ namespace sxg::boom {
 		// ________________________________ data
 		const float lifeTime = 1.0f;
 		const float moveupSpeed = 1.0f;
-		Amount amount; // not really used
+		PointAmount amount; // not really used
 
 
 		// ________________________________ base
@@ -59,10 +62,10 @@ namespace sxg::boom {
 
 		// ________________________________ queries
 
-		static int pointAmount2Int(Amount amount) {
+		static int pointAmount2Int(PointAmount amount) {
 			return (int)amount * 10;
 		}
-		static const string pointAmount2String(Amount amount) {
+		static const string pointAmount2String(PointAmount amount) {
 			return "points_" + to_string((int)amount * 10);
 		}
 

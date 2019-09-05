@@ -45,10 +45,10 @@ namespace sxg::engine {
 
 	void GameObject::destroy(const float lifetime) {
 		if (lifetime > 0) {
-			Time::invoke([this]() {Scene::current().removeGameObject(this); }, lifetime, this);
+			Time::invoke([this]() {Scene::removeGameObject(this); }, lifetime, this);
 		}
 		else {
-			Scene::current().removeGameObject(this);
+			Scene::removeGameObject(this);
 		}
 	}
 
@@ -70,31 +70,23 @@ namespace sxg::engine {
 	}
 
 	void GameObject::update() {
-		if (!_active) return;
 		//destroy in the mids of others?
 		for (Component* component : _components) component->update();
 	}
 
 	void GameObject::onCollisionEnter(GameObject& other) {
-		if (!_active) return;
 		for (Component* component : _components) component->onCollisionEnter(other);
 	}
 	void GameObject::onCollisionExit(GameObject& other) {
 		//gameobject (read access violation) thrown from here, likely for gameobject deleted
-		if (!_active) return;
 		for (Component* component : _components) component->onCollisionExit(other);
 	}
 
 	//_________________________ queries
 	const string& GameObject::name() const { return _name; }
-	void GameObject::setName(const string& newName) { _name = newName; }
-
 	Tag GameObject::tag() const { return _tag; }
 	bool GameObject::active() const { return _active; }
-	void GameObject::setActive(bool active) {
-		_active = active;
-		if (_renderable != nullptr) _renderable->setActive(active);
-	}
+	void GameObject::setActive(bool active) { _active = active; }
 
 	sf::Transformable& GameObject::transform() {
 		if (_renderable != nullptr) {
@@ -120,7 +112,7 @@ namespace sxg::engine {
 	//_________________________ static
 	const vector<GameObject*>& GameObject::All() {
 		//return reference to those stored in the scene
-		return Scene::current().AllGameObjects();
+		return Scene::AllGameObjects();
 	}
 
 	GameObject* GameObject::FindGameObjectWithName(const string& name) {
@@ -165,7 +157,7 @@ namespace sxg::engine {
 		}
 
 		//add it to the scene
-		Scene::current().addGameObject(newGo); // start is called here!
+		Scene::addGameObject(newGo); // start is called here!
 		return newGo;
 	}
 

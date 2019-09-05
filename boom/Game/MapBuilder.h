@@ -4,7 +4,6 @@
 #include "../Engine.h"
 
 #include "Map.h"
-#include "Spawner.h"
 
 // reads the appropriate pixel subsection representing a map and instantiates the prefabs in the correct position.
 
@@ -14,39 +13,39 @@ namespace sxg::boom {
 	class MapBuilder : public Component {
 		CLONABLE(MapBuilder)
 	public:
-		static MapBuilder* instance() { return _instance; };
-
-		void buildLevel(int level) {
-			loadLevel(level);
-		}
-		
+		void buildLevel(int level) { loadLevel(level); }
+		static MapBuilder* instance() { return _instance; }
 
 	private:
 		// ________________________________ data
+		vector<sf::Vector2i> playerStartPos;
+		vector<sf::Vector2i> enemyStartPos;
 
 		const size_t W = 15;
 		const size_t H = 13;
 		const int maxLevel = 80;
+
+		friend class CharacterManager;
+
 		static MapBuilder* _instance;
-
-		
-
 
 		// ________________________________ base
 		void awake() override {
 			if (_instance != nullptr) Debug::logError("Multiple copies of singleton: MapBuilder");
 			_instance = this;
+
 		}
 
 		void start() override {
-
 
 		}
 
 		void update() override {
 
 		}
+		
 
+		// ________________________________ commands
 		void loadLevel(int level) {
 			Debug::ensure(1 <= level && level <= maxLevel, "Invalid level index: " + to_string(level));
 
@@ -54,9 +53,7 @@ namespace sxg::boom {
 			sf::Image levelImage = getLevelPixels(level);
 			instantiateLevelPrefabs(levelImage);
 		}
-		
 
-		// ________________________________ commands
 		void setupBackgroundAndBorder() {
 			//background
 			for (int r = 0; r < H; ++r) {
@@ -77,9 +74,6 @@ namespace sxg::boom {
 			addBorder(H, -1, "DL");
 			addBorder(-1, W, "UR");
 			addBorder(H, W, "DR");
-
-			//add black sprite on topright
-			GameObject::Instantiate("level_blackbg", sf::Vector2f(-1, W));
 		}
 
 		void addBorder(int r, int c, const string& anim) {
@@ -89,9 +83,11 @@ namespace sxg::boom {
 
 
 		void instantiateLevelPrefabs(const sf::Image& levelImage) {
+			// setup refs
 			auto& tagsMap = Map::instance()->tagsMap;
-			auto& startPos = Spawner::instance()->startPos;
-
+			//auto& playerStartPos = Map::instance()->playerStartPos;
+			//auto& enemyStartPos  = Map::instance()->enemyStartPos;
+			
 			tagsMap.resize(H);
 			for (size_t r = 0; r < H; ++r) {
 				tagsMap[r].resize(W);
@@ -113,14 +109,15 @@ namespace sxg::boom {
 							tagsMap[r][c] = newGO->tag();
 						}
 					}
-					if (addToStartPos(prefabName)) {
-						startPos[prefabName].push_back(position);
+					else if (prefabName == "player") {
+						playerStartPos.push_back(position);
+					}
+					else if (prefabName == "enemy") {
+						enemyStartPos.push_back(position);
 					}
 				}
 			}
 		}
-
-
 
 		
 
@@ -153,16 +150,15 @@ namespace sxg::boom {
 		}
 
 
-
 		bool doInstantiate(const string& s) {
-			return s == "block" || s == "wall" || s == "coin" || s == "teleporter"; // || s == "player"
+			return s == "block" || s == "wall" || s == "coin" || s == "teleporter";
 			// not: empty, border
+		}
+		bool markStartingPosition(const string& s) {
+			return s == "player" || s == "enemy";
 		}
 		bool setupTag(const string& s) { // static elements that don't move
 			return s == "block" || s == "wall";// || s == "coin" || s == "teleporter";
-		}
-		bool addToStartPos(const string& s) {
-			return s == "player" || s == "enemy";
 		}
 	};
 }

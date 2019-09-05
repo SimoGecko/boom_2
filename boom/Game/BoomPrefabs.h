@@ -11,12 +11,10 @@
 #include "Enemy.h"
 #include "Explosion.h"
 #include "Extra.h"
-#include "Flash.h"
 #include "Player.h"
 #include "Points.h"
 #include "Powerup.h"
 #include "Teleporter.h"
-#include "Title.h"
 
 // provides the instantiatables prefabs for boom
 
@@ -33,22 +31,20 @@ namespace sxg::boom {
 			vector<GameObject*> prefabs;
 			//build______________________________________
 
-			// ___________________________________ ENVIRONMENT
-
-			const string environment = "_2";
+			// _____________________________________________________________________________________________________________________ ENVIRONMENT
 
 			//BACKGROUND
 			{
 				GameObject* background = new GameObject("background", Tag::environment);
 				prefabs.push_back(background);
-				background->addRenderable("background/background" + environment, sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
+				background->addRenderable("background/background_1", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 			}
 
 			//BORDER
 			{
 				GameObject* border = new GameObject("border", Tag::environment);
 				prefabs.push_back(border);
-				border->addRenderable("background/border" + environment, sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
+				border->addRenderable("background/border_1", sf::IntRect(0, 0, 32, 32), Layer::background, 32, false);
 				Animator* borderAnim = border->addComponent<Animator>();
 				borderAnim->setup(&(border->renderable().sprite()), 1, { 1,8 }, "anim/border");
 			}
@@ -58,7 +54,7 @@ namespace sxg::boom {
 				GameObject* block = new GameObject("block", Tag::block);
 				prefabs.push_back(block);
 				block->addComponent<Block>();
-				block->addRenderable("blocks/block" + environment, sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
+				block->addRenderable("blocks/block_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				Animator* blockAnim = block->addComponent<Animator>();
 				blockAnim->setup(&(block->renderable().sprite()), 8, { 1, 4 }, "anim/block");
 				block->addComponent<CircleCollider>()->setRadius(0.5f);
@@ -68,11 +64,11 @@ namespace sxg::boom {
 			{
 				GameObject* wall = new GameObject("wall", Tag::wall);
 				prefabs.push_back(wall);
-				wall->addRenderable("blocks/wall" + environment, sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
+				wall->addRenderable("blocks/wall_1", sf::IntRect(0, 0, 32, 32), Layer::foreground, 32, false);
 				//add collider -> or not
 			}
 
-			// ___________________________________ ELEMENTS
+			// _____________________________________________________________________________________________________________________ ELEMENTS
 
 
 			//BOMB
@@ -87,7 +83,15 @@ namespace sxg::boom {
 			}
 
 
-
+			//BULLET
+			{
+				GameObject* bullet = new GameObject("bullet", Tag::bullet);
+				prefabs.push_back(bullet);
+				bullet->addComponent<Bullet>();
+				bullet->addRenderable("effects/shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false); // don't add the renderable to the drawlist
+				bullet->addComponent<CircleCollider>()->setRadius(0.1f);
+				//effect = animator
+			}
 
 
 			//EXPLOSION
@@ -113,7 +117,7 @@ namespace sxg::boom {
 			}
 			
 
-			// ___________________________________ UI
+			// _____________________________________________________________________________________________________________________ UI
 
 			//HEART
 			{
@@ -148,38 +152,8 @@ namespace sxg::boom {
 				Animator* powerupIconAnim = powerupIcon->addComponent<Animator>();
 				powerupIconAnim->setup(&(powerupIcon->renderable().sprite()), 1, { 2, 5 }, "anim/powerup_icons");
 			}
-			
-			//BLACK CORNER
-			{
-				GameObject* blackBg = new GameObject("level_blackbg", Tag::ui);
-				prefabs.push_back(blackBg);
-				blackBg->addRenderable("ui/corner_black", sf::IntRect(0, 0, 32, 32), Layer::ui, 32, false);
-			}
 
-			//TITLES
-			{
-				{ // hurry up
-					GameObject* hurryUp = new GameObject("writing_hurryUp", Tag::ui);
-					prefabs.push_back(hurryUp);
-					hurryUp->addRenderable("text/writing_hurryup", sf::IntRect(0, 0, 160, 32), Layer::ui, 32, false);
-					hurryUp->addComponent<Title>();
-				}
-				{ // extra game
-					GameObject* extraGame = new GameObject("writing_extraGame", Tag::ui);
-					prefabs.push_back(extraGame);
-					extraGame->addRenderable("text/writing_extragame", sf::IntRect(0, 0, 224, 160), Layer::ui, 32, false);
-					extraGame->addComponent<Title>();
-				}
-				{ // game over
-					GameObject* gameOver = new GameObject("writing_gameOver", Tag::ui);
-					prefabs.push_back(gameOver);
-					gameOver->addRenderable("text/writing_gameover", sf::IntRect(0, 0, 320, 64), Layer::ui, 32, false);
-					gameOver->addComponent<Title>();
-				}
-				
-			}
-
-			// ___________________________________ CHARACTERS
+			// _____________________________________________________________________________________________________________________ CHARACTERS
 
 			//PlAYER
 			{
@@ -195,24 +169,16 @@ namespace sxg::boom {
 
 			//ENEMY
 			{
-				GameObject* enemyGo = new GameObject("enemy", Tag::enemy);
-				prefabs.push_back(enemyGo);
-				enemyGo->addComponent<Enemy>();
-				enemyGo->addRenderable("enemies/amoeba", sf::IntRect(0, 0, 32, 32), Layer::characters, 32, false);
-				Animator* anim = enemyGo->addComponent<Animator>();
-				anim->setup(&(enemyGo->renderable().sprite()), 8, { 5,5 }, "anim/enemy");
-				enemyGo->addComponent<CircleCollider>()->setRadius(0.5f);
-				/*
-				{
-					GameObject* sarge = enemyGo->clone();
-					prefabs.push_back(sarge);
-					sarge->setName("sarge");
-					sarge->getComponent<Enemy>()->setup(Enemy::Type::sarge);
-				}
-				*/
+				GameObject* enemy = new GameObject("enemy", Tag::enemy);
+				prefabs.push_back(enemy);
+				enemy->addComponent<Enemy>();
+				enemy->addRenderable("enemies/amoeba", sf::IntRect(0, 0, 32, 32), Layer::characters, 32, false);
+				Animator* anim = enemy->addComponent<Animator>();
+				anim->setup(&(enemy->renderable().sprite()), 8, { 5,5 }, "anim/enemy");
+				enemy->addComponent<CircleCollider>()->setRadius(0.5f);
 			}
 
-			// ___________________________________ COLLECTIBLES
+			// _____________________________________________________________________________________________________________________ COLLECTIBLES
 
 
 			// POWERUP
@@ -259,36 +225,10 @@ namespace sxg::boom {
 			}
 
 
-			// ___________________________________ EFFECTS
+			// _____________________________________________________________________________________________________________________ EFFECTS
 
-			// FLASH
-			{
-				GameObject* flash = new GameObject("flash", Tag::effect);
-				prefabs.push_back(flash);
-				flash->addRenderable("effects/flash", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false);
-				flash->addComponent<Flash>();
-				Animator* anim = flash->addComponent<Animator>();
-				anim->setup(&(flash->renderable().sprite()), 12, { 1, 4 }, "anim/flash");
-			}
-			// SHIELD
-			{
-				GameObject* shield = new GameObject("shield", Tag::effect);
-				prefabs.push_back(shield);
-				shield->addRenderable("player/shield", sf::IntRect(0, 0, 32, 32), Layer::effects, 32, false);
-				shield->addComponent<Shield>();
-				Animator* anim = shield->addComponent<Animator>();
-				anim->setup(&(shield->renderable().sprite()), 1, { 1, 4 }, "anim/shield");
-			}
 
-			//BULLET
-			{
-				GameObject* bullet = new GameObject("bullet", Tag::bullet);
-				prefabs.push_back(bullet);
-				bullet->addComponent<Bullet>();
-				bullet->addRenderable("effects/shot", sf::IntRect(0, 0, 8, 8), Layer::effects, 32, false); // don't add the renderable to the drawlist
-				bullet->addComponent<CircleCollider>()->setRadius(0.1f);
-				//effect = animator
-			}
+			
 
 			
 
