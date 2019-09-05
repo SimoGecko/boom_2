@@ -5,7 +5,7 @@
 namespace sxg::engine {
 	int Screen::_width = 640;
 	int Screen::_height = 480;
-	float Screen::scaleFactor = 1.f;
+	float Screen::scaleFactor = 2.0f;
 	string Screen::_title = "Title";
 
 	sf::RenderWindow& Screen::window() { return _window; }

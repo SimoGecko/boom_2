@@ -3,15 +3,15 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Pickup.h"
+#include "Collectible.h"
 // pickup that represents a letter in the word EXTRA, which when completed rewards an additional life
 
 namespace sxg::boom {
 
-	class Extra : public Pickup {
+	class Extra : public Collectible {
 		CLONABLE(Extra)
 	public:
-		enum class ExtraLetter{E,X,T,R,A};
+		enum class Letter{E,X,T,R,A};
 		
 		void switchToNextLetter() {
 			string animName = (letters + letters).substr(currentLetterIndex, 2);
@@ -25,17 +25,24 @@ namespace sxg::boom {
 		// ________________________________ data
 		const float timeForLetter = 3.f;
 		const string letters = "EXTRA";
-		const string letters2 = "EXTRAE";
-		int currentLetterIndex;
-		Animator* anim;
+		const float lifetime = 15.0f;
+		const Points::Amount myPointsOnPickup = Points::Amount::p100;
 
+
+		int currentLetterIndex;
+		
 		// ________________________________ base
 		void start() override {
-			anim = gameobject().getComponent<Animator>();
+			Collectible::start();
+			pointsOnPickup = myPointsOnPickup;
+
 			currentLetterIndex = Random::range(0, letters.size());
 			string animName = letters.substr(currentLetterIndex, 1);
 			anim->playAnimation(animName);
+
 			callbackLetterChange();
+
+			gameobject().destroy(lifetime);
 		}
 
 		void update() override {
@@ -46,12 +53,12 @@ namespace sxg::boom {
 		
 		// ________________________________ commands
 		void pickup(Player& player) override {
-			
-			ExtraLetter currentLetter = (ExtraLetter)currentLetterIndex;
+			Letter currentLetter = (Letter)currentLetterIndex;
 			char currentLetterChar = letters[currentLetterIndex];
 			//notify player of pickup
+			player.collectLetter((int)currentLetter);
+
 			gameobject().destroy();
-			
 		}
 
 		void callbackLetterChange() {
@@ -61,8 +68,12 @@ namespace sxg::boom {
 
 
 		// ________________________________ queries
-
-
+		/*
+		const string extraLetter(int i) {
+			Debug::ensure(0 <= i && i < letters.size());
+			return string(1, letters[i]);
+		}
+		*/
 
 	};
 }

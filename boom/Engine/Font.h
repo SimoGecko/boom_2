@@ -16,7 +16,7 @@ namespace sxg::engine {
 	private:
 		friend class Game;
 		static void draw();
-		static vector<sf::Text> _textToDraw;
+		static vector<sf::Text*> _textToDraw;
 	};
 
 }

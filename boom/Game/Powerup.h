@@ -3,15 +3,17 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Pickup.h"
-#include "Enemy.h"
+#include "Collectible.h"
+#include "Living.h"
+//#include "Enemy.h"
+//#include "Block.h"
 
 
 // collectible powerup that gives special powers to the player when collected
 
 namespace sxg::boom {
 
-	class Powerup : public Pickup {
+	class Powerup : public Collectible {
 		CLONABLE(Powerup)
 	public:
 		enum PowerupType {
@@ -30,20 +32,43 @@ namespace sxg::boom {
 
 	private:
 		using powerupEffect = void(Powerup::*)(Player&);
+		// ________________________________ const
+		const float lifetime = 10.0f;
+		const Points::Amount myPointsOnPickup = Points::Amount::p50;
+
+		const float effectDuration = 10.f;
+
+		const float delayForOvation = 0.1f;
+		const float boostSpeed = 10.f;
+		const float skullDamage = 1;
+		const int nMaxBombsIncreased = 6;
+		const float bombExplosionDelayShort = 1.f;
+		const int healAmount = 2;
+		const int explosionRadiusNew = 5;
+
+
+
+
+
+
+
 		// ________________________________ data
 
 
-		Animator * anim;
 		PowerupType powerupType;
 		// ________________________________ base
 		void start() override {
-			//setup powerup
+			Collectible::start();
+			pointsOnPickup = myPointsOnPickup;
+
 			powerupType = (PowerupType)Random::range(0, PowerupType::SIZE);
-			anim = gameobject().getComponent<Animator>();
 			anim->playAnimation(stringFromPowerupType(powerupType));
+
+			gameobject().destroy(lifetime);
 		}
 
 		void update() override {
+
 		}
 
 		
@@ -53,6 +78,7 @@ namespace sxg::boom {
 			//take effect on player
 			powerupEffect effect = getPowerupEffect(powerupType);
 			(this->*effect)(player);
+
 			gameobject().destroy();
 		}
 
@@ -64,15 +90,16 @@ namespace sxg::boom {
 
 		//what if you take multiple powerups?
 		// -> MAKE SURE NO OVERLAP
+		//would be better to have the player hold powerups that have effect on ctor/dtor
 
 		void flashEffect(Player& player) {
 			//destroy all blocks in the level left from right
-			const float delayForOvation = 0.1f;
-
 			vector<GameObject*> allBlocks = GameObject::FindGameObjectsWithTag(Tag::block);
-			for (GameObject* block : allBlocks) {
-				float delay = delayForOvation * block->transform().getPosition().x;
-				block->getComponent<Block>()->breakBlockDelay(delay);
+			for (GameObject* blockGo : allBlocks) {
+				float delay = delayForOvation * blockGo->transform().getPosition().x;
+				Living* block = blockGo->getComponent<Living>();
+				Player* pl = &player;
+				Time::invoke([=] {block->takeDamage(1, pl); }, delay, blockGo);
 			}
 		}
 
@@ -80,15 +107,32 @@ namespace sxg::boom {
 			//kill all enemies instantly
 			vector<GameObject*> allEnemies = GameObject::FindGameObjectsWithTag(Tag::enemy);
 			for (GameObject* enemy : allEnemies) {
-				Enemy* e = enemy->getComponent<Enemy>();
-				e->takeDamage(100); // to ensure death
+				enemy->getComponent<Living>()->takeDamage(skullDamage, &player);
 			}
 		}
 
+		void moreBombsEffect(Player& player) {
+			//increase the number of simultaneous bombs
+			int currentVal = player.nAvailableBombs;
+			player.nAvailableBombs = nMaxBombsIncreased;
+			Time::invoke([&]() {player.nAvailableBombs = currentVal; }, effectDuration, &player.gameobject());
+		}
+		void fasterBomsEffect(Player& player) {
+			//decrease the bomb explosion delay
+			float currentVal = player.bombExplosionDelay;
+			player.bombExplosionDelay = bombExplosionDelayShort;
+			Time::invoke([&]() {player.bombExplosionDelay = currentVal; }, effectDuration, &player.gameobject());
+		}
+		void biggerExplosionEffect(Player& player) {
+			//increase the explosion radius
+			int currentVal = player.bombExplosionDistance;
+			player.bombExplosionDistance = explosionRadiusNew;
+			Time::invoke([&]() {player.bombExplosionDistance = currentVal; }, effectDuration, &player.gameobject());
+		}
+
+
 		void oneHeartEffect(Player& player) {
 			//restore one heart (2 halves) of health
-			const int healAmount = 2;
-
 			player.increaseHealth(healAmount);
 		}
 		void fullHeartsEffect(Player& player) {
@@ -96,93 +140,19 @@ namespace sxg::boom {
 			player.restoreHealth();
 		}
 
-		//-------------------- timed
-
-		void moreBombsEffect(Player& player) {
-			//increase the number of simultaneous bombs
-			const float effectDuration = 10.f;
-			const int nMaxBombsIncreased = 6;
-
-			int currentVal = player.nAvailableBombs;
-			player.nAvailableBombs = nMaxBombsIncreased;
-			invoke([&]() {player.nAvailableBombs = currentVal; }, effectDuration);
-		}
-		void fasterBomsEffect(Player& player) {
-			//decrease the bomb explosion delay
-			const float effectDuration = 10.f;
-			const float bombExplosionDelayShort = 1.f;
-
-			float currentVal = player.bombExplosionDelay;
-			player.bombExplosionDelay = bombExplosionDelayShort;
-			invoke([&]() {player.bombExplosionDelay = currentVal; }, effectDuration);
-		}
-		void biggerExplosionEffect(Player& player) {
-			//increase the explosion radius
-			const float effectDuration = 10.f;
-			const int explosionRadiusNew = 5;
-
-			int currentVal = player.bombExplosionDistance;
-			player.bombExplosionDistance = explosionRadiusNew;
-			invoke([&]() {player.bombExplosionDistance = currentVal; }, effectDuration);
-		}
-
 
 		void shieldEffect(Player& player) {
 			//provide temporary shield effect
-			const float effectDuration = 10.f;
-
-			player.setInvincible(true);
+			player.activateShield(true);
 			//visual effect
-			invoke([&]() {player.setInvincible(false); }, effectDuration);
+			Time::invoke([&]() {player.activateShield(false); }, effectDuration, &player.gameobject());
 		}
 		void speedEffect(Player& player) {
 			//provide temporary speed boost
-			const float effectDuration = 10.f;
-			const float boostSpeed = 10.f;
-
 			float currentVal = player.normalMoveSpeed;
-			player.moveSpeed = boostSpeed;
-			invoke([&]() {player.moveSpeed = currentVal; }, effectDuration);
+			player.normalMoveSpeed = boostSpeed;
+			Time::invoke([&]() {player.normalMoveSpeed = currentVal; }, effectDuration, &player.gameobject());
 		}
-
-		/*
-		void moreBombsEffect(Player& player) {
-			//increase the number of simultaneous bombs
-			const float effectDuration = 10.f;
-			const int nMaxBombsIncreased = 6;
-
-			player.moreBombsEffect(nMaxBombsIncreased, effectDuration);
-		}
-		void fasterBomsEffect(Player& player) {
-			//decrease the bomb explosion delay
-			const float effectDuration = 10.f;
-			const float bombExplosionDelayShort = 1.f;
-
-			player.fasterBomsEffect(bombExplosionDelayShort, effectDuration);
-		}
-		void biggerExplosionEffect(Player& player) {
-			//increase the explosion radius
-			const float effectDuration = 10.f;
-			const int explosionRadiusNew = 5;
-
-			player.biggerExplosionEffect(explosionRadiusNew, effectDuration);
-		}
-
-
-		void shieldEffect(Player& player) {
-			//provide temporary shield effect
-			const float effectDuration = 10.f;
-
-			player.shieldEffect(effectDuration);
-		}
-		void speedEffect(Player& player) {
-			//provide temporary speed boost
-			const float effectDuration = 10.f;
-			const float boostSpeed = 10.f;
-
-			player.speedEffect(boostSpeed, effectDuration);
-		}
-		*/
 
 
 		// ________________________________ queries

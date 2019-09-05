@@ -97,7 +97,7 @@ namespace sxg::engine {
 		static inline float magnitude (const sf::Vector2f& v) { return sqrt(v.x*v.x + v.y*v.y); }
 		static inline float magnitude2(const sf::Vector2f& v) { return      v.x*v.x + v.y*v.y; }
 
-		static inline int magnitude (const sf::Vector2i& v) { return	abs(v.x) + abs(v.y); }
+		static inline int magnitude1(const sf::Vector2i& v) { return	abs(v.x) + abs(v.y); } // manhattan distance
 		static inline int magnitude2(const sf::Vector2i& v) { return		v.x*v.x + v.y*v.y; }
 
 		static inline float dot(const sf::Vector2f& a, const sf::Vector2f& b) { return a.x*b.x + a.y*b.y; }
@@ -167,6 +167,25 @@ namespace sxg::engine {
 			return "0x" + std::to_string((int)pointer);
 		}
 
+		const string to_string_pad0(int x, int num0) {
+			stringstream ss;
+			ss << setfill('0') << setw(num0) << x;
+			return ss.str();
+		}
+
+		const string to_min_sec(float timer) {
+			int t = static_cast<int>(roundf(timer));
+
+			int s = t % 60;
+			int m = t / 60;
+			char buffer[10];
+			sprintf_s(buffer, "%02d:%02d", m, s);
+			return buffer;
+			//return to_string_pad0(m, 2) + ":" + to_string_pad0(s, 2);
+		}
+
+
+		// DIRECTIONS
 		enum dir {none, right, up, left, down};
 		enum orientation {center, horizontal, vertical};
 

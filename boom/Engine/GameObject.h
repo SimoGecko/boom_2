@@ -43,7 +43,7 @@ namespace sxg::engine {
 				auto ans = dynamic_cast<C*>(component);
 				if (ans != nullptr) return ans;
 			}
-			Debug::logError("Gameobject " + _name + " doesn't have component of type " + typeid(C).name());
+			//Debug::logError("Gameobject " + _name + " doesn't have component of type " + typeid(C).name());
 			return nullptr;
 		}
 
@@ -61,6 +61,7 @@ namespace sxg::engine {
 
 		//_________________________ queries
 		const string& name() const;
+		void setName(const string& newName);
 		Tag tag() const;
 		bool active() const;
 

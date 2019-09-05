@@ -25,12 +25,15 @@ namespace sxg::engine {
 
 		void addToRenderables();
 		void removeFromRenderables();
+		void setActive(bool active);
 
 
 	private:
 		sf::Sprite _sprite;
 		int _layerOrder;
 		int _pxPerUnit;
+
+		bool _active;
 
 		static vector<Renderable*> _renderables;
 	};

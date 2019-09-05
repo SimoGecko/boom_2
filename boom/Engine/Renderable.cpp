@@ -5,8 +5,9 @@
 namespace sxg::engine {
 	
 	Renderable::Renderable(const string& spriteName, sf::IntRect spriteRect, Layer layer, int ppu, bool add) :
-		_sprite(Resources::Get<sf::Texture>(spriteName), spriteRect), _layerOrder((int)layer), _pxPerUnit(ppu) {
-
+		_sprite(Resources::Get<sf::Texture>(spriteName), spriteRect),
+		_layerOrder((int)layer), _pxPerUnit(ppu)
+	{
 		_sprite.setScale((1.0f / ppu), (1.0f/ppu));
 		//insertion to renderables is made by the scene
 		if (add) addToRenderables();
@@ -39,11 +40,17 @@ namespace sxg::engine {
 	}
 
 	void Renderable::draw() const {
-		Screen::window().draw(_sprite);
+		if (_active) {
+			Screen::window().draw(_sprite);
+		}
 	}
 
 	const vector<Renderable*>& Renderable::All(){
 		return _renderables;
+	}
+
+	void Renderable::setActive(bool active) {
+		_active = active;
 	}
 
 	sf::Transformable& Renderable::transform() { return _sprite; }

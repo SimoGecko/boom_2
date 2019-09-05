@@ -1,10 +1,11 @@
 FEATURES TO TEST (ENGINE):
-	☐ change scene
+	☐ change scene @high
 	☐ can move view
 
 BUGS:
 	✔ some bad freeze happening
-  ☐ read access violation on onCollisionExit (probably deleted go)
+  ✔ read access violation on onCollisionExit (probably deleted go)
+  ☐	loading scene bugs (static?)
 
 TRICS:
 	include header of the class for which you need the implementation only in the .cpp
@@ -14,7 +15,7 @@ IMPROVEMENTS:
 
 
 PROTOTYPE FEATUERS:
-	☐ load other scene @low
+	✔ load other scene
 	✔ audio effect
 
 GAME:
@@ -22,10 +23,19 @@ GAME:
 	✔ 2. player can move around with collisions
 	✔ 3. drop bombs, break blocks
 	✔ 4. collect coin
-	☐ 5. health/UI
-	☐ 6. collectibles, powerups, score
-	☐ 7. game flow, load level, enemy respawn on death
-	☐ 5. enemies move, attack, die
+	✔ 5. health/UI
+	✔ 6. collectibles, powerups, score
+	☐ 7. game flow, load level, enemy selection, respawn on death
+	☐ 5. enemies move, attack, die, shoot
+
+
+SHORT TODO:
+	✔	powerups/extra expire
+	✔	bomd delay bigger
+	✔	collectible/enemies add score
+	✔	ensure block has same addpoints
+	✔	EXTRA letters in UI
+
 
 TODO LIST:
 	BORDER / BG 
@@ -36,11 +46,11 @@ TODO LIST:
     GAME FLOW
         ☐ level transition between screens (Level #, Get Ready)
         ☐ hurry up timer (-30s)
-        ☐ end level score (Time Bonus)
+        ☐ end level score (Time Bonus=10*#secs)
         ☐ start extra game
 
     MAP
-        ☐ refactor
+        ✔ refactor
 
 
 	BLOCK
@@ -50,7 +60,7 @@ TODO LIST:
 		☐ start extra game when all collected
 
 	EXPLOSION
-		☐ fix explosion distance
+        ✔ fix explosion distance
 
 	TELEPORTER
 		☐	teleport player
@@ -59,6 +69,7 @@ TODO LIST:
 		✔ collect
 		✔ use
         ☐ ensure multiple effect timers don't overlap
+        ☐ ensure effect goes away
         ☐ remove after given time
 
 		TYPES
@@ -87,7 +98,33 @@ TODO LIST:
 		☐ give extra life
 
 	IN-GAME UI
-		☐ points for kill/break/coin
+		✔ points for kill/break/coin
+		distribution
+
+		10	break block/each unused second
+		50	get powerup
+		100 EXTRA letter
+		150	coin (coin is in layer in front of bomb)
+
+		200 enemy_soldier
+		300 enemy_sarge
+		400 enemy_lizzy
+		500 enemy_taur
+		600 enemy_gunner
+		700 enemy_thing
+		800 enemy_ghost (lvl40+)
+		900 enemy_smoulder
+		1000 enemy_skully, enemy_giggler
+
+		5'000 head boss (both)
+		100'000 (final boss)
+
+
+
+
+
+
+
 
 	ENEMY
 		☐ become amoeba
@@ -96,20 +133,20 @@ TODO LIST:
 		☐ shoot
         ✔ damage player
 		TYPES
-			alien
-			ghost
-			giggler
-			gunner
-			lizzy
-			sarge
-			skully
-			smoulder
-			soldier
-			taur
-			thing
+			enemy_amoeba	(lvl_01+)
+			enemy_soldier	(lvl_01+)
+			enemy_sarge		(lvl_01+)
+			enemy_lizzy		(lvl_01+)
+			enemy_taur		(lvl_11+)
+			enemy_gunner	(lvl_21+)
+			enemy_thing		(lvl_31+)
+			enemy_ghost		(lvl_41+)
+			enemy_smoulder	(lvl_51+)
+			enemy_skully	(lvl_61+)
+			enemy_giggler	(lvl_71+)
 	BOSS
-		☐ head
-		☐ final
+        ☐ head
+        ✘ final
 
 	PLAYER
     ✔ spawn at location
@@ -117,6 +154,7 @@ TODO LIST:
 	UI
 	✔ background
 	☐ time left
+    
 	☐ level # upright
 	PLAYER
     ✔ head icon
@@ -126,6 +164,7 @@ TODO LIST:
     ✔ powerups
     ☐ powerupnum
 		☐ score
+		☐	 2 players same time
 
 
 	☐ MAIN MENU

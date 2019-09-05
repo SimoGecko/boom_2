@@ -27,10 +27,12 @@ namespace sxg::engine {
 
 		static void addCollider(Collider* collider);
 		static void removeCollider(Collider* collider);
+		//static void removeGameObject(GameObject* gameobject);
 
 	private:
 		static vector<Collider*> _allColliders; // make one static and one dynamic
-		static set<pair<GameObject*, GameObject*>> _collisions;
+		static set<pair<Collider*, Collider*>> _collisions;
+		static set<Collider*> _collidersRemovedLastFrame;
 	};
 
 }

@@ -3,7 +3,7 @@
 #include "../Includes.h"
 #include "../Engine.h"
 
-#include "Player.h"
+#include "Character.h"
 
 // on contact with a character, it teleports it to the next instance of a teleporter
 
@@ -12,11 +12,10 @@ namespace sxg::boom {
 	class Teleporter : public Component {
 		CLONABLE(Teleporter)
 	public:
-	
+		
 	
 	private:
 		// ________________________________ data
-
 
 		// ________________________________ base
 		void start() override {
@@ -28,16 +27,22 @@ namespace sxg::boom {
 		}
 
 		void onCollisionEnter(GameObject& other) {
-			if (other.tag() == Tag::player) {
+			Character* character = other.getComponent<Character>();
+			if (character!=nullptr && character->canTeleport()) {
 				Teleporter* toTeleport = getOtherRandomTeleporter();
 				if (toTeleport) {
-					other.getComponent<Player>()->teleport(toTeleport->transform().getPosition());
+					playEffect(transform().getPosition());
+					character->teleport(toTeleport->transform().getPosition());
+					playEffect(toTeleport->transform().getPosition());
 				}
 			}
 		}
 		
 		// ________________________________ commands
-
+		void playEffect(sf::Vector2f position) {
+			GameObject* effectGo = GameObject::Instantiate("flash", position);
+			//effectGo->destroy(2.f);
+		}
 
 
 		// ________________________________ queries
@@ -47,7 +52,7 @@ namespace sxg::boom {
 			int i;
 			do {
 				i = Random::range(0, teleporters.size());
-			} while (teleporters[i] == &gameobject()); // damn the == !!!!!!
+			} while (teleporters[i] == &gameobject());
 			return teleporters[i]->getComponent<Teleporter>();
 		}
 

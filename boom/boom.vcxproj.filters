@@ -179,9 +179,6 @@
     <ClInclude Include="Game\MapBuilder.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Pickup.h">
-      <Filter>Source Files\Game\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Player.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
@@ -207,6 +204,36 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Game\Living.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Points.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Collectible.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameData.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameManager.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Map.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Spawner.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Title.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\HeadBoss.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Flash.h">
+      <Filter>Source Files\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Shield.h">
       <Filter>Source Files\Game\Scripts</Filter>
     </ClInclude>
   </ItemGroup>

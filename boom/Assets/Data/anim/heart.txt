@@ -1,6 +1,6 @@
 # HEART frames
 # [anim_name type startrow startcol (numframes)|(frames offset) loop]
 
-full			S 	0 2 1	F
 empty			S 	0 0 1	F
 half			S 	0 1 1	F
+full			S 	0 2 1	F
